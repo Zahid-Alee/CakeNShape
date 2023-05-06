@@ -278,6 +278,7 @@
     height: 100vh;
     left: 260px;
     width: calc(100% - 260px);
+    color:#11101d;
     /* transition: all 0.3s ease; */
   }
 
@@ -374,22 +375,22 @@
   </li>
 
   <li>
-    <a href="?link=bloodStock">
+    <a href="?link=cakeStock">
       <i class='bx bx-line-chart'></i>
       <span class="link_name">Check Stock</span>
     </a>
     <ul class="sub-menu blank">
-      <li><a class="link_name"  href="?link=bloodStock">Check Stock</a></li>
+      <li><a class="link_name"  href="?link=cakeStock">Check Stock</a></li>
     </ul>
   </li>
 
   <li>
-    <a href="?link=donationForm">
+    <a href="?link=cakeInsertionForm">
       <i class='bx bx-user-plus'></i>
-      <span class="link_name">Add Donors</span>
+      <span class="link_name">Add Cake</span>
     </a>
     <ul class="sub-menu blank">
-      <li><a class="link_name" href="?link=donationForm">Add Donors</a></li>
+      <li><a class="link_name" href="?link=cakeInsertionForm">Add Cake</a></li>
     </ul>
   </li>
 

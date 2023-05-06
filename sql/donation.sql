@@ -1,6 +1,11 @@
-CREATE TABLE `blood_stock` (
-  `stock_id` varchar(100) PRIMARY KEY,
-  `blood_group` varchar(3) NOT NULL,
-  `quantity` int(11) NOT NULL,
-  `expiry_date` date NOT NULL
+CREATE TABLE Cakes (
+  `CakeID` VARCHAR(50) PRIMARY KEY NOT NULL ,
+  `CakeName` VARCHAR(100) NOT NULL,
+  `CategoryID` VARCHAR(30),
+  `MaterialUsed` VARCHAR(100) NOT NULL,
+  `Flavor` VARCHAR(50) NOT NULL,
+  `Weight` INT NOT NULL,
+  `Price` DECIMAL(10,2) NOT NULL,
+ `Image` LONGBLOB NOT NULL,
+  FOREIGN KEY (`CategoryID`) REFERENCES Categories(`CategoryID`)
 );

@@ -128,23 +128,19 @@
       <i class='bx bx-menu' style="color:#c41818; font-size:35px"></i>
       <span style="color:#c41818; font-size:15px"><?php echo $_SESSION['username'] ?>
         <a href="logout.php"> </i> <i class='bx bx-log-out'></i></a>
-
       </span>
-
-
-
     </div>
     <div class='dashboard-content px-2'>
       <?php
       $link = isset($_GET['link']) ? $_GET['link'] : 'dashboard';
       if ($link == 'dashboard') {
         require_once 'dashboard.php';
-      } elseif ($link == 'bloodStock') {
-        require_once 'bloodStock.php';
+      } elseif ($link == 'cakeStock') {
+        require_once 'cakeStock.php';
       } elseif ($link == 'donationRequest') {
         require_once 'donationRequest.php';
-      } elseif ($link == 'donationForm') {
-        require_once './components/donationForm.php';
+      } elseif ($link == 'cakeInsertionForm') {
+        require_once 'cakeInsertionForm.php';
       } elseif ($link == 'bloodRequest') {
         require_once 'bloodRequest.php';
       }

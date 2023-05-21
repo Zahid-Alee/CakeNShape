@@ -35,15 +35,14 @@ if (!$checkAuth->checkAuth()) {
 
   <?php
   if ($role === 'user') {
+     include('./Modules/admin/adminPanel.php');
 
-    // echo require_once('components/navbar.php');
-
-    echo require_once('./Modules/users/userPanel.php');
+    // include('./Modules/users/userPanel.php');
   } elseif ($role === 'admin') {
 
-    echo require_once('../BBM/components/navbar.php');
+    //  include('../Cake/components/navbar.php');
 
-    echo require_once('./Modules/admin/adminPanel.php');
+     include('./Modules/admin/adminPanel.php');
   } else {
     echo 'not  Allowed';
   }

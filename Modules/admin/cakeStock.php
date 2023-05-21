@@ -117,12 +117,14 @@
 
         if (!empty($cakes)) {
             foreach ($cakes as $cake) {
-        ?>
+                $modalId = 'cake-edit-popup-' . $cake['CakeID'];
+                ?>
                 <tr>
                     <td scope="row" class='text-center'>
                         <?php echo $cake['CakeName']; ?>
                     </td>
-                    <td class='text-center'><img src="data:image/jpeg;base64,<?php echo base64_encode($cake['Image']); ?>" height="75" width="75" /></td>
+                    <td class='text-center'><img src="data:image/jpeg;base64,<?php echo base64_encode($cake['Image']); ?>"
+                            height="75" width="75" /></td>
                     <td class='text-center'>
                         <?php echo $cake['Weight']; ?> lbs
                     </td>
@@ -136,11 +138,13 @@
                         <?php echo $cake['Price']; ?>
                     </td>
                     <td class='text-center'>
-                        <a class="table-icon text-info px-2"><i id='openModalBtn' class="fas fa-edit"></i></a>
-                        <span class="table-icon text-danger px-2" onclick="deleteCake('<?php echo $cake['CakeID'] ?>')"><i class="fas fa-times"></i></span>
+                        <a class="table-icon text-info px-2 openModalBtn" data-modal-id="<?php echo $modalId; ?>"><i
+                                class="fas fa-edit"></i></a>
+                        <span class="table-icon text-danger px-2"
+                            onclick="deleteCake('<?php echo $cake['CakeID']; ?>','delete')"><i class="fas fa-times"></i></span>
                     </td>
                 </tr>
-                <div id="cake-edit-popup" class="popup">
+                <div id="<?php echo $modalId; ?>" class="popup">
                     <div class="popup-content">
                         <div class="popup-header">
                             <h2>Cake Updation Form</h2>
@@ -149,61 +153,67 @@
                         <div class="popup-body">
                             <form method="POST" id='cakeUpdateForm'>
                                 <input type="hidden" name="CakeID" value="<?php echo $cake['CakeID']; ?>">
+                                <input type="hidden" name="method" value="update">
 
                                 <div class="form-group">
                                     <label for="CakeName"><i class="fas fa-user"></i> Cake Name</label>
-                                    <input type="text" class="form-control" name="CakeName" value="<?php echo $cake['CakeName']; ?>">
+                                    <input type="text" class="form-control" name="CakeName"
+                                        value="<?php echo $cake['CakeName']; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="MaterialUsed"><i class="fas fa-male"></i> Material Used</label>
-                                    <input type="text" class="form-control" name="MaterialUsed" value="<?php echo $cake['MaterialUsed']; ?>">
+                                    <input type="text" class="form-control" name="MaterialUsed"
+                                        value="<?php echo $cake['MaterialUsed']; ?>">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="CategoryID"><i class="fas fa-notes-medical"></i> Category</label>
                                     <select class="form-control" name="CategoryID">
-                                        <option value="<?php echo $cake['CategoryID'] ?>" disabled selected><?php echo $cake['CategoryName']  ?></option>
-
+                                        <option value="<?php echo $cake['CategoryID']; ?>" selected><?php echo $cake['CategoryName']; ?></option>
                                         <?php
-
                                         $query = 'SELECT * FROM Categories';
                                         $categories = $con->select($query);
                                         if (!empty($categories)) {
                                             foreach ($categories as $cat) {
-                                        ?>
-                                                <option value="<?php echo $cat['CategoryID']; ?>"><?php echo $cat['CategoryName']; ?></option>
-                                        <?php
+                                                if ($cat['CategoryID'] !== $cake['CategoryID']) {
+                                                    echo '<option value="' . $cat['CategoryID'] . '">' . $cat['CategoryName'] . '</option>';
+                                                }
                                             }
                                         } else {
                                             echo "<strong>No Categories !</strong>";
                                         }
                                         ?>
                                     </select>
-                                </div>
 
+                                </div>
                                 <div class="form-group">
                                     <label for="Weight"><i class="fas fa-male"></i> Weight</label>
-                                    <input type="number" class="form-control" name="Weight" value="<?php echo $cake['Weight']; ?>">
+                                    <input type="number" class="form-control" name="Weight"
+                                        value="<?php echo $cake['Weight']; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="Flavor"><i class="fas fa-male"></i> Flavor</label>
-                                    <input type="text" class="form-control" name="Flavor" value="<?php echo $cake['Flavor']; ?>">
+                                    <input type="text" class="form-control" name="Flavor"
+                                        value="<?php echo $cake['Flavor']; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="Price"><i class="fas fa-price"></i> Price</label>
-                                    <input type="number" class="form-control" name="Price" value="<?php echo $cake['Price']; ?>">
+                                    <input type="number" class="form-control" name="Price"
+                                        value="<?php echo $cake['Price']; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="Quantity"><i class="fas fa-price"></i> Quantity</label>
-                                    <input type="number" class="form-control" name="Quantity" value="<?php echo $cake['Quantity']; ?>">
+                                    <input type="number" class="form-control" name="Quantity"
+                                        value="<?php echo $cake['Quantity']; ?>">
                                 </div>
-                                <button type="submit" id="submit-btn" class="btn btn-danger closeModalBtn2 "><i class="fas fa-paper-plane"></i> Submit</button>
+                                <button type="submit" id="submit-btn" class="btn btn-danger closeModalBtn2 "><i
+                                        class="fas fa-paper-plane"></i> Submit</button>
                             </form>
                         </div>
 
                     </div>
                 </div>
-        <?php
+                <?php
             }
         } else {
             echo "<strong>No cakes found</strong>";
@@ -215,18 +225,39 @@
 
 <script>
     // let method, result;
-    var successAlert = document.getElementById('success-alert');
-    var errorAlert = document.getElementById('error-alert');
+    // var successAlert = document.getElementById('success-alert');
+    // var errorAlert = document.getElementById('error-alert');
+
+    const deleteCake = async (cakeID, method) => {
+        let data = new URLSearchParams();
+        data.append('CakeID', cakeID);
+        data.append('method', method);
+
+        fetch('http://localhost/CakeNShape/Model/handleCakeStock.php', {
+            method: 'POST',
+            body: data
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    };
+
+
     const form = document.getElementById('cakeUpdateForm');
     form.addEventListener('submit', submitForm);
-    function submitForm(event) {
+    async function submitForm(event) {
         event.preventDefault();
         const formValues = new FormData(event.target);
-        console.log(formValues)
-        fetch('http://localhost/CakeNShape/Model/handleCakeStock.php', {
-                method: 'POST',
-                body: formValues
-            })
+        // console.log(formValues)
+        await fetch('http://localhost/CakeNShape/Model/handleCakeStock.php', {
+            method: 'POST',
+            body: formValues
+
+        })
             .then(response => response.text())
             .then(data => {
                 console.log('Success:', data);
@@ -240,14 +271,21 @@
 
 
 
-    const openPopup = document.getElementById("openModalBtn");
-    const cakePopup = document.getElementById("cake-edit-popup");
+
+    const openPopupButtons = document.querySelectorAll(".openModalBtn");
     const closeDonBtn = document.querySelector(".close-donation");
 
-    openPopup.onclick = function() {
-        cakePopup.style.display = "block";
-    }
-    closeDonBtn.onclick = function() {
+    openPopupButtons.forEach(button => {
+        button.onclick = function () {
+            const modalId = button.getAttribute("data-modal-id");
+            const cakePopup = document.getElementById(modalId);
+            cakePopup.style.display = "block";
+        };
+    });
+
+    closeDonBtn.onclick = function () {
+        const cakePopup = document.querySelector(".popup");
         cakePopup.style.display = "none";
-    }
+    };
+
 </script>

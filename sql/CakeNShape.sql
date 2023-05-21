@@ -23,9 +23,9 @@ CREATE TABLE Cakes (
   `MaterialUsed` VARCHAR(100) NOT NULL,
   `Flavor` VARCHAR(50) NOT NULL,
   `Weight` INT NOT NULL,
+  `Quantity` INT NOT NULL,
   `Price` DECIMAL(10,2) NOT NULL,
  `Image` LONGBLOB NOT NULL,
-  `Quantity` INT NOT NULL,
 
   FOREIGN KEY (`CategoryID`) REFERENCES Categories(`CategoryID`)
 );
@@ -58,3 +58,9 @@ CREATE TABLE Feedback (
   FOREIGN KEY (`userID`) REFERENCES users(`userID`)
 );
 
+INSERT INTO Categories (CategoryID, CategoryName)
+VALUES
+  ('1', 'Birthday Cakes'),
+  ('2', 'Wedding Cakes'),
+  ('3', 'Cupcakes'),
+  ('4', 'Custom Cakes');

@@ -175,7 +175,7 @@
                                         <?php
                                             }
                                         } else {
-                                            echo "<strong>No Categories found!</strong>";
+                                            echo "<strong>No Categories !</strong>";
                                         }
                                         ?>
                                     </select>

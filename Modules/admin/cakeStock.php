@@ -161,7 +161,7 @@
 
                                 <div class="form-group">
                                     <label for="CategoryID"><i class="fas fa-notes-medical"></i> Category</label>
-                                    <select class="form-control" name="CategoryID">
+                                    <select class="form-control" name="CategoryID" value="<?php echo $cake['CategoryID'] ?>">
                                         <option value="<?php echo $cake['CategoryID'] ?>" disabled selected><?php echo $cake['CategoryName']  ?></option>
 
                                         <?php
@@ -223,9 +223,11 @@
         event.preventDefault();
         const formValues = new FormData(event.target);
         console.log(formValues)
+
         fetch('http://localhost/CakeNShape/Model/handleCakeStock.php', {
                 method: 'POST',
                 body: formValues
+
             })
             .then(response => response.text())
             .then(data => {

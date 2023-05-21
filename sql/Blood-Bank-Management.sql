@@ -25,6 +25,8 @@ CREATE TABLE Cakes (
   `Weight` INT NOT NULL,
   `Price` DECIMAL(10,2) NOT NULL,
  `Image` LONGBLOB NOT NULL,
+  `Quantity` INT NOT NULL,
+
   FOREIGN KEY (`CategoryID`) REFERENCES Categories(`CategoryID`)
 );
 

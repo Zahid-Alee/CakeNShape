@@ -5,7 +5,6 @@ use DataSource\DataSource;
 
 class HandleCakeStock
 {
-
     private $conn;
 
     function __construct()
@@ -17,7 +16,6 @@ class HandleCakeStock
 
     function updateCake()
     {
-
 
         $query = "UPDATE cakes SET CakeName = ?, CategoryID = ?, MaterialUsed = ?, Flavor = ?, Weight = ?, Price = ?, Quantity = ? WHERE CakeID = ?";
         $paramType = "iisssddi";
@@ -51,8 +49,8 @@ if ($_POST) {
 
     $data = $_POST;
     print_r($data);
-    $newCake =
-        new HandleCakeStock;
+    // $newCake =
+    //     new HandleCakeStock;
 
-    $newCake->updateCake();
+    // $newCake->updateCake();
 };

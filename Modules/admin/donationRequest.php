@@ -86,7 +86,7 @@
 <script>
   let method, result;
   var successAlert = document.getElementById('success-alert');
-    var errorAlert = document.getElementById('error-alert');
+  var errorAlert = document.getElementById('error-alert');
   const insertStock = async (data, stockID) => {
     Object.assign(data, {
       stock_id: stockID,

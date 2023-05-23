@@ -2,7 +2,7 @@
     <h2>Shop by Category</h2>
     <div class="category-container">
       <div class="category">
-        <span class="tag"> <i class="fa-solid fa-tag"></i> </span>
+        <span class="tag"> <i class="bx bx-category"></i> </span>
         <div class="img">
           <img src="images/categories/birthday1.png" alt="" />
         </div>
@@ -14,7 +14,7 @@
         </div>
       </div>
       <div class="category">
-        <span class="tag"> <i class="fa-solid fa-tag"></i> </span>
+        <span class="tag"> <i class="bx bx-category"></i> </span>
 
         <div class="img">
           <img src="images/categories/other.png" alt="" />
@@ -28,7 +28,7 @@
         <!-- <h3>Birtday Cake</h3> -->
       </div>
       <div class="category">
-        <span class="tag"> <i class="fa-solid fa-tag"></i> </span>
+        <span class="tag"> <i class="bx bx-category"></i> </span>
 
         <div class="img">
           <img src="images/categories/special.png" alt="" />
@@ -42,7 +42,7 @@
         <!-- <h3>Birtday Cake</h3> -->
       </div>
       <div class="category">
-        <span class="tag"> <i class="fa-solid fa-tag"></i> </span>
+        <span class="tag"> <i class="bx bx-category"></i> </span>
 
         <div class="img">
           <img src="images/categories/choc.png" alt="" />

@@ -1,0 +1,9 @@
+CREATE TABLE cart (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  CakeID varchar(50) NOT NULL,
+  CakeName VARCHAR(255) NOT NULL,
+  price DECIMAL(10, 2) NOT NULL,
+  quantity INT NOT NULL,
+  total DECIMAL(10, 2) NOT NULL,
+  FOREIGN KEY (`CakeID`) REFERENCES cakes(`CakeID`)
+);

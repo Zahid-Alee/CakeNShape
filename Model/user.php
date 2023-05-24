@@ -146,6 +146,7 @@ class user
             session_start();
             $_SESSION["username"] = $userRecord[0]["username"];
             $_SESSION["role"] = $userRecord[0]["role"];
+            $_SESSION['userID']=$userRecord[0]["userID"];
             session_write_close();
             $url = "./index.php";
             header("Location: $url");

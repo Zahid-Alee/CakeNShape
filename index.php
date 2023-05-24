@@ -12,6 +12,7 @@ if (!$checkAuth->checkAuth()) {
 } else {
   $username = $_SESSION["username"];
   $role = $_SESSION["role"];
+  $userID=$_SESSION["userID"];
   session_cache_limiter('nocache');
 }
 

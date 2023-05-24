@@ -1,6 +1,9 @@
 <?php
 use DataSource\DataSource;
 
+session_start();
+$userID = $_SESSION['userID'];
+
 require_once __DIR__ . '../../../lib/DataSource.php';
 
 $con = new DataSource;
@@ -8,8 +11,10 @@ $con = new DataSource;
 $queryForCat = 'SELECT * FROM categories ';
 $categories = $con->select($queryForCat);
 
-$queryForCart = 'SELECT * FROM cart ';
-$cartItems = $con->select($queryForCart);
+$queryForCart = 'SELECT * FROM cart where userID=? ';
+$queryParam = 's';
+$queryValue = array($userID);
+$cartItems = $con->select($queryForCart, $queryParam, $queryValue);
 if (!empty($cartItems)) {
   $cartCount = count($cartItems);
 } else {
@@ -55,7 +60,7 @@ if (!empty($cartItems)) {
         Who We Are
       </li>
       <a class="nav-items" href="logout.php">
-        <i class="bx bx-logout"></i> logout
+        <i class="bx bx-logout"></i> <?php echo $userID ?>
       </a>
       <li id="cart-icon">
         <span <i class="fas fa-shopping-cart"></i></span>
@@ -117,18 +122,24 @@ if (!empty($cartItems)) {
                     <?php echo $item['total'] ?>
                   </td>
                   <td class="text-center align-middle px-0"><span onclick="delteCartItem(<?php echo $item
-                  ['id'] ?>)" class="shop-tooltip close float-none text-danger" title=""
+                  ['cartID'] ?>)" class="shop-tooltip close float-none text-danger" title=""
                       data-original-title="Remove">&times;</span></td>
                 </tr>
                 <div>
                   <td class="d-flex">
                     <div class="">
-                      <label class="text-muted font-weight-normal m-0">Discount</label>
+                      <label class="text-muted font-weight-normal m-0">
+                        <?php $item['discount'] ?>
+                      </label>
                       <div class="text-large"><strong>$20</strong></div>
                     </div>
                     <div class="">
-                      <label class="text-muted font-weight-normal m-0"><?php $item['total'] ?></label>
-                      <div class="text-large"><strong><?php echo $item['total'] ?></strong></div>
+                      <label class="text-muted font-weight-normal m-0">
+                        <?php $item['total'] ?>
+                      </label>
+                      <div class="text-large"><strong>
+                          <?php echo $item['total'] ?>
+                        </strong></div>
                     </div>
                   </td>
                 </div>
@@ -266,10 +277,10 @@ if (!empty($cartItems)) {
     console.log(element)
   }
 
-  const delteCartItem =  (cartID) => {
+  const delteCartItem = (cartID) => {
 
     let data = {
-      id: cartID,
+      cartID: cartID,
       method: 'remove'
     }
 
@@ -283,7 +294,7 @@ if (!empty($cartItems)) {
       .then(response => response.text())
       .then(data => {
         console.log('Response:', data);
-    location.reload();
+        // location.reload();
         openCart();
       })
       .catch(error => {

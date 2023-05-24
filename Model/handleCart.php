@@ -15,8 +15,10 @@ class HandleCart
 
     function addToCart($data)
     {
+        // session_start();
+        // $userID = $_SESSION['userID'];
         // Check if cakeID already exists in cart table
-        $query = 'SELECT * FROM cart WHERE CakeID = ?';
+        $query = 'SELECT * FROM cart WHERE CakeID = ? AND userID';
         $paramType = 's';
         $paramValue = array($data['cakeID']);
         $result = $this->conn->select($query, $paramType, $paramValue);
@@ -37,10 +39,11 @@ class HandleCart
 
         // If donation_id does not exist, insert new record and return success message
         else {
-            $query = 'INSERT INTO cart (CakeID,CakeName,price,quantity,total) VALUES(?,?,?,?,?)';
-            $paramType = 'sssss';
+            $query = 'INSERT INTO cart (CakeID,userID,CakeName,price,quantity,total) VALUES(?,?,?,?,?,?)';
+            $paramType = 'sissss';
             $paramValue = array(
                 $data['cakeID'],
+                $data['userID'],
                 $data['cakeName'],
                 $data['price'],
                 1,
@@ -51,18 +54,16 @@ class HandleCart
             // Reload the current page
             return $response;
         }
-
-
-
     }
 
-    function delteItem($data){
+    function delteItem($data)
+    {
 
-        $query = 'DELETE FROM cart WHERE id = ?';
-        $paramValue=array($data['id']);
-        $paramType='i';
-        $id=$this->conn->delete($query,$paramType,$paramValue);
-        $response= array('message'=>'cart item has been removed');
+        $query = 'DELETE FROM cart WHERE cartID = ?';
+        $paramValue = array($data['cartID']);
+        $paramType = 'i';
+        $id = $this->conn->delete($query, $paramType, $paramValue);
+        $response = array('message' => 'cart item has been removed');
         return $response;
     }
 
@@ -80,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     } elseif ($data['method'] === 'remove') {
         echo 'delete call';
-        $del=new HandleCart;
+        $del = new HandleCart;
         $del->delteItem($data);
 
     } else {

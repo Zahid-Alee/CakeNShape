@@ -11,37 +11,15 @@
 </head>
 
 <body>
-    
-    <?php  include('./Modules/users/navbar.php') ?>
-    <?php  include('./Modules/users/services.php') ?>
-    <?php  include('./Modules/users/categories.php') ?>
-    <?php  include('./Modules/users/products.php') ?>
-    <?php  include('./Modules/users/footer.php') ?>
+
+    <?php include('./Modules/users/navbar.php') ?>
+    <?php include('./Modules/users/services.php') ?>
+    <?php include('./Modules/users/categories.php') ?>
+    <?php include('./Modules/users/products.php') ?>
+    <?php include('./Modules/users/footer.php') ?>
 
 </body>
 <script>
-    const changingBack = document.getElementById('changing-bg');
-    const donationBtn = document.getElementById("openModalBtn");
-    const requestBtn = document.querySelectorAll('.request-blood-btn')
-    const donationPopUp = document.getElementById("donation-popup");
-    const requestPopup = document.getElementById("request-popup")
-    const closeDonBtn = document.querySelector(".close-donation");
-    const closeReqBtn = document.querySelector(".close-request")
-
-    donationBtn.onclick = function() {
-        donationPopUp.style.display = "block";
-    }
-    closeDonBtn.onclick = function() {
-        donationPopUp.style.display = "none";
-    }
-    requestBtn.forEach((reqBtn => {
-        reqBtn.addEventListener('click', () => {
-            requestPopup.style.display = 'block'
-        })
-    }))
-    closeReqBtn.onclick = function() {
-        requestPopup.style.display = "none";
-    }
 </script>
 
 </html>

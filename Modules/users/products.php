@@ -18,7 +18,7 @@
         ?>
 
         <div class="card">
-          <!-- <img class="card-img" src="images/categories/choc.png" alt="Chocolate Cake" /> -->
+          <img class="card-img" src="<?php echo substr($cake['Image'], 3) ?>" alt="Chocolate Cake" />
           <div class="card-title">
             <?php echo $cake['CakeName'] ?>
           </div>
@@ -51,12 +51,12 @@
 <script>
   // JavaScript code
 
-  const addToCart = (CakeID, CakeName, Price,userID) => {
+  const addToCart = (CakeID, CakeName, Price, userID) => {
     console.log(Price, CakeName, CakeID);
     let data = {
       cakeID: CakeID,
       cakeName: CakeName,
-      userID:userID,
+      userID: userID,
       price: Price,
       method: 'add'
     };

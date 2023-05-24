@@ -2,9 +2,10 @@
 use DataSource\DataSource;
 
 session_start();
-$userID = $_SESSION['userID'];
+$userName = $_SESSION['username'];
 $totalBill = 0;
 $totalDiscount = 0;
+$checkCart = false;
 
 require_once __DIR__ . '../../../lib/DataSource.php';
 
@@ -13,7 +14,7 @@ $con = new DataSource;
 $queryForCat = 'SELECT * FROM categories ';
 $categories = $con->select($queryForCat);
 
-$queryForCart = 'SELECT * FROM cart where userID=? ';
+$queryForCart = 'SELECT * FROM cart inner join cakes on cakes.CakeID=cart.CakeID  where userID=? ';
 $queryParam = 's';
 $queryValue = array($userID);
 $cartItems = $con->select($queryForCart, $queryParam, $queryValue);
@@ -63,7 +64,7 @@ if (!empty($cartItems)) {
       </li>
       <a class="nav-items" href="logout.php">
         <i class="bx bx-logout"></i>
-        <?php echo $userID ?>
+        <?php echo $userName ?>
       </a>
       <li id="cart-icon">
         <span <i class="fas fa-shopping-cart"></i></span>
@@ -74,15 +75,17 @@ if (!empty($cartItems)) {
     </ul>
   </nav>
 </header>
-<div id="cart-container" class="clearfix p-0 ">
+
+
+<div id="cart-container" class="clearfix p-0">
   <!-- Shopping cart table -->
   <div class="card">
     <div class="card-header">
       <h2 class="d-flex">Shopping Cart
-        <span class="dismiss-btn" onclick="closeCart()"> &times;</span>
+        <span class="dismiss-btn" onclick="closeCart()">&times;</span>
       </h2>
     </div>
-    <div class="card-body ">
+    <div class="card-body">
       <div class="table-responsive">
         <table class="table table-bordered m-0">
           <thead>
@@ -92,79 +95,95 @@ if (!empty($cartItems)) {
               <th class="text-right py-3 px-4" style="width: 100px;">Price</th>
               <th class="text-center py-3 px-4" style="width: 120px;">Quantity</th>
               <th class="text-right py-3 px-4" style="width: 100px;">Total</th>
-              <th class="text-center align-middle py-3 px-0" style="width: 40px;"><a href="#"
-                  class="shop-tooltip float-none text-light" title="" data-original-title="Clear cart"><i
-                    class="ino ion-md-trash"></i></a></th>
+              <th class="text-center align-middle py-3 px-0" style="width: 40px;">
+                <a href="#" class="shop-tooltip float-none text-light" title="" data-original-title="Clear cart">
+                  <i class="ino ion-md-trash"></i>
+                </a>
+              </th>
             </tr>
           </thead>
           <tbody>
             <?php
-            if (!empty(($cartItems))) {
+            if (!empty($cartItems)) {
               foreach ($cartItems as $item) {
                 $totalBill = $totalBill + $item['total'];
                 $totalDiscount = $totalDiscount + $item['discount'];
+                $userID = $item['userID'];
                 ?>
                 <tr>
                   <td class="p-4">
                     <div class="media align-items-center">
-                      <!-- <img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                    class="product-img d-block ui-w-40 ui-bordered mr-4" alt=""> -->
+                      <img src="<?php echo substr($item['Image'],3)  ?>"
+                    class="product-img d-block ui-w-40 ui-bordered mr-4" alt="">
                       <div class="media-body">
                         <a href="#" class="d-block text-dark">
-                          <?php echo $item['CakeName'] ?>
+                          <?php echo $item['CakeName']; ?>
                         </a>
                       </div>
                     </div>
                   </td>
                   <td class="text-right font-weight-semibold align-middle p-4">
-                    <?php echo $item['price'] ?>
+                    <?php echo $item['price']; ?>
                   </td>
-                  <td class="align-middle p-4"><input type="text" class="form-control text-center"
-                      value="<?php echo $item['quantity'] ?>"></td>
+                  <td class="align-middle p-4">
+                    <input type="text" class="form-control text-center" value="<?php echo $item['quantity']; ?>">
+                  </td>
                   <td class="text-right font-weight-semibold align-middle p-4">
-                    <?php echo $item['total'] ?>
+                    <?php echo $item['total']; ?>
                   </td>
-                  <td class="text-center align-middle px-0"><span onclick="delteCartItem(<?php echo $item
-                  ['cartID'] ?>)" class="shop-tooltip close float-none text-danger" title=""
-                      data-original-title="Remove">&times;</span></td>
+                  <td class="text-center align-middle px-0">
+                    <span onclick="delteCartItem(<?php echo $item['cartID']; ?>)"
+                      class="shop-tooltip close float-none text-danger" title="" data-original-title="Remove">&times;</span>
+                  </td>
                 </tr>
-
                 <?php
-              } ?>
-              <div>
-                <td class="d-flex">
-                  <div class="">
-                    <label class="text-muted font-weight-normal m-0"> Discount:</label>
-                    <div class="text-large"><strong class="px-5">
-                        <?php echo $totalDiscount ?>
-
-                      </strong></div>
-                  </div>
-                  <div class="">
-                    <label class="text-muted font-weight-normal m-0">
-                      Total Bill:
-                    </label>
-                    <div class="text-large"><strong>
-                        <?php echo $totalBill ?>
-
-                      </strong></div>
-                  </div>
-                </td>
-              </div>
-            </tbody>
-          </table>
-
-        </div>
-        <!-- / Shopping cart table -->
-
-        <div class="float-right">
-          <button type="button" class="btn btn-lg btn-default md-btn-flat mt-2 mr-3" onclick='closeCart()'>Back to
-            shopping</button>
-          <button type="button" class="btn btn-lg btn-primary mt-2" onclick="Checkout()">Checkout</button>
-        </div>
-        <?php
+              }
             }
             ?>
+          </tbody>
+        </table>
+      </div>
+      <!-- / Shopping cart table -->
+      <?php if (!empty($cartItems)) {
+        $checkCart = true;
+        ?>
+        <div>
+          <table class="d-flex">
+            <tr>
+              <td>
+                <div class="">
+                  <label class="text-muted font-weight-normal m-0">Discount:</label>
+                  <div class="text-large">
+                    <strong class="px-5">
+                      <?php echo $totalDiscount; ?>
+                    </strong>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="">
+                  <label class="text-muted font-weight-normal m-0">Total Bill:</label>
+                  <div class="text-large">
+                    <strong>
+                      <?php echo $totalBill; ?>
+                    </strong>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      <?php } ?>
+      <div class="float-right">
+        <button type="button" class="btn btn-lg btn-default md-btn-flat mt-2 mr-3" onclick="closeCart()">
+          Back to shopping
+        </button>
+        <?php if ($checkCart) {
+          echo '<button type="button" class="btn btn-lg btn-primary mt-2"
+    onclick="Checkout(' . $userID . ')">Checkout</button>';
+        } ?>
+      </div>
+
     </div>
   </div>
 </div>
@@ -197,8 +216,6 @@ if (!empty($cartItems)) {
 
   #cart-container {
     position: absolute;
-    /* width: auto; */
-    /* top: 0; */
     right: 100%;
     z-index: 1;
     height: 100vh !important;
@@ -212,11 +229,12 @@ if (!empty($cartItems)) {
 
   #cart-container .card {
     box-shadow: 0 1px 15px 1px rgba(52, 40, 104, .08);
-    height: 100vh;
-    width: 70vw;
+    height: fit-content;
+    width: fit-content;
     position: relative;
     left: ;
     align-content: flex-end;
+
   }
 
   .card-header h2 {
@@ -238,7 +256,8 @@ if (!empty($cartItems)) {
   }
 
   .card-body {
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
 
   .product-img {
@@ -285,7 +304,7 @@ if (!empty($cartItems)) {
     console.log(element)
   }
 
-  const delteCartItem = (cartID) => {
+  const delteCartItem = async (cartID) => {
 
     let data = {
       cartID: cartID,
@@ -303,14 +322,37 @@ if (!empty($cartItems)) {
       .then(data => {
         console.log('Response:', data);
         location.reload();
-        openCart();
+        window.onload(openCart())
       })
       .catch(error => {
         console.error('Error:', error);
       });
   }
 
-// const closeCartBtn=document.getElementById('close-cart')
-// cartIcon.addEventListener('click', ());
+  const Checkout = async (userID) => {
+
+    let data = {
+      userID: userID,
+      method: 'checkout',
+      paymentMethod: 'jazzcash'
+    }
+
+    fetch('Model/handleCart.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response => response.text())
+      .then(data => {
+        console.log('Response:', data);
+        // location.reload();
+        // openCart();
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }
 
 </script>

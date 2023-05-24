@@ -15,18 +15,16 @@ class HandleCart
 
     function addToCart($data)
     {
-        // session_start();
-        // $userID = $_SESSION['userID'];
-        // Check if cakeID already exists in cart table
+
         $query = 'SELECT * FROM cart WHERE CakeID = ? AND userID=?';
         $paramType = 'ss';
-        $paramValue = array($data['cakeID'],$data['userID']);
+        $paramValue = array($data['cakeID'], $data['userID']);
         $result = $this->conn->select($query, $paramType, $paramValue);
 
         // If cartId exists, update quantity and price and return success message
         if (!empty($result)) {
             $updatedQuantity = $result[0]['quantity'] + 1;
-            $updatedPrice = ($result[0]['price'] * $updatedQuantity)-($result[0]['discount']);
+            $updatedPrice = ($result[0]['price'] * $updatedQuantity) - ($result[0]['discount']);
             $query = 'UPDATE cart SET quantity = ?, total = ? WHERE CakeID = ?';
             $paramType = 'sss';
             $paramValue = array($updatedQuantity, $updatedPrice, $data['cakeID']);
@@ -67,13 +65,66 @@ class HandleCart
         return $response;
     }
 
+    function checkoutCart($data)
+    {
+        // Get the user ID from the input data
+        $userID = $data['userID'];
+
+        // Retrieve the cart items for the user
+        $query = 'SELECT * FROM cart WHERE userID = ?';
+        $paramValue = array($userID);
+        $paramType = 'i';
+        $cartItems = $this->conn->select($query, $paramType, $paramValue);
+
+        // Calculate total bill and discount
+        $totalBill = 0;
+        $totalDiscount = 0;
+        foreach ($cartItems as $item) {
+            $totalBill += $item['total'];
+            $totalDiscount += $item['discount'];
+        }
+
+        // Get the current date and delivery date (assuming you have appropriate logic to determine the delivery date)
+        $orderDate = date('Y-m-d');
+        $deliveryDate = date('Y-m-d', strtotime('+3 days')); // Example: delivery in 3 days
+
+        // Insert order details into the orders table
+        $query = 'INSERT INTO orders (userID, OrderDate, DeliveryDate, PaymentMethod, OrderStatus) VALUES (?, ?, ?, ?, ?)';
+        $paramValue = array($userID, $orderDate, $deliveryDate, $data['paymentMethod'], 'Pending'); // Assuming payment method is provided in the input data
+        $paramType = 'issss';
+        $orderID = $this->conn->insert($query, $paramType, $paramValue);
+
+        // Get the last inserted order ID
+
+
+        // Insert cart items into the order-item table
+        foreach ($cartItems as $item) {
+
+            // echo $orderID;
+            print_r($item) ;
+            $query = 'INSERT INTO `order_items` (OrderID, CakeID, Quantity, Subtotal) VALUES (?, ?, ?, ?)';
+            $paramValue = array($orderID, $item['CakeID'], $item['quantity'], $item['total']);
+            $paramType = 'isid';
+            $this->conn->insert($query, $paramType, $paramValue);
+        }
+
+        // Delete the cart items for the user
+        $query = 'DELETE FROM cart WHERE userID = ?';
+        $paramValue = array($userID);
+        $paramType = 'i';
+        $this->conn->delete($query, $paramType, $paramValue);
+
+        // Prepare and return the response
+        $response = array('message' => 'Checkout successful');
+        return $response;
+    }
 
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $json = file_get_contents('php://input');
     $data = json_decode($json, true);
-    // print_r($data);
+    print_r($data);
 
     if ($data['method'] === 'add') {
         $cartItem = new HandleCart;
@@ -84,7 +135,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $del = new HandleCart;
         $del->delteItem($data);
 
+    } elseif ($data['method'] === 'checkout') {
+        echo 'checkout call';
+        $checkout = new HandleCart;
+        $checkout->checkoutCart($data);
+
     } else {
-        // Handle other cases
+        echo 'no operation';
     }
 }

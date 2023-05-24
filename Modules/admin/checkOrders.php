@@ -94,11 +94,12 @@
     <thead class="thead-dark">
         <tr>
             <th scope="col" class='text-center'><i class="fas fa-sort-numeric-up"></i> Cake Name</th>
+            <th scope="col" class='text-center'><i class="fas fa-sort-numeric-up"></i> Customer Name</th>
             <th scope="col" class='text-center'><i class="fas fa-image"></i> Image</th>
             <th scope="col" class='text-center'><i class="fas fa-tint"></i> Weight</th>
-            <th scope="col" class='text-center'><i class="fas fa-tint"></i> Category</th>
             <th scope="col" class='text-center'><i class="fas fa-tint"></i> Quantity</th>
-            <th scope="col" class='text-center'><i class="fas fa-dollar-sign"></i> Price</th>
+            <th scope="col" class='text-center'><i class="fas fa-tint"></i>Total </th>
+            <th scope="col" class='text-center'><i class="fas fa-dollar-sign"></i> Date</th>
             <th scope="col" class='text-center'><i class="fas fa-cog"></i> Action</th>
         </tr>
     </thead>
@@ -110,39 +111,44 @@
         require_once __DIR__ . '../../../lib/DataSource.php';
 
         $con = new DataSource;
-        $query = 'SELECT CakeID, CakeName, CategoryName, cakes.CategoryID, MaterialUsed, Flavor, Weight, Price, Image, Quantity from cakes inner join categories on categories.CategoryID =cakes.CategoryID ';
-        $paramType = '';
-        $paramArray = array();
-        $cakes = $con->select($query, $paramType, $paramArray);
+        $query = 'SELECT order_items.CakeID,orders.OrderID,username,CakeName,Image,Weight,order_items.Quantity,order_items.Subtotal,orders.OrderDate
+        FROM order_items 
+         join cakes on cakes.CakeID=order_items.CakeID 
+         join orders on order_items.OrderID = orders.OrderID inner join users on users.UserID=orders.UserID
+         WHERE orders.OrderStatus="Pending" ';
 
-        if (!empty($cakes)) {
-            foreach ($cakes as $cake) {
+        $orders = $con->select($query);
+
+        if (!empty($orders)) {
+            foreach ($orders as $order) {
                 ?>
                 <tr>
                     <td scope="row" class='text-center'>
-                        <?php echo $cake['CakeName']; ?>
+                        <?php echo $order['CakeName']; ?>
                     </td>
-                    <td class='text-center'><img src="<?php echo substr($cake['Image'],3) ?>"
-                            height="75" width="75" /></td>
-                    <td class='text-center'>
-                        <?php echo $cake['Weight']; ?> lbs
+                    <td scope="row" class='text-center'>
+                        <?php echo $order['username']; ?>
                     </td>
+                    <td class='text-center'><img src="<?php echo substr($order['Image'], 3) ?>" height="75" width="75" /></td>
                     <td class='text-center'>
-                        <?php echo $cake['CategoryName']; ?>
+                        <?php echo $order['Weight']; ?> lbs
                     </td>
+
                     <td class='text-center'>
-                        <?php echo $cake['Quantity']; ?>
+                        <?php echo $order['Quantity']; ?>
                     </td>
                     <td class='text-center'>$
-                        <?php echo $cake['Price']; ?>
+                        <?php echo $order['Subtotal']; ?>
                     </td>
                     <td class='text-center'>
-                        <a class="table-icon text-info px-2"
-                            href="Modules/admin/updateCake.php?CakeID=<?php echo $cake['CakeID']; ?>"><i
+                        <?php echo $order['OrderDate']; ?>
+                    </td>
+                    <td class='text-center'>
+                        <a class="table-icon text-info px-2" onclick="acceptReq('<?php echo $order['OrderID']; ?>')"><i
                                 class="fas fa-edit"></i></a>
 
-                        <span class="table-icon text-danger px-2"
-                            onclick="deleteCake('<?php echo $cake['CakeID']; ?>','delete')"><i class="fas fa-times"></i></span>
+                        <span class="table-icon text-danger px-2" onclick="rejectReq('<?php echo $order['OrderID']; ?>')"><i
+                                class="fas fa-times"></i></span>
                     </td>
                 </tr>
                 <?php
@@ -158,18 +164,45 @@
     // var successAlert = document.getElementById('success-alert');
     // var errorAlert = document.getElementById('error-alert');
 
-    const deleteCake = async (cakeID, method) => {
-        let data = new URLSearchParams();
-        data.append('CakeID', cakeID);
-        data.append('method', method);
+    const acceptReq = (orderID) => {
+        let data = {
+            orderID: orderID,
+            method: 'accept'
+        };
 
-        fetch('http://localhost/CakeNShape/Model/handleCakeStock.php', {
+        fetch('Model/handleOrders.php', {
             method: 'POST',
-            body: data
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
         })
             .then(response => response.text())
             .then(data => {
-                console.log('Success:', data);
+                console.log('Response:', data);
+                // location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    };
+    const rejectReq = (orderID) => {
+        let data = {
+            orderID: orderID,
+            method: 'reject'
+        };
+
+        fetch('Model/handleOrders.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log('Response:', data);
+                // location.reload();
             })
             .catch(error => {
                 console.error('Error:', error);

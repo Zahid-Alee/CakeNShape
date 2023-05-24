@@ -1,5 +1,5 @@
 <div class="card-body">
-    <form id="cakeInsertionForm" method="post">
+    <form id="cakeInsertionForm" method="post" enctype="multipart/form-data">
         <input type="text" name="CakeID" value="<?php echo uniqid('cake-') ?>" hidden>
 
         <div class="form-group">

@@ -71,7 +71,7 @@
       .then(response => response.text())
       .then(data => {
         console.log('Response:', data);
-        // location.reload();
+        location.reload();
       })
       .catch(error => {
         console.error('Error:', error);

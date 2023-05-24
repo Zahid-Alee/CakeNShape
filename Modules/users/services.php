@@ -2,7 +2,7 @@
     
 .services {
   /* position: relative; */
-  top: 290px;
+  /* top: 290px; */
   width: 70%;
   background-color: aliceblue;
   border-color: 2px solid black;
@@ -10,7 +10,7 @@
   justify-content: center;
   align-items: center;
   margin: auto;
-  margin-top: 330px;
+  /* margin-top: 330px; */
 }
 
 .services .service {
@@ -52,13 +52,13 @@
 .categories h2 {
   font-size: 30px;
   font-weight: 700;
-  margin: 50px 0px;
+  /* margin: 50px 0px; */
   padding: 0px 50px;
   text-align: center;
 }
 
 .category-container {
-  margin: 50px 10px;
+  /* margin: 50px 10px; */
   width: 90%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -130,15 +130,6 @@
 
 
 </style>
-
-
-
-
-
-
-
-
-
 <section id="services" class=" py-4">
 
     <div class="services">

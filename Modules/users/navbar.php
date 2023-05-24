@@ -3,6 +3,8 @@ use DataSource\DataSource;
 
 session_start();
 $userID = $_SESSION['userID'];
+$totalBill = 0;
+$totalDiscount = 0;
 
 require_once __DIR__ . '../../../lib/DataSource.php';
 
@@ -60,7 +62,8 @@ if (!empty($cartItems)) {
         Who We Are
       </li>
       <a class="nav-items" href="logout.php">
-        <i class="bx bx-logout"></i> <?php echo $userID ?>
+        <i class="bx bx-logout"></i>
+        <?php echo $userID ?>
       </a>
       <li id="cart-icon">
         <span <i class="fas fa-shopping-cart"></i></span>
@@ -68,7 +71,6 @@ if (!empty($cartItems)) {
           <?php echo $cartCount ?>
         </span>
       </li>
-
     </ul>
   </nav>
 </header>
@@ -99,7 +101,8 @@ if (!empty($cartItems)) {
             <?php
             if (!empty(($cartItems))) {
               foreach ($cartItems as $item) {
-
+                $totalBill = $totalBill + $item['total'];
+                $totalDiscount = $totalDiscount + $item['discount'];
                 ?>
                 <tr>
                   <td class="p-4">
@@ -125,38 +128,43 @@ if (!empty($cartItems)) {
                   ['cartID'] ?>)" class="shop-tooltip close float-none text-danger" title=""
                       data-original-title="Remove">&times;</span></td>
                 </tr>
-                <div>
-                  <td class="d-flex">
-                    <div class="">
-                      <label class="text-muted font-weight-normal m-0">
-                        <?php $item['discount'] ?>
-                      </label>
-                      <div class="text-large"><strong>$20</strong></div>
-                    </div>
-                    <div class="">
-                      <label class="text-muted font-weight-normal m-0">
-                        <?php $item['total'] ?>
-                      </label>
-                      <div class="text-large"><strong>
-                          <?php echo $item['total'] ?>
-                        </strong></div>
-                    </div>
-                  </td>
-                </div>
+
                 <?php
-              }
+              } ?>
+              <div>
+                <td class="d-flex">
+                  <div class="">
+                    <label class="text-muted font-weight-normal m-0"> Discount:</label>
+                    <div class="text-large"><strong class="px-5">
+                        <?php echo $totalDiscount ?>
+
+                      </strong></div>
+                  </div>
+                  <div class="">
+                    <label class="text-muted font-weight-normal m-0">
+                      Total Bill:
+                    </label>
+                    <div class="text-large"><strong>
+                        <?php echo $totalBill ?>
+
+                      </strong></div>
+                  </div>
+                </td>
+              </div>
+            </tbody>
+          </table>
+
+        </div>
+        <!-- / Shopping cart table -->
+
+        <div class="float-right">
+          <button type="button" class="btn btn-lg btn-default md-btn-flat mt-2 mr-3" onclick='closeCart()'>Back to
+            shopping</button>
+          <button type="button" class="btn btn-lg btn-primary mt-2" onclick="Checkout()">Checkout</button>
+        </div>
+        <?php
             }
             ?>
-          </tbody>
-        </table>
-      </div>
-      <!-- / Shopping cart table -->
-
-      <div class="float-right">
-        <button type="button" class="btn btn-lg btn-default md-btn-flat mt-2 mr-3" onclick='closeCart()'>Back to
-          shopping</button>
-        <button type="button" class="btn btn-lg btn-primary mt-2">Checkout</button>
-      </div>
     </div>
   </div>
 </div>
@@ -294,7 +302,7 @@ if (!empty($cartItems)) {
       .then(response => response.text())
       .then(data => {
         console.log('Response:', data);
-        // location.reload();
+        location.reload();
         openCart();
       })
       .catch(error => {

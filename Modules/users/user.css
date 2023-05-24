@@ -120,7 +120,7 @@
   }
   
   
-  .nav-bar::before {
+  /* .nav-bar::before {
     content: '';
     background: url(/assets/img/Headerback.png) center center/cover;
     z-index: -1;
@@ -129,7 +129,7 @@
     position: absolute;
     height: 420px;
     width: 100%;
-  }
+  } */
 
 
 
@@ -139,7 +139,7 @@
     text-align: center;
     font-size: 30px;
     font-weight: 700;
-    margin: 50px 0px;
+    /* margin: 50px 0px; */
 
   }
 
@@ -288,19 +288,10 @@
     color: #a71947;
   }
   
-  
-  .categories {}
-  
-  .categories h2 {
-    font-size: 30px;
-    font-weight: 700;
-    margin: 50px 0px;
-    padding: 0px 50px;
-    text-align: center;
-  }
+
   
   .category-container {
-    margin: 50px 10px;
+    /* margin: 50px 10px; */
     width: 90%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;

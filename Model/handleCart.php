@@ -18,15 +18,15 @@ class HandleCart
         // session_start();
         // $userID = $_SESSION['userID'];
         // Check if cakeID already exists in cart table
-        $query = 'SELECT * FROM cart WHERE CakeID = ? AND userID';
-        $paramType = 's';
-        $paramValue = array($data['cakeID']);
+        $query = 'SELECT * FROM cart WHERE CakeID = ? AND userID=?';
+        $paramType = 'ss';
+        $paramValue = array($data['cakeID'],$data['userID']);
         $result = $this->conn->select($query, $paramType, $paramValue);
 
         // If cartId exists, update quantity and price and return success message
         if (!empty($result)) {
             $updatedQuantity = $result[0]['quantity'] + 1;
-            $updatedPrice = $result[0]['price'] + $data['price'];
+            $updatedPrice = ($result[0]['price'] * $updatedQuantity)-($result[0]['discount']);
             $query = 'UPDATE cart SET quantity = ?, total = ? WHERE CakeID = ?';
             $paramType = 'sss';
             $paramValue = array($updatedQuantity, $updatedPrice, $data['cakeID']);
@@ -73,7 +73,7 @@ class HandleCart
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $json = file_get_contents('php://input');
     $data = json_decode($json, true);
-    print_r($data);
+    // print_r($data);
 
     if ($data['method'] === 'add') {
         $cartItem = new HandleCart;

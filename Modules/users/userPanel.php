@@ -11,9 +11,7 @@
 </head>
 
 <body>
-    <div class="header-bg">
-        <img src="assets/img/Headerback.png" class="w-100 block" alt="Header Image" />
-    </div>
+    
     <?php  include('./Modules/users/navbar.php') ?>
     <?php  include('./Modules/users/services.php') ?>
     <?php  include('./Modules/users/categories.php') ?>

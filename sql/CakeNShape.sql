@@ -58,10 +58,9 @@ CREATE TABLE
         FOREIGN KEY (`userID`) REFERENCES users(`userID`)
     );
 
-
-
-CREATE TABLE  Order_Items (
-        `OrderID` INT ,
+CREATE TABLE
+    Order_Items (
+        `OrderID` INT,
         `CakeID` VARCHAR(50) NOT NULL,
         `Quantity` INT NOT NULL,
         `Subtotal` DECIMAL(10, 2) NOT NULL,
@@ -78,6 +77,19 @@ CREATE TABLE
         `FeedbackDate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (`userID`) REFERENCES users(`userID`)
     );
+
+CREATE TABLE user_notifications (
+    `notID` INT(11)  AUTO_INCREMENT,
+    `OrderID` INT NOT NULL,
+    `userID` INT NOT NULL,
+    `notDate` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `message` VARCHAR(150) NULL,
+    `notFrom` VARCHAR(30) NULL,
+    FOREIGN KEY (`OrderID`) REFERENCES orders(`OrderID`),
+    FOREIGN KEY (`userID`) REFERENCES users(`userID`),
+    PRIMARY KEY(notID,OrderID,userID)
+);
+
 
 INSERT INTO
     Categories (CategoryID, CategoryName)

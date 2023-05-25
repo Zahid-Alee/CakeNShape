@@ -1,0 +1,38 @@
+.services {
+  width: 100%;
+  background-color: aliceblue;
+  border-color: 2px solid black;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  justify-content: center;
+  align-items: center;
+}
+
+.services .service {
+  padding: 15px;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #c3c3c3;
+  background-color: #fff2f28c;
+}
+
+.services h2 {
+  font-size: 22px;
+  font-weight: 600;
+  padding: 10px;
+  color: #a71947;
+}
+
+.services p {
+  font-size: 16px;
+  font-weight: 500;
+  color: rgb(0, 0, 0, 74%);
+}
+
+.services .icon {
+  font-size: 28px;
+  color: #a71947;
+}
+

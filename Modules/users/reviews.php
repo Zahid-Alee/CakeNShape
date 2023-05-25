@@ -1,9 +1,4 @@
 
-<style>
-
-
-    
-</style>
 
 <section class="reviews">
     <h2>Customer Reviews</h2>

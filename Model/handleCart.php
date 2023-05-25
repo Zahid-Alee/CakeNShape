@@ -64,12 +64,21 @@ class HandleCart
         $response = array('message' => 'cart item has been removed');
         return $response;
     }
+    function createUserNotification($id)
+    {
+        session_start();
+        $userID=$_SESSION['userID'];
+        $message = "Your Order Has Been Placed";
+        $query = "INSERT INTO user_notifications(OrderID, userID, message, notFrom) VALUES (?, ?, ?, ?)";
+        $paramType = 'iiss';
+        $paramValue = array($id, $userID, $message, 'user');
+        return $this->conn->insert($query, $paramType, $paramValue);
+    }
 
     function checkoutCart($data)
     {
         // Get the user ID from the input data
         $userID = $data['userID'];
-
         // Retrieve the cart items for the user
         $query = 'SELECT * FROM cart WHERE userID = ?';
         $paramValue = array($userID);
@@ -86,36 +95,40 @@ class HandleCart
 
         // Get the current date and delivery date (assuming you have appropriate logic to determine the delivery date)
         $orderDate = date('Y-m-d');
-        $deliveryDate = date('Y-m-d', strtotime('+3 days')); // Example: delivery in 3 days
+        $deliveryDate = date('Y-m-d', strtotime('+2 days')); // Example: delivery in 3 days
 
         // Insert order details into the orders table
         $query = 'INSERT INTO orders (userID, OrderDate, DeliveryDate, PaymentMethod, OrderStatus) VALUES (?, ?, ?, ?, ?)';
         $paramValue = array($userID, $orderDate, $deliveryDate, $data['paymentMethod'], 'Pending'); // Assuming payment method is provided in the input data
         $paramType = 'issss';
-        $orderID = $this->conn->insert($query, $paramType, $paramValue);
-
-        // Get the last inserted order ID
-
-
+        $orderID = $this->conn->insert($query, $paramType, $paramValue); // Get the last inserted order ID
         // Insert cart items into the order-item table
         foreach ($cartItems as $item) {
 
-            // echo $orderID;
-            print_r($item) ;
             $query = 'INSERT INTO `order_items` (OrderID, CakeID, Quantity, Subtotal) VALUES (?, ?, ?, ?)';
             $paramValue = array($orderID, $item['CakeID'], $item['quantity'], $item['total']);
             $paramType = 'isid';
-            $this->conn->insert($query, $paramType, $paramValue);
+            $ordersItemId = $this->conn->insert($query, $paramType, $paramValue);
         }
 
         // Delete the cart items for the user
         $query = 'DELETE FROM cart WHERE userID = ?';
         $paramValue = array($userID);
         $paramType = 'i';
-        $this->conn->delete($query, $paramType, $paramValue);
+        $cartDelID = $this->conn->delete($query, $paramType, $paramValue);
 
+        $userNotificationId = $this->createUserNotification($orderID);
+
+            if ($userNotificationId) {
+                $response = array('message' => 'Checkout successful');
+            } else {
+                $response = array('message' => 'Checkout unsuccessfull');
+
+            }
+
+        
         // Prepare and return the response
-        $response = array('message' => 'Checkout successful');
+
         return $response;
     }
 

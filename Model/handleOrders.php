@@ -3,6 +3,7 @@
 use DataSource\DataSource;
 
 
+
 class HandleOrders
 {
     private $conn;
@@ -13,21 +14,36 @@ class HandleOrders
         require_once __DIR__ . '/../lib/DataSource.php';
         $this->conn = new DataSource();
     }
+    function createAdminNotification($data)
+    {
+        $query = "SELECT userID FROM Orders WHERE OrderID = ?";
+        $paramType = "i";
+        $paramValue = array($data['orderID']);
+        $user = $this->conn->select($query, $paramType, $paramValue);
+
+        if (!empty($user)) {
+            $userID = $user[0]['userID'];
+
+            $message = "Your Order Has Been Accepted";
+            $query = "INSERT INTO user_notifications(OrderID, userID, message, notFrom) VALUES (?, ?, ?, ?)";
+            $paramType = 'iiss';
+            $paramValue = array($data['orderID'], $userID, $message, 'CakeNShape');
+            return $this->conn->insert($query, $paramType, $paramValue);
+        } else {
+            return "User not found";
+        }
+
+    }
 
     function acceptOrder($data)
     {
-        // $query = "UPDATE orders SET OrderStatus = 'approved' WHERE OrderID = ?";
-        // $paramType = "i"; // Change "s" to "i" for integer
-        // $paramValue = array($data['orderID']);
-        // $acceptedOrder = $this->conn->update($query, $paramType, $paramValue);
-        $message = "Your Order Has Been Accepted";
-        $query = "INSERT INTO user_notifications(OrderID, message, notFor) VALUES (?, ?, ?)";
-        $paramType = 'iss';
-        $paramValue = array($data['orderID'], $message, 'user');
-        $notID = $this->conn->insert($query, $paramType, $paramValue);
-        
+        $query = "UPDATE orders SET OrderStatus = 'approved' WHERE OrderID = ?";
+        $paramType = "i"; // Change "s" to "i" for integer
+        $paramValue = array($data['orderID']);
+        $acceptedOrder = $this->conn->update($query, $paramType, $paramValue);
+        $notID = $this->createAdminNotification($data);
 
-        if (!empty($acceptedOrder)&&!empty($notID)) {
+        if (!empty($acceptedOrder) && !empty($notID)) {
             $response = array(
                 "status" => "success",
                 "message" => "Updated successfully"
@@ -41,28 +57,36 @@ class HandleOrders
 
         return $response;
     }
+
     function deleteOrder($data)
     {
-            // Delete record from blood_stock table
-            $query = "DELETE FROM order_items WHERE OrderID = ?";
-            $paramType = "s";
-            $paramValue = array($data['orderID']);
-            $this->conn->delete($query, $paramType, $paramValue);
+        // Delete record from blood_stock table
+        $query = "DELETE FROM order_items WHERE OrderID = ?";
+        $paramType = "s";
+        $paramValue = array($data['orderID']);
+        $ordersDelId = $this->conn->delete($query, $paramType, $paramValue);
 
-            $query = "DELETE FROM orders WHERE OrderID = ?";
-            $paramType = "i";
-            $paramValue = array($data['orderID']);
-            $this->conn->delete($query, $paramType, $paramValue);
+        $query = "DELETE FROM orders WHERE OrderID = ?";
+        $paramType = "i";
+        $paramValue = array($data['orderID']);
+        $orderItemsDelId = $this->conn->delete($query, $paramType, $paramValue);
 
+        if (!empty($ordersDelId) && !empty($orderItemsDelId)) {
             $response = array(
                 "status" => "success",
                 "message" => "Record deleted successfully."
             );
-    
+        } else {
+            $response = array(
+                "status" => "error",
+                "message" => "error deleting orders."
+            );
+
+        }
+
+
         return $response;
     }
-
-
 
 }
 
@@ -72,13 +96,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($data['method'] === 'accept') {
         $order = new HandleOrders;
-        $response=$order->acceptOrder($data);
+        $response = $order->acceptOrder($data);
         echo json_encode($response);
 
     } elseif ($data['method'] === 'reject') {
         echo 'delete call';
         $order = new HandleOrders;
-        $response= $order->deleteOrder($data);
+        $response = $order->deleteOrder($data);
         echo json_encode($response);
 
     } else {

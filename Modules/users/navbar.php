@@ -58,9 +58,11 @@ if (!empty($cartItems)) {
       <li class="nav-items">
         <i class="bx bx-party"></i> See Out Creations
       </li>
-      <li class="nav-items">
-        <i class="bx bx-user"></i>
-        Who We Are
+      <li id="notifications">
+        <a href="Modules/users/notifications.php"  ><i class="fas fa-bell px-1"> </i> Notifications <sup id="notification-count">
+          <?php echo $cartCount ?>
+        </sup></a>
+         
       </li>
       <a class="nav-items" href="logout.php">
         <i class="bx bx-logout"></i>
@@ -113,8 +115,8 @@ if (!empty($cartItems)) {
                 <tr>
                   <td class="p-4">
                     <div class="media align-items-center">
-                      <img src="<?php echo substr($item['Image'],3)  ?>"
-                    class="product-img d-block ui-w-40 ui-bordered mr-4" alt="">
+                      <img src="<?php echo substr($item['Image'], 3) ?>"
+                        class="product-img d-block ui-w-40 ui-bordered mr-4" alt="">
                       <div class="media-body">
                         <a href="#" class="d-block text-dark">
                           <?php echo $item['CakeName']; ?>

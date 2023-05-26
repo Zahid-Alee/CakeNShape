@@ -31,9 +31,12 @@
         </tbody>
         <tfoot>
             <tr>
-                <th colspan="4" class="text-end">Total:</th>
+                <th colspan="4" class="text-end">Total Sales Bill:</th>
                 <th id="totalBill"></th>
             </tr>
+            <th colspan="4" class="text-end">Total Sold Quantity:</th>
+            <th id="totalQuantity"></th>
+
         </tfoot>
     </table>
 </div>
@@ -71,6 +74,7 @@
         salesTableBody.empty();
 
         let totalBill = 0;
+        let totalQuantity = 0;
 
         data.forEach(function (record) {
             const row = $('<tr>');
@@ -82,9 +86,16 @@
             salesTableBody.append(row);
 
             totalBill += parseFloat(record.Subtotal);
+            totalQuantity += parseFloat(record.Quantity);
+
         });
 
         const totalBillField = $('#totalBill');
+        const totalQuantityField = $('#totalQuantity');
+
+
         totalBillField.text(totalBill.toFixed(2));
+        totalQuantityField.text(totalQuantity.toFixed(2));
+
     }
 </script>

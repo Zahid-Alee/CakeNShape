@@ -45,8 +45,9 @@
       } elseif ($link == 'orders') {
         include 'checkOrders.php';
       } elseif ($link == 'sales-data') {
-
         include 'checkSales.php';
+      } elseif ($link == 'categories') {
+        include 'categories.php';
       }
 
       ?>

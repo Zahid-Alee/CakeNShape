@@ -15,10 +15,11 @@ CREATE TABLE
 CREATE TABLE
     Categories (
         `CategoryID` VARCHAR(30) PRIMARY KEY NOT NULL,
-        `CategoryName` VARCHAR(50) NOT NULL
+        `CategoryName` VARCHAR(50) NOT NULL,
+        `Image` VARCHAR(200) NOT NULL
     );
 
-CREATE TABLE
+Create Table
     Cakes (
         `CakeID` VARCHAR(50) PRIMARY KEY NOT NULL,
         `CakeName` VARCHAR(100) NOT NULL,
@@ -28,6 +29,7 @@ CREATE TABLE
         `Weight` INT NOT NULL,
         `Quantity` INT NOT NULL,
         `Price` DECIMAL(10, 2) NOT NULL,
+        `discount` INT(11) NULL DEFAULT 0,
         `Image` VARCHAR(200) NOT NULL,
         FOREIGN KEY (`CategoryID`) REFERENCES Categories(`CategoryID`)
     );
@@ -90,7 +92,3 @@ CREATE TABLE user_notifications (
     PRIMARY KEY(notID,OrderID,userID)
 );
 
-
-INSERT INTO
-    Categories (CategoryID, CategoryName)
-VALUES ('1', 'Birthday Cakes'), ('2', 'Wedding Cakes'), ('3', 'Cupcakes'), ('4', 'Custom Cakes');

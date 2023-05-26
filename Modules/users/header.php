@@ -199,7 +199,7 @@ if (!empty($cartItems)) {
           </button>
           <?php if ($checkCart) {
             echo '<button type="button" class="btn  btn-primary mt-2"
-    onclick="Checkout(' . $userID . ')">Checkout</button>';
+            onclick="Checkout(' . $userID . ')">Checkout</button>';
           } ?>
         </div>
 

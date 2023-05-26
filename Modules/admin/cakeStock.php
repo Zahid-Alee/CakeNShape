@@ -110,7 +110,7 @@
         require_once __DIR__ . '../../../lib/DataSource.php';
 
         $con = new DataSource;
-        $query = 'SELECT CakeID, CakeName, CategoryName, cakes.CategoryID, MaterialUsed, Flavor, Weight, Price, Image, Quantity from cakes inner join categories on categories.CategoryID =cakes.CategoryID ';
+        $query = 'SELECT CakeID, CakeName, CategoryName, cakes.CategoryID, MaterialUsed, Flavor, Weight, Price, cakes.Image, Quantity from cakes inner join categories on categories.CategoryID =cakes.CategoryID ';
         $paramType = '';
         $paramArray = array();
         $cakes = $con->select($query, $paramType, $paramArray);

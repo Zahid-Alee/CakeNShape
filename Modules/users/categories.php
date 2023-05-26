@@ -1,61 +1,89 @@
 <section class="categories">
-    <h2>Shop by Category</h2>
-    <div class="category-container">
-      <div class="category">
-        <span class="tag"> <i class="bx bx-category"></i> </span>
-        <div class="img">
-          <img src="images/categories/birthday1.png" alt="" />
-        </div>
-        <div class="details">
-          <div class="items">31 items</div>
-          <div class="name">
-            <h3>Birthday Cakes</h3>
-          </div>
-        </div>
-      </div>
-      <div class="category">
-        <span class="tag"> <i class="bx bx-category"></i> </span>
+  <h2>Shop by Category</h2>
+  <div class="category-container">
+    <?php
+    use DataSource\DataSource;
 
-        <div class="img">
-          <img src="images/categories/other.png" alt="" />
-        </div>
-        <div class="details">
-          <div class="items">31 items</div>
-          <div class="name">
-            <h3>Special Ocasion Cakes</h3>
-          </div>
-        </div>
-        <!-- <h3>Birtday Cake</h3> -->
-      </div>
-      <div class="category">
-        <span class="tag"> <i class="bx bx-category"></i> </span>
+    require_once __DIR__ . '../../../lib/DataSource.php';
 
-        <div class="img">
-          <img src="images/categories/special.png" alt="" />
-        </div>
-        <div class="details">
-          <div class="items">31 items</div>
-          <div class="name">
-            <h3>Wedding Cakes</h3>
-          </div>
-        </div>
-        <!-- <h3>Birtday Cake</h3> -->
-      </div>
-      <div class="category">
-        <span class="tag"> <i class="bx bx-category"></i> </span>
+    $con = new DataSource;
+    // Retrieve the cake details based on the CakeID
+    $query = 'SELECT * from categories';
+    $categories = $con->select($query);
 
-        <div class="img">
-          <img src="images/categories/choc.png" alt="" />
-        </div>
-        <div class="details">
-          <div class="items">
-            31 items
-            <!-- <> </> -->
+    if (!empty($categories)) {
+      foreach ($categories as $category) {
+
+        ?>
+
+        <div class="category">
+          <span class="tag"> <i class="bx bx-category"></i> </span>
+          <div class="img">
+            <img src="<?php echo substr($category['Image'], 3) ?>" alt="" />
           </div>
-          <div class="name">
-            <h3>Custom Designs</h3>
+          <div class="details">
+            <?php
+            $query = 'Select * from cakes where cakes.CategoryID = ?';
+            $queryParam = 's';
+            $queryValue = array($category['CategoryID']);
+            $count = $con->select($query, $queryParam, $queryValue);
+            if (!empty($count)) {
+              $totalCakes = count($count);
+
+            }
+            ?>
+            <div class="items">
+              Total Cakes :
+              <?php echo $totalCakes ?>
+            </div>
+            <div class="name">
+              <h3>
+                <?php echo $category['CategoryName'] ?>
+              </h3>
+              <a href="Modules/users/shopByCategory.php?CategoryID=<?php echo $category['CategoryID']; ?>"><button class='btn btn-success'>Shop Now</button></a>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
+        <?php
+      }
+    } else {
+      echo "<strong>No cake found</strong>";
+    }
+
+    ?>
+    <!-- <h3>Birtday Cake</h3> -->
+
+  </div>
+</section>
+
+<script>
+  // JavaScript code
+
+  const addToCart = (CakeID, CakeName, Price, userID) => {
+    console.log(Price, CakeName, CakeID);
+    let data = {
+      cakeID: CakeID,
+      cakeName: CakeName,
+      userID: userID,
+      price: Price,
+      method: 'add'
+    };
+
+    fetch('Model/handleCart.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response => response.text())
+      .then(data => {
+        console.log('Response:', data);
+        location.reload();
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  };
+    // Rest of your code...
+</script>

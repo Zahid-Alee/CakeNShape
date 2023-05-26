@@ -5,16 +5,16 @@ use DataSource\DataSource;
 class CakesInsertion
 {
     private $conn;
-    
+
     function __construct()
     {
         require_once __DIR__ . '/../lib/DataSource.php';
         $this->conn = new DataSource();
     }
-    
+
     function insertCake()
     {
-        $uploadDir = '../uploads/';
+        $uploadDir = '../uploads/cakes/';
 
         if (isset($_FILES['Image'])) {
             $image = $_FILES['Image'];
@@ -38,9 +38,9 @@ class CakesInsertion
                     $_POST['Price'],
                     $imagePath
                 );
-                
+
                 $CakeID = $this->conn->insert($query, $paramType, $paramValue);
-                
+
                 if (!empty($CakeID)) {
                     $response = array(
                         "status" => "success",
@@ -72,7 +72,7 @@ class CakesInsertion
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newCake = new CakesInsertion;
     $response = $newCake->insertCake();
-    
+
     // Output the response as JSON
     header('Content-Type: application/json');
     echo json_encode($response);

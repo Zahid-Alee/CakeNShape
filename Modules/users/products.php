@@ -8,7 +8,7 @@
 
     $con = new DataSource;
     // Retrieve the cake details based on the CakeID
-    $query = 'SELECT CakeID, CakeName, CategoryName, cakes.CategoryID, MaterialUsed, Flavor, Weight, Price, Image, Quantity FROM cakes INNER JOIN categories ON categories.CategoryID = cakes.CategoryID ';
+    $query = 'SELECT CakeID, CakeName, CategoryName, cakes.CategoryID, MaterialUsed, Flavor, Weight, Price, cakes.Image, Quantity FROM cakes INNER JOIN categories ON categories.CategoryID = cakes.CategoryID ';
 
     $cakes = $con->select($query);
 
@@ -52,6 +52,7 @@
   // JavaScript code
 
   const addToCart = (CakeID, CakeName, Price, userID) => {
+    openCart();
     console.log(Price, CakeName, CakeID);
     let data = {
       cakeID: CakeID,

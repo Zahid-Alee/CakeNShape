@@ -22,6 +22,8 @@
     <?php include('./Modules/users/header.php') ?>
 
     <div class='userPage'>
+    <?php include('./Modules/users/crousel.php') ?>
+        
         <?php include('./Modules/users/services.php') ?>
         <?php include('./Modules/users/categories.php') ?>
         <?php include('./Modules/users/products.php') ?>

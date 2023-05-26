@@ -12,7 +12,7 @@ if (!$checkAuth->checkAuth()) {
 } else {
   $username = $_SESSION["username"];
   $role = $_SESSION["role"];
-  $userID=$_SESSION["userID"];
+  $userID = $_SESSION["userID"];
   session_cache_limiter('nocache');
 }
 
@@ -29,6 +29,8 @@ if (!$checkAuth->checkAuth()) {
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js">
+  </script>
 
 </head>
 

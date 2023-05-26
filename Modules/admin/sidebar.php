@@ -66,12 +66,12 @@
   </li>
 
   <li>
-    <a href="#">
+    <a href="?link=sales-data">
       <i class='bx bx-cog'></i>
-      <span class="link_name">Setting</span>
+      <span class="link_name">Sales</span>
     </a>
     <ul class="sub-menu blank">
-      <li><a class="link_name" href="#">Setting</a></li>
+      <li><a class="link_name" href="#">Sales</a></li>
     </ul>
   </li>
   <li>

@@ -42,9 +42,11 @@
         include 'cakeInsertionForm.php';
       } elseif ($link == 'bloodRequest') {
         include 'bloodRequest.php';
-      }
-      elseif ($link == 'orders') {
-        require_once 'checkOrders.php';
+      } elseif ($link == 'orders') {
+        include 'checkOrders.php';
+      } elseif ($link == 'sales-data') {
+
+        include 'checkSales.php';
       }
 
       ?>

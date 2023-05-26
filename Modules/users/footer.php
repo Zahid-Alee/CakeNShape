@@ -1,117 +1,85 @@
-<footer class="text-center text-lg-start bg-white text-muted">
-        <!-- Section: Social media -->
-        <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
-            <!-- Left -->
-            <div class="me-5 d-none d-lg-block">
-                <span>Get connected with us on social networks:</span>
-            </div>
-            <!-- Left -->
-
-            <!-- Right -->
-            <div>
-                <a class="btn text-white btn-floating m-1" style="background-color: #3b5998;" href="#!" role="button"><i class="fab fa-facebook-f"></i></a>
-
-                <!-- Twitter -->
-                <a class="btn text-white btn-floating m-1" style="background-color: #55acee;" href="#!" role="button"><i class="fab fa-twitter"></i></a>
-
-                <!-- Google -->
-                <a class="btn text-white btn-floating m-1" style="background-color: #dd4b39;" href="#!" role="button"><i class="fab fa-google"></i></a>
-
-                <!-- Instagram -->
-                <a class="btn text-white btn-floating m-1" style="background-color: #ac2bac;" href="#!" role="button"><i class="fab fa-instagram"></i></a>
-
-                <!-- Linkedin -->
-                <a class="btn text-white btn-floating m-1" style="background-color: #0082ca;" href="#!" role="button"><i class="fab fa-linkedin-in"></i></a>
-                <!-- Github -->
-                <a class="btn text-white btn-floating m-1" style="background-color: #333333;" href="#!" role="button"><i class="fab fa-github"></i></a>
-            </div>
-            <!-- Right -->
-        </section>
-        <!-- Section: Social media -->
-
-        <!-- Section: Links  -->
-        <section class="">
-            <div class="container text-center text-md-start mt-5">
-                <!-- Grid row -->
-                <div class="row mt-3">
-                    <!-- Grid column -->
-                    <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
-                        <!-- Content -->
-                        <h6 class="text-uppercase fw-bold mb-4">
-                            <i class="fas fa-gem me-3 text-secondary"></i>Company name
-                        </h6>
-                        <p>
-                            Here you can use rows and columns to organize your footer content. Lorem ipsum
-                            dolor sit amet, consectetur adipisicing elit.
-                        </p>
-                    </div>
-                    <!-- Grid column -->
-
-                    <!-- Grid column -->
-                    <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-                        <!-- Links -->
-                        <h6 class="text-uppercase fw-bold mb-4">
-                            Products
-                        </h6>
-                        <p>
-                            <a href="#!" class="text-reset">Angular</a>
-                        </p>
-                        <p>
-                            <a href="#!" class="text-reset">React</a>
-                        </p>
-                        <p>
-                            <a href="#!" class="text-reset">Vue</a>
-                        </p>
-                        <p>
-                            <a href="#!" class="text-reset">Laravel</a>
-                        </p>
-                    </div>
-                    <!-- Grid column -->
-
-                    <!-- Grid column -->
-                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-                        <!-- Links -->
-                        <h6 class="text-uppercase fw-bold mb-4">
-                            Useful links
-                        </h6>
-                        <p>
-                            <a href="#!" class="text-reset">Pricing</a>
-                        </p>
-                        <p>
-                            <a href="#!" class="text-reset">Settings</a>
-                        </p>
-                        <p>
-                            <a href="#!" class="text-reset">Orders</a>
-                        </p>
-                        <p>
-                            <a href="#!" class="text-reset">Help</a>
-                        </p>
-                    </div>
-                    <!-- Grid column -->
-
-                    <!-- Grid column -->
-                    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
-                        <!-- Links -->
-                        <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
-                        <p><i class="fas fa-home me-3 text-secondary"></i> New York, NY 10012, US</p>
-                        <p>
-                            <i class="fas fa-envelope me-3 text-secondary"></i>
-                            info@example.com
-                        </p>
-                        <p><i class="fas fa-phone me-3 text-secondary"></i> + 01 234 567 88</p>
-                        <p><i class="fas fa-print me-3 text-secondary"></i> + 01 234 567 89</p>
-                    </div>
-                    <!-- Grid column -->
+<?php
+$userID = $_SESSION['userID'] ?>
+<footer>
+    <div class="main-content">
+        <div class="left box">
+            <h2>About us</h2>
+            <div class="content">
+                <p>CodinNepal is a YouTube channel where you can learn web designing, web development, ui/ux designing,
+                    html css tutorial, hover animation and effects, javascript and jquery tutorial and related so on.
+                </p>
+                <div class="social">
+                    <a href="https://facebook.com/coding.np"><span class="fab fa-facebook-f"></span></a>
+                    <a href="#"><span class="fab fa-twitter"></span></a>
+                    <a href="https://instagram.com/coding.np"><span class="fab fa-instagram"></span></a>
+                    <a href="https://youtube.com/c/codingnepal"><span class="fab fa-youtube"></span></a>
                 </div>
-                <!-- Grid row -->
             </div>
-        </section>
-        <!-- Section: Links  -->
-
-        <!-- Copyright -->
-        <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.025);">
-            © 2021 Copyright:
-            <a class="text-reset fw-bold" href="https://mdbootstrap.com/">MDBootstrap.com</a>
         </div>
-        <!-- Copyright -->
-    </footer>
+
+        <div class="center box">
+            <h2>Address</h2>
+            <div class="content">
+                <div class="place">
+                    <span class="fas fa-map-marker-alt"></span>
+                    <span class="text">Birendranagar, Surkhet</span>
+                </div>
+                <div class="phone">
+                    <span class="fas fa-phone-alt"></span>
+                    <span class="text">+089-765432100</span>
+                </div>
+                <div class="email">
+                    <span class="fas fa-envelope"></span>
+                    <span class="text">abc@example.com</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="right box">
+            <h2>Contact us</h2>
+            <div class="content">
+                <form id="feedbackForm">
+                    <input type="text" name="userID" value="<?php echo $userID ?>" hidden>
+                    <div class="msg">
+                        <div class="text">Message *</div>
+                        <textarea rows="2" cols="25" name="message" required></textarea>
+                    </div>
+                    <div class="btn">
+                        <button type="submit">Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <center>
+            <span class="credit">Created By <a href="mailto:zahid177617@gmail.com">Zahid Ali</a> | </span>
+            <span class="far fa-copyright"></span><span> 2023 All rights reserved.</span>
+        </center>
+    </div>
+</footer>
+
+<script>
+
+    const form = document.getElementById('feedbackForm');
+    form.addEventListener('submit', submitForm);
+
+    function submitForm(event) {
+        event.preventDefault();
+        const formValues = new FormData(event.target);
+        console.log(formValues);
+        fetch('Model/handleFeedback.php', {
+            method: 'POST',
+            body: formValues
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log('Success:', data);
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+</script>

@@ -1,95 +1,61 @@
-
-
 <section class="reviews">
-    <h2>Customer Reviews</h2>
-    <div class="reviews-container">
-      <div class="review">
-        <div class="user">
-          <div class="user-image">
-            <img src="https://cdn.pixabay.com/photo/2021/06/25/13/22/girl-6363743_960_720.jpg" alt="User 1"
-              class="img-fluid rounded-circle" />
-          </div>
-          <div class="user-info">
-            <p class="name">John Doe</p>
-            <p class="date">
-              <i class="far fa-calendar-alt"></i> April 25, 2023
-            </p>
-          </div>
-        </div>
-        <div class="rating">
-          <div class="stars">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-          </div>
-          <p class="score">5/5</p>
-        </div>
-        <p class="message">
-          This product exceeded my expectations! The quality is amazing and it's
-          very easy to use. I would definitely recommend it to anyone looking
-          for a reliable and affordable option.
-        </p>
-      </div>
-      <div class="review">
-        <div class="user">
-          <div class="user-image">
-            <img src="https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_960_720.jpg" alt="User 2"
-              class="img-fluid rounded-circle" />
-          </div>
-          <div class="user-info">
-            <p class="name">Jane Smith</p>
-            <p class="date">
-              <i class="far fa-calendar-alt"></i> April 24, 2023
-            </p>
-          </div>
-        </div>
-        <div class="rating">
-          <div class="stars">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="far fa-star"></i>
-          </div>
-          <p class="score">4/5</p>
-        </div>
-        <p class="message">
-          I'm very happy with this product overall, but I did have a little
-          trouble with one of the features. It took some time to figure out, but
-          once I got it working, it was great!
-        </p>
-      </div>
-      <div class="review">
-        <div class="user">
-          <div class="user-image">
-            <img src="https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_960_720.jpg" alt="User 2"
-              class="img-fluid rounded-circle" />
-          </div>
-          <div class="user-info">
-            <p class="name">Jane Smith</p>
-            <p class="date">
-              <i class="far fa-calendar-alt"></i> April 24, 2023
-            </p>
-          </div>
-        </div>
-        <div class="rating">
-          <div class="stars">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="far fa-star"></i>
-          </div>
-          <p class="score">4/5</p>
-        </div>
-        <p class="message">
-          I'm very happy with this product overall, but I did have a little
-          trouble with one of the features. It took some time to figure out, but
-          once I got it working, it was great!
-        </p>
-      </div>
-    </div>
+  <h2>Customer Reviews</h2>
+  <div class="reviews-container">
 
-  </section>
+    <?php
+    use DataSource\DataSource;
+
+    require_once __DIR__ . '../../../lib/DataSource.php';
+
+    $con = new DataSource;
+    // Retrieve the cake details based on the CakeID
+    $query = 'SELECT feedback.userID,FeedbackText,FeedbackDate,username from feedback inner join users on feedback.userID=users.userID';
+
+    $reviews = $con->select($query);
+
+    if (!empty($reviews)) {
+      foreach ($reviews as $review) {
+
+        ?>
+        <div class="review">
+          <div class="user">
+            <div class="user-image">
+              <img src="https://cdn.pixabay.com/photo/2014/04/03/11/47/avatar-312160_640.png" alt="User 2"
+                class="img-fluid rounded-circle" />
+            </div>
+            <div class="user-info">
+              <p class="name">
+                <?php echo $review['username'] ?>
+              </p>
+              <p class="date">
+                <i class="far fa-calendar-alt"></i>
+                <?php echo $review['FeedbackDate'] ?>
+              </p>
+            </div>
+          </div>
+          <!-- <div class="rating">
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="far fa-star"></i>
+            </div>
+            <p class="score">4/5</p>
+          </div> -->
+          <p class="message">
+            <?php echo $review['FeedbackText'] ?>
+          </p>
+        </div>
+
+        <?php
+      }
+    } else {
+      echo "<strong>No Reviews Yet</strong>";
+    }
+
+    ?>
+
+  </div>
+
+</section>

@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="Modules/users/categories.css">
     <link rel="stylesheet" href="Modules/users/header.css">
     <link rel="stylesheet" href="Modules/users/products.css">
+    <link rel="stylesheet" href="Modules/users/footer.css">
+
 
 
     <title>Document</title>

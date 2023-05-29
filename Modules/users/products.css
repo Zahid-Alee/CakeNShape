@@ -12,6 +12,8 @@
     grid-template-columns: repeat(auto-fit, minmax(250px, 350px));
     gap: 20px;
     padding: 20px;
+    justify-content: center;
+    align-items: center;
 
   }
 

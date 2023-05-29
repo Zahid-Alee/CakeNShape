@@ -93,9 +93,9 @@
     <h3 class="page-heading">Categories</h3>
     <thead class="thead-dark">
         <tr>
-            <th scope="col" class='text-center'><i class="fas fa-sort-numeric-up"></i> Category Name</th>
+            <th scope="col" class='text-center'><i class="bx bx-category-alt"></i> Category Name</th>
             <th scope="col" class='text-center'><i class="fas fa-image"></i> Image</th>
-            <th scope="col" class='text-center'><i class="fas fa-action"></i> Actions</th>
+            <th scope="col" class='text-center'><i class="fas fa-cog"></i> Actions</th>
 
 
         </tr>
@@ -121,9 +121,8 @@
                     <td class='text-center'><img src="<?php echo substr($category['Image'], 3) ?>" height="75" width="75" />
                     </td>
                     <td class='text-center'>
-                        <span class="table-icon text-danger px-2 " onclick="openPopup()"><i class="fas fa-times"></i></span>
                         <a class="table-icon text-info px-2"
-                            href="Modules/admin/updateCategory.php?CakeID=<?php echo $category['CategoryID']; ?>"><i
+                            href="Modules/admin/updateCategory.php?CategoryID=<?php echo $category['CategoryID']; ?>"><i
                                 class="fas fa-edit"></i></a>
 
                         <span class="table-icon text-danger px-2"
@@ -151,11 +150,11 @@
                     <input type="text" name='CategoryID' value='<?php echo uniqid('cat-') ?>' hidden>
 
                     <div class="form-group">
-                        <label for="CategoryName"><i class="fas fa-male"></i> Cat name</label>
+                        <label for="CategoryName"><i class="fas fa-male"></i> Cateogry name</label>
                         <input type="text" class="form-control" name="CategoryName" placeholder="Enter Category Name">
                     </div>
                     <div class="form-group">
-                        <label for="Image"><i class="fas fa-file"></i> Image</label>
+                        <label for="Image"><i class="fas fa-file"></i> Image </label>
                         <input type="file" class="form-control" name="Image">
                     </div>
 

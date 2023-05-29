@@ -1,5 +1,5 @@
 <section class="products">
-  <h3>Products</h3>
+  <h3 class='section-title'>Products</h3>
   <div id="item-container">
     <?php
     use DataSource\DataSource;
@@ -32,8 +32,6 @@
           <button class="add-to-cart"
             onClick="addToCart('<?php echo $cake['CakeID'] ?>', '<?php echo $cake['CakeName'] ?>', '<?php echo $cake['Price'] ?>','<?php echo $_SESSION['userID'] ?>')">Add
             to Cart</button>
-
-
         </div>
         <?php
       }

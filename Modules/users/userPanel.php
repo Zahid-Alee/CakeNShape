@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="Modules/users/categories.css">
     <link rel="stylesheet" href="Modules/users/header.css">
     <link rel="stylesheet" href="Modules/users/products.css">
+    <link rel="stylesheet" href="Modules/users/reviews.css">
+    <link rel="stylesheet" href="Modules/users/notification.css">
     <link rel="stylesheet" href="Modules/users/footer.css">
 
 
@@ -22,7 +24,6 @@
     <?php include('./Modules/users/header.php') ?>
 
     <div class='userPage'>
-    <?php include('./Modules/users/crousel.php') ?>
         
         <?php include('./Modules/users/services.php') ?>
         <?php include('./Modules/users/categories.php') ?>

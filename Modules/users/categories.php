@@ -1,5 +1,5 @@
 <section class="categories">
-  <h2>Shop by Category</h2>
+  <h2 class='section-title'>Shop by Category</h2>
   <div class="category-container">
     <?php
     use DataSource\DataSource;
@@ -40,7 +40,8 @@
               <h3>
                 <?php echo $category['CategoryName'] ?>
               </h3>
-              <a href="Modules/users/shopByCategory.php?CategoryID=<?php echo $category['CategoryID']; ?>"><button class='btn btn-success'>Shop Now</button></a>
+              <a href="Modules/users/shopByCategory.php?CategoryID=<?php echo $category['CategoryID']; ?>"><button
+                  class='btn btn-success'>Shop Now</button></a>
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 <div class="logo-details container">
   <!-- <i class='bx bxl-c-plus-plus'></i> -->
-  <span class="logo_name">Blood Bank</span>
+  <span class="logo_name">Cake N Shape</span>
 </div>
 <ul class="nav-links">
   <li>
@@ -15,7 +15,7 @@
 
   <li>
     <a href="?link=categories">
-      <i class='bx bx-line-chart'></i>
+      <i class='bx bx-category-alt'></i>
       <span class="link_name">Categories</span>
     </a>
     <ul class="sub-menu blank">
@@ -24,7 +24,7 @@
   </li>
   <li>
     <a href="?link=cakeStock">
-      <i class='bx bx-line-chart'></i>
+      <i class='bx bx-store'></i>
       <span class="link_name">Check Stock</span>
     </a>
     <ul class="sub-menu blank">
@@ -33,27 +33,16 @@
   </li>
   <li>
     <a href="?link=orders">
-      <i class='bx bx-line-chart'></i>
+      <i class='bx bx-cart'></i>
       <span class="link_name">Orders</span>
     </a>
     <ul class="sub-menu blank">
       <li><a class="link_name" href="?link=orders">Orders</a></li>
     </ul>
   </li>
-
-  <li>
-    <a href="?link=cakeInsertionForm">
-      <i class='bx bx-user-plus'></i>
-      <span class="link_name">Add Cake</span>
-    </a>
-    <ul class="sub-menu blank">
-      <li><a class="link_name" href="?link=cakeInsertionForm">Add Cake</a></li>
-    </ul>
-  </li>
-
   <li>
     <a href="?link=sales-data">
-      <i class='bx bx-cog'></i>
+    <i class='bx bx-line-chart'></i>
       <span class="link_name">Sales</span>
     </a>
     <ul class="sub-menu blank">

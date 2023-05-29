@@ -42,6 +42,9 @@ if (!empty($cartItems)) {
 ?>
 
 <header>
+  <div class="header-bg">
+    <img src="" alt="">
+  </div>
   <nav class="nav-bar">
     <ul class="navigation">
       <li class="nav-items"><i class="fas fa-home"></i> Home</li>
@@ -58,18 +61,17 @@ if (!empty($cartItems)) {
               <li>
                 <?php echo $cat['CategoryName'] ?>
               </li>
-              <li id=" cat-overlay">
-          </li>
+              
           <?php
             }
           } else {
             echo "<strong>No cake found</strong>";
           }
           ?>
-
+<li id="cat-overlay" onclick='closeCart()'></li>
     </ul>
     </li>
-    <li class="nav-items">
+    <li class=" nav-items">
       <i class="bx bx-cake"></i>
       Custom Design
     </li>

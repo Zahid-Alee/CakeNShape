@@ -64,7 +64,33 @@ class HandleCategories
 
         return $response;
     }
+    function updateCat($data)
+    {
+        // Image uploaded successfully
+        $query = "UPDATE categories  SET  CategoryName = ?  WHERE CategoryID = ?";
+        $paramType = "si";
+        $paramValue = array(
+            $data['CategoryName'],
+            $data['CategoryID'],
+        );
 
+        $catID = $this->conn->update($query, $paramType, $paramValue);
+
+        if (!empty($catID)) {
+            $response = array(
+                "status" => "success",
+                "message" => "updated successfully"
+            );
+        } else {
+            $response = array(
+                "status" => "error",
+                "message" => "Error occurred during updation"
+            );
+        }
+
+        return $response;   
+
+    }
     function deleteCat($id)
     {
         // Check if record with given stock_id exists in blood_stock table
@@ -111,8 +137,10 @@ if ($_POST) {
         $data = json_decode($json, true);
         echo 'delte call';
         // $handleCat->deleteCat($data);
-    } else {
+    } elseif ($data['method'] == 'update') {
 
+        // print($data);
+        $handleCat->updateCat($data);
     }
 
 }

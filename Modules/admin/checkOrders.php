@@ -18,14 +18,14 @@ $userID = $_SESSION['userID']; ?>
     <h3 class="page-heading">Cake Inventory</h3>
     <thead class="thead-dark">
         <tr>
-            <th scope="col" class='text-center'><i class="fas fa-sort-numeric-up"></i>Customer Name</th>
-            <th scope="col" class='text-center'><i class="fas fa-sort-numeric-up"></i> </th>
-            <th scope="col" class='text-center'><i class="fas fa-image"></i> Image</th>
-            <th scope="col" class='text-center'><i class="fas fa-tint"></i> Weight</th>
-            <th scope="col" class='text-center'><i class="fas fa-tint"></i> Quantity</th>
+            <th scope="col" class='text-center'><i class="fa fa-user px-2"></i>Customer Name</th>
+            <th scope="col" class='text-center'><i class="fas fa-sort-numeric-up px-2"></i>Quantity </th>
+            <th scope="col" class='text-center'><i class="bx bx-credit-card px-2"></i>PaymentMethod</th>
+            <th scope="col" class='text-center'><i class="bx bx-calendar px-2"></i>Order Date</th>
+            <th scope="col" class='text-center'><i class="bx bx-calendar px-2"></i>DeliveryDate? Date</th>
             <!-- <th scope="col" class='text-center'><i class="fas fa-tint"></i>Total </th> -->
             <!-- <th scope="col" class='text-center'><i class="fas fa-dollar-sign"></i> Date</th> -->
-            <th scope="col" class='text-center'><i class="fas fa-cog"></i> Action</th>
+            <th scope="col" class='text-center'><i class="fas fa-cog px-2"></i>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -40,8 +40,6 @@ $userID = $_SESSION['userID']; ?>
       FROM orders
       JOIN users ON orders.userID = users.userID
       WHERE orders.OrderStatus = "Pending"';
-
-
         $orders = $con->select($query);
 
         if (!empty($orders)) {
@@ -54,10 +52,7 @@ $userID = $_SESSION['userID']; ?>
                     <td scope="row" class='text-center'>
                         <?php echo $order['userID']; ?>
                     </td>
-                    <!-- <td class='text-center'><img src="" height="75" width="75" /></td> -->
-                    <!-- <td class='text-center'>
-                         lbs
-                    </td> -->
+
 
                     <td class='text-center'>
                         <?php echo $order['PaymentMethod']; ?>
@@ -69,11 +64,10 @@ $userID = $_SESSION['userID']; ?>
                         <?php echo $order['DeliveryDate']; ?>
                     </td>
                     <td class='text-center'>
-                        <a class="table-icon text-info px-2"
-                            onclick="acceptReq('<?php echo $order['OrderID']; ?>')"><i
-                                class="fas fa-edit"></i></a>
+                        <a class="table-icon text-info px-2" style="cursor:pointer"
+                            onclick="acceptReq('<?php echo $order['OrderID']; ?>')"><i class="fas fa-check"></i></a>
 
-                        <span class="table-icon text-danger px-2" onclick="rejectReq('<?php echo $order['OrderID']; ?>')"><i
+                        <span class="table-icon text-danger px-2"  style="cursor:pointer" onclick="rejectReq('<?php echo $order['OrderID']; ?>')"><i
                                 class="fas fa-times"></i></span>
                     </td>
                 </tr>

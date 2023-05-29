@@ -1,0 +1,36 @@
+.card-title {
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+ .notification i {
+  padding-right: 5px;
+  /* color: green; */
+  font-weight: bolder;
+  color: rgb(12 188 186);
+  font-size: 20px;
+
+}
+.card-text {
+  /* color: red; */
+  font-weight: bolder;
+  color: orangered;
+}
+
+.dissmiss-btn {
+  color: red;
+  font-size: 25px;
+  cursor: pointer;
+  font-weight: bolder;
+}
+.dissmiss-btn:hover {
+  color: black;
+}
+.order-title{
+
+  font-weight: bolder;
+  font-size: 20px;
+}
+.bold{
+  font-weight: bold;
+}

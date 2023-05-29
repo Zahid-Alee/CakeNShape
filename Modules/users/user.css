@@ -9,6 +9,14 @@ body{
   width: 100%;
   overflow-x: hidden;
 }
+.section-title{
+
+  font-weight: bold;
+  font-size: 30px;
+  text-align: center;
+  text-transform: capitalize;
+  padding: 10px;
+}
 
 .userPage{
 
@@ -16,92 +24,91 @@ body{
   padding: 60px 100px;
   width: 100vw;
   flex-direction: column;
+  gap: 70px;
 }
 
+.reviews {
+  display: flex;
+  flex-direction: column;
+  /* display: grid; */
+  /* grid-template-columns: 1fr 1fr 1fr; */
+  gap: 2rem;
+  padding: 30px;
 
 
-  .reviews {
-    display: flex;
-    flex-direction: column;
-    /* display: grid; */
-    /* grid-template-columns: 1fr 1fr 1fr; */
-    gap: 2rem;
-    padding: 30px;
-  
-  
-  }
-  
-  .reviews-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 2%;
-  
-  
-  }
-  
-  .reviews h2 {
-  
-    font-size: 30px;
-    font-weight: 700;
-    margin: 50px auto;
-  }
-  
-  .review {
-    padding: 1rem;
-    border: 1px solid #b1adae;
-  
-    border-radius: 0.5rem;
-  }
-  
-  .user {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  
-  .user-image img {
-    width: 3rem;
-    height: 3rem;
-  }
-  
-  .name {
-    font-weight: bold;
-    margin: 0;
-  }
-  
-  .date {
-    margin: 0;
-    color: #777;
-  }
-  
-  .rating {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 20px 0px;
-  }
-  
-  .stars {
-    color: #ffd700;
-    font-size: 1rem;
-  }
-  
-  .score {
-    font-weight: bold;
-    margin: 0;
-  }
-  
-  .message {
-    margin: 0;
-    padding: 25px;
-    margin: 0px;
-    /* margin: 14px; */
-    border-radius: 4px;
-  
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05),
-      0 1px 3px 1px rgba(0, 0, 0, 0.08);
-  }
-  
+}
+
+.reviews-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2%;
+
+
+}
+
+.reviews h2 {
+
+  font-size: 30px;
+  font-weight: 700;
+  margin: 50px auto;
+}
+
+.review {
+  padding: 1rem;
+  border: 1px solid #b1adae;
+
+  border-radius: 0.5rem;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-image img {
+  width: 3rem;
+  height: 3rem;
+}
+
+.name {
+  font-weight: bold;
+  margin: 0;
+}
+
+.date {
+  margin: 0;
+  color: #777;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 20px 0px;
+}
+
+.stars {
+  color: #ffd700;
+  font-size: 1rem;
+}
+
+.score {
+  font-weight: bold;
+  margin: 0;
+}
+
+.message {
+  margin: 0;
+  padding: 25px;
+  margin: 0px;
+  /* margin: 14px; */
+  border-radius: 4px;
+
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05),
+    0 1px 3px 1px rgba(0, 0, 0, 0.08);
+}
+
   
   
   

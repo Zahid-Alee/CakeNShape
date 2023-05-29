@@ -17,11 +17,13 @@
       foreach ($reviews as $review) {
 
         ?>
+
+
         <div class="review">
           <div class="user">
             <div class="user-image">
-              <img src="https://cdn.pixabay.com/photo/2015/03/04/22/35/avatar-659651_640.png" alt="User 2"
-                class="img-fluid rounded-circle" />
+              <img src="https://cdn.pixabay.com/photo/2014/04/03/11/47/avatar-312160_640.png" alt="User 2" />
+
             </div>
             <div class="user-info">
               <p class="name">
@@ -47,6 +49,10 @@
             <?php echo $review['FeedbackText'] ?>
           </p>
         </div>
+
+
+
+
 
         <?php
       }

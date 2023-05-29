@@ -1,6 +1,6 @@
 
 <section id="services" class=" py-4">
-
+    <h1 class='section-title'> Our Services </h1>
     <div class="services">
         <div class="service">
             <span class="clock icon"><i class="bx bx-cart"></i></span>

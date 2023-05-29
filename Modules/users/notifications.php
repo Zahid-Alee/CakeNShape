@@ -1,183 +1,151 @@
-<div class="container mt-5">
-  <h1>Notification Box</h1>
+<!DOCTYPE html>
+<html lang="en">
 
-  <?php
-  use DataSource\DataSource;
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="notification.css">
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
 
-  require_once __DIR__ . '../../../lib/DataSource.php';
-  $con = new DataSource;
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js">
+  </script>
+  <title>Document</title>
+</head>
 
-  session_start();
-  $loggedInUserID = $_SESSION['userID']; // Assuming you have the logged-in user's ID stored in the session
-  
-  $query = "SELECT * FROM user_notifications WHERE userID = ?";
-  $paramType = "i";
-  $paramValue = array($loggedInUserID);
-  $notifications = $con->select($query, $paramType, $paramValue);
+<body>
+  <div class="container mt-5">
+    <h1 class="p-4 text-center font-weight-bold">Notification Box</h1>
 
-  if (!empty($notifications)) {
-    foreach ($notifications as $notification) {
-      $message = $notification['message'];
-      $notFrom = $notification['notFrom'];
+    <?php
+    use DataSource\DataSource;
 
-      $notificationTypeClass = $notFrom === 'CakeNShape' ? 'alert-success' : 'alert-danger';
-      $notificationTitleIcon = $notFrom === 'CakeNShape' ? 'fas fa-user-shield' : 'fas fa-user';
+    require_once __DIR__ . '../../../lib/DataSource.php';
+    $con = new DataSource;
 
-      // Retrieve order details based on OrderID
-      $orderID = $notification['OrderID'];
-      $orderQuery = "SELECT * FROM Orders WHERE OrderID = ?";
-      $orderParamType = 'i';
-      $orderParamValue = array($orderID);
-      $orderResult = $con->select($orderQuery, $orderParamType, $orderParamValue);
+    session_start();
+    $loggedInUserID = $_SESSION['userID']; // Assuming you have the logged-in user's ID stored in the session
+    
+    $query = "SELECT * FROM user_notifications WHERE userID = ?";
+    $paramType = "i";
+    $paramValue = array($loggedInUserID);
+    $notifications = $con->select($query, $paramType, $paramValue);
 
-      if (!empty($orderResult)) {
-        $order = $orderResult[0];
-        $orderDate = $order['OrderDate'];
-        $deliveryDate = $order['DeliveryDate'];
-        $paymentMethod = $order['PaymentMethod'];
-        $orderStatus = $order['OrderStatus'];
+    if (!empty($notifications)) {
+      foreach ($notifications as $notification) {
+        $message = $notification['message'];
+        $notFrom = $notification['notFrom'];
 
-        // Retrieve cake details from order_items table
-        $orderItemsQuery = "SELECT oi.*, c.* FROM Order_Items oi JOIN Cakes c ON oi.CakeID = c.CakeID WHERE oi.OrderID = ?";
-        $orderItemsParamType = 'i';
-        $orderItemsParamValue = array($orderID);
-        $orderItems = $con->select($orderItemsQuery, $orderItemsParamType, $orderItemsParamValue);
+        $notificationTypeClass = $notFrom === 'CakeNShape' ? 'alert-success' : 'alert-danger';
+        $notificationTitleIcon = $notFrom === 'CakeNShape' ? 'fas fa-user-shield' : 'fas fa-user';
 
-        ?>
+        // Retrieve order details based on OrderID
+        $orderID = $notification['OrderID'];
+        $orderQuery = "SELECT * FROM Orders WHERE OrderID = ?";
+        $orderParamType = 'i';
+        $orderParamValue = array($orderID);
+        $orderResult = $con->select($orderQuery, $orderParamType, $orderParamValue);
 
-        <div class="alert <?php echo $notificationTypeClass; ?> notification-box">
-          <div class="d-flex justify-content-<?php echo $notFrom === 'admin' ? 'start' : 'end'; ?>">
-            <div class="notification-message">
-              <h5 class="notification-title">
-                <i class="<?php echo $notificationTitleIcon; ?> chat-icon"></i>Notification From
-                <?php echo ucfirst($notFrom); ?> 
-               <span class="dissmiss-btn" onclick="delNotification(<?php echo $notification['notID'] ?>)">&times;</span> 
-              </h5>
-              <p>
-                <?php echo $message; ?>
-              </p>
-              <div class="order-details">
-                <p>Order Details:</p>
-                <p><i class="fas fa-id-badge"></i> Order ID:
-                  <?php echo $orderID; ?>
+        if (!empty($orderResult)) {
+          $order = $orderResult[0];
+          $orderDate = $order['OrderDate'];
+          $deliveryDate = $order['DeliveryDate'];
+          $paymentMethod = $order['PaymentMethod'];
+          $orderStatus = $order['OrderStatus'];
+
+          // Retrieve cake details from order_items table
+          $orderItemsQuery = "SELECT oi.*, c.* FROM Order_Items oi JOIN Cakes c ON oi.CakeID = c.CakeID WHERE oi.OrderID = ?";
+          $orderItemsParamType = 'i';
+          $orderItemsParamValue = array($orderID);
+          $orderItems = $con->select($orderItemsQuery, $orderItemsParamType, $orderItemsParamValue);
+
+          ?>
+
+          <div class="container">
+            <div class="card notification-box">
+              <div class="card-header">
+                <h5 class="card-title">
+                  <span>
+                    <i class="<?php echo $notificationTitleIcon; ?> chat-icon pr-3"></i>Notification From
+                    <?php echo ucfirst($notFrom); ?>
+                  </span>
+
+                  <span class="dissmiss-btn" onclick="delNotification(<?php echo $notification['notID'] ?>)">&times;</span>
+                </h5>
+              </div>
+              <div class="card-body">
+                <p class="card-text">
+                  <?php echo $message; ?>
                 </p>
-                <p><i class="fas fa-box"></i> Products:
-                  <?php
-                  foreach ($orderItems as $orderItem) {
-                    $productName = $orderItem['CakeName'];
-                    echo $productName . ", ";
-                  }
-                  ?>
-                </p>
-                <p><i class="far fa-calendar-alt"></i> Order Date:
-                  <?php echo $orderDate; ?>
-                </p>
-                <p><i class="far fa-calendar-check"></i> Delivery Date:
-                  <?php echo $deliveryDate; ?>
-                </p>
-                <p><i class="fas fa-credit-card"></i> Payment Method:
-                  <?php echo $paymentMethod; ?>
-                </p>
-                <p><i class="fas fa-info-circle"></i> Order Status:
-                  <?php echo $orderStatus; ?>
-                </p>
+                <div class="order-details">
+                  <p class="order-title">Order Details:</p>
+                  <p><i class="fas fa-id-badge"></i><span class="bold">Order ID:</span>
+                    <?php echo $orderID; ?>
+                  </p>
+                  <p><i class="fas fa-box"></i> <span class="bold">Products:</span>
+                    <?php
+                    foreach ($orderItems as $orderItem) {
+                      $productName = $orderItem['CakeName'];
+                      echo $productName . ", ";
+                    }
+                    ?>
+                  </p>
+                  <p><i class="far fa-calendar-alt"></i><span class="bold"> Order Date:</span>
+                    <?php echo $orderDate; ?>
+                  </p>
+                  <p><i class="far fa-calendar-check"></i> <span class="bold">Delivery Date:</span>
+                    <?php echo $deliveryDate; ?>
+                  </p>
+                  <p><i class="fas fa-credit-card"></i> <span class="bold">Payment Method:</span>
+                    <?php echo $paymentMethod; ?>
+                  </p>
+                  <p><i class="fas fa-info-circle"></i> <span class="bold"> Order Status:</span>
+                    <?php echo $orderStatus; ?>
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <?php
-      } else {
-        echo "<strong>No order found for notification</strong>";
+          <?php
+        } else {
+          echo "<strong>No order found for notification</strong>";
+        }
       }
+    } else {
+      echo "<strong>No notifications found</strong>";
     }
-  } else {
-    echo "<strong>No notifications found</strong>";
-  }
-  ?>
-</div>
+    ?>
+  </div>
 
 
-<script>
-const delNotification=(notID)=>{
+  <script>
+    const delNotification = (notID) => {
 
-  fetch('/CakeNShape/Model/handleNotification.php', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(notID)
-    })
-      .then(response => response.text())
-      .then(data => {
-        console.log('Response:', data);
-        location.reload();
+      fetch('/CakeNShape/Model/handleNotification.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(notID)
       })
-      .catch(error => {
-        console.error('Error:', error);
-      });
+        .then(response => response.text())
+        .then(data => {
+          console.log('Response:', data);
+          location.reload();
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
 
-}
-</script>
+    }
+  </script>
 
 
-<style>
-  .notification-box {
-    margin-bottom: 15px;
-  }
+</body>
 
-  .alert-success {
-    background-color: #D7F9D7;
-    padding: 20px;
-    color: #155724;
-    border-color: #C3E6CB;
-    width: fit-content;
-  }
-
-  .alert-danger {
-    background-color: #F9D7D7;
-    color: #721C24;
-    border-color: #F5C6CB;
-    width: fit-content;
-    padding: 20px;
-
-  }
-
-  .notification-message {
-    padding: 10px;
-    border-radius: 10px;
-    display: inline-block;
-    margin-bottom: 5px;
-  }
-
-  .notification-title {
-    color: #dc3545;
-    font-weight: bold;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .chat-icon {
-    font-size: 20px;
-    margin-right: 5px;
-  }
-
-  .order-details {
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-
-  .order-details p {
-    margin: 0;
-  }
-
-  .notification-box.admin-notification .notification-message {
-    background-color: #D7F9D7;
-    text-align: left;
-  }
-
-  .notification-box.user-notification .notification-message {
-    background-color: #F9D7D7;
-    text-align: right;
-  }
-</style>
+</html>

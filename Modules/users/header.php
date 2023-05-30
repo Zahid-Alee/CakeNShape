@@ -68,7 +68,8 @@ if (!empty($cartItems)) {
             echo "<strong>No cake found</strong>";
           }
           ?>
-<li id="cat-overlay" onclick='closeCart()'></li>
+<li id=" cat-overlay" onclick='closeCart()'>
+      </li>
     </ul>
     </li>
     <li class=" nav-items">
@@ -79,10 +80,11 @@ if (!empty($cartItems)) {
       <i class="bx bx-party"></i> See Out Creations
     </li>
     <li id="notifications">
-      <a href="Modules/users/notifications.php"><i class="fas fa-bell px-1"> </i> Notifications <sup
-          id="notification-count">
+      <a style="position:relative;" href="Modules/users/notifications.php"><i class="fas fa-bell px-1"> </i>
+        Notifications <span class="count" style="left:117px">
+
           <?php echo $notCount ?>
-        </sup></a>
+        </span></a>
 
     </li>
     <a class="nav-items" href="logout.php">
@@ -91,7 +93,7 @@ if (!empty($cartItems)) {
     </a>
     <li id="cart-icon">
       <span <i class="fas fa-shopping-cart"></i></span>
-      <span id="cart-count" class="cart-count">
+      <span id="cart-count" class="count">
         <?php echo $cartCount ?>
       </span>
     </li>

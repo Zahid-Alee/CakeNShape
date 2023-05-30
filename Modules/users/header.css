@@ -90,7 +90,7 @@ nav ul li:hover {
   position: relative;
 }
 
-.cart-count {
+.count {
   position: absolute;
   text-align: center;
   height: 20px;

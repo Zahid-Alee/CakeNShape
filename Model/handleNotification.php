@@ -30,9 +30,6 @@ class HandleNotifications
 
         return $response;
     }
-
-
-
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

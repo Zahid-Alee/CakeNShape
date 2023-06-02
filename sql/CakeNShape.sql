@@ -37,14 +37,16 @@ Create Table
 CREATE TABLE
     cart (
         cartID INT(11) AUTO_INCREMENT,
-        CakeID varchar(50) NOT NULL,
+        CakeID varchar(50) NULL,
         `userID` int(11) NOT NULL,
         CakeName VARCHAR(255) NOT NULL,
         price DECIMAL(10, 2) NOT NULL,
         quantity INT NULL DEFAULT 0,
         discount INT(11) NULL DEFAULT 0,
-        total DECIMAL(10, 2) NOT NULL,
-        PRIMARY KEY (cartID, CakeID, userID),
+        description TEXT NULL,
+        total DECIMAL(10, 2) NULL,
+        Image VARCHAR(100) Null,
+        PRIMARY KEY (cartID, userID),
         FOREIGN KEY (`userID`) REFERENCES users(`userID`),
         FOREIGN KEY (`CakeID`) REFERENCES cakes(`CakeID`)
     );
@@ -62,14 +64,14 @@ CREATE TABLE
 
 CREATE TABLE
     Order_Items (
-        `OrderID` INT,
-        `CakeID` VARCHAR(50) NOT NULL,
+        `id` INT PRIMARY KEY AUTO_INCREMENT ,
+        `OrderID` INT NUll ,
+        `CakeID` VARCHAR(50)  NULL,
         `Quantity` INT NOT NULL,
         `Subtotal` DECIMAL(10, 2) NOT NULL,
-        PRIMARY KEY (`OrderID`, `CakeID`),
         FOREIGN KEY (`OrderID`) REFERENCES Orders(`OrderID`),
         FOREIGN KEY (`CakeID`) REFERENCES Cakes(`CakeID`)
-    );
+    );      
 
 CREATE TABLE
     Feedback (
@@ -80,15 +82,26 @@ CREATE TABLE
         FOREIGN KEY (`userID`) REFERENCES users(`userID`)
     );
 
-CREATE TABLE user_notifications (
-    `notID` INT(11)  AUTO_INCREMENT,
-    `OrderID` INT NOT NULL,
-    `userID` INT NOT NULL,
-    `notDate` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    `message` VARCHAR(150) NULL,
-    `notFrom` VARCHAR(30) NULL,
-    FOREIGN KEY (`OrderID`) REFERENCES orders(`OrderID`),
-    FOREIGN KEY (`userID`) REFERENCES users(`userID`),
-    PRIMARY KEY(notID,OrderID,userID)
-);
+CREATE TABLE
+    user_notifications (
+        `notID` INT(11) AUTO_INCREMENT,
+        `OrderID` INT NOT NULL,
+        `userID` INT NOT NULL,
+        `notDate` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        `message` VARCHAR(150) NULL,
+        `notFrom` VARCHAR(30) NULL,
+        FOREIGN KEY (`OrderID`) REFERENCES orders(`OrderID`),
+        FOREIGN KEY (`userID`) REFERENCES users(`userID`),
+        PRIMARY KEY(notID, OrderID, userID)
+    );
 
+CREATE TABLE
+    custom_Cake (
+        id INT(11) PRIMARY KEY AUTO_INCREMENT,
+        `userID` int(11) NOT NULL,
+        CakeName VARCHAR(255) NULL DEFAULT 'Custom Cake',
+        price DECIMAL(10, 2) NOT NULL,
+        quantity INT NULL DEFAULT 0,
+        discount INT(11) NULL DEFAULT 0,
+        FOREIGN KEY (`userID`) REFERENCES users(`userID`) -- FOREIGN KEY (`CakeID`) REFERENCES cakes(`CakeID`)
+    );

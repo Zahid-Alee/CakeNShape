@@ -51,14 +51,14 @@
 
   const addToCart = (CakeID, CakeName, Price, userID) => {
     openCart();
-    console.log(Price, CakeName, CakeID);
+    // console.log(Price, CakeName, CakeID);
     let data = {
       cakeID: CakeID,
       cakeName: CakeName,
       userID: userID,
       price: Price,
       method: 'add'
-    };
+    };  
 
     fetch('Model/handleCart.php', {
       method: 'POST',
@@ -70,7 +70,7 @@
       .then(response => response.text())
       .then(data => {
         console.log('Response:', data);
-        location.reload();
+        // location.reload();
       })
       .catch(error => {
         console.error('Error:', error);

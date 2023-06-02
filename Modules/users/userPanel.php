@@ -14,9 +14,6 @@
     <link rel="stylesheet" href="Modules/users/reviews.css">
     <link rel="stylesheet" href="Modules/users/notification.css">
     <link rel="stylesheet" href="Modules/users/footer.css">
-
-
-
     <title>Document</title>
 </head>
 
@@ -24,11 +21,10 @@
     <?php include('./Modules/users/header.php') ?>
 
     <div class='userPage'>
-        
+
         <?php include('./Modules/users/services.php') ?>
         <?php include('./Modules/users/categories.php') ?>
         <?php include('./Modules/users/products.php') ?>
-        <?php include('./Modules/users/reviews.php') ?>
     </div>
 
     <?php include('./Modules/users/footer.php') ?>

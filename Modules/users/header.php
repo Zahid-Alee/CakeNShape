@@ -16,7 +16,7 @@ $con = new DataSource;
 $queryForCat = 'SELECT * FROM categories ';
 $categories = $con->select($queryForCat);
 
-$queryForCart = 'SELECT * FROM cart inner join cakes on cakes.CakeID=cart.CakeID  where userID=? ';
+$queryForCart = 'SELECT * FROM cart  where userID=? ';
 $queryParam = 's';
 $queryValue = array($userID);
 
@@ -72,7 +72,7 @@ if (!empty($cartItems)) {
       </li>
     </ul>
     </li>
-    <li class=" nav-items">
+    <li class=" nav-items" onclick='openPopup()'>
       <i class="bx bx-cake"></i>
       Custom Design
     </li>
@@ -103,7 +103,7 @@ if (!empty($cartItems)) {
     <!-- Shopping cart table -->
     <div class="card">
       <div class="card-header">
-        <h2 class="d-flex">Shopping Cart
+        <h2 class="d-flex">Cake Cart
           <span class="dismiss-btn" onclick="closeCart()">&times;</span>
         </h2>
       </div>
@@ -210,6 +210,46 @@ if (!empty($cartItems)) {
       </div>
     </div>
   </div>
+
+  
+  <div class="popup">
+    <div class="popup-content">
+      <div class="popup-header">
+        <h2> Order Custom Cake </h2>
+        <span class="close-popup-btn" onclick="closePopup()">&times;</span>
+      </div>
+      <div class="popup-body">
+        <div class="card-body">
+          <form id="cakeInsertionForm" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+              <label for="Weight"><i class="fas fa-weight"></i> Weight (Pounds)</label>
+              <input type="number" class="form-control" name="Weight" max="4" placeholder="Enter cake weight in pounds">
+            </div>
+            <div class="form-group">
+              <label for="Quantity"><i class="fas fa-file"></i> Quantity </label>
+              <input type="number" max="3" class="form-control" name="Quantity" placeholder='Upload Cake Image'>
+            </div>
+            <div class="form-group">
+              <label for="description"><i class="fas fa-weight"></i> Description</label>
+              <textarea class="form-control" name="Description" max="4" placeholder="Enter Cake Description "
+                rows="5"> </textarea>
+            </div>
+            <div class="form-group">
+              <label for="Image"><i class="fas fa-file"></i> Image </label>
+              <input type="file" class="form-control" name="Image" placeholder='Upload Cake Image'>
+            </div>
+
+            <button type="submit" id="submit-btn" class="btn btn-danger closeModalBtn2 "><i
+                class="fas fa-paper-plane"></i> Submit</button>
+          </form>
+
+        </div>
+
+
+      </div>
+
+    </div>
+  </div>
 </header>
 
 <!-- *************************Shopppig Cart**************************** -->
@@ -220,7 +260,16 @@ if (!empty($cartItems)) {
 <script>
   const cartContainer = document.getElementById('cart-container');
   const body = document.body;
+  const popup = document.querySelector('.popup');
 
+  const closePopup = () => {
+    popup.style.display = 'none';
+
+  }
+  const openPopup = () => {
+
+    popup.style.display = 'block';
+  }
   // Check if the page has been reloaded
   if (performance.navigation.type === 1) {
     const isCartOpen = localStorage.getItem('isCartOpen');
@@ -278,7 +327,6 @@ if (!empty($cartItems)) {
       .then(data => {
         console.log('Response:', data);
         location.reload();
-        // window.onload(openCart())
       })
       .catch(error => {
         console.error('Error:', error);
@@ -303,12 +351,34 @@ if (!empty($cartItems)) {
       .then(response => response.text())
       .then(data => {
         console.log('Response:', data);
-        location.reload();
+        // location.reload();
         // openCart();
       })
       .catch(error => {
         console.error('Error:', error);
       });
   }
+
+
+  const form = document.getElementById('cakeInsertionForm');
+    form.addEventListener('submit', submitForm);
+
+    function submitForm(event) {
+        event.preventDefault();
+        const formValues = new FormData(event.target);
+        console.log(formValues)
+        fetch('http://localhost/CakeNShape/Model/customCake.php', {
+                method: 'POST',
+                body: formValues
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log('Success:', data);
+
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
 
 </script>

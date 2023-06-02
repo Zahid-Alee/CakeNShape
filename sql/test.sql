@@ -1,6 +1,10 @@
 CREATE TABLE
-    Categories (
-        `CategoryID` VARCHAR(30) PRIMARY KEY NOT NULL,
-        `CategoryName` VARCHAR(50) NOT NULL,
-        `Image` VARCHAR(200) NOT NULL
-    );
+    Order_Items (
+        `id` INT PRIMARY KEY AUTO_INCREMENT ,
+        `OrderID` INT NUll ,
+        `CakeID` VARCHAR(50)  NULL,
+        `Quantity` INT NOT NULL,
+        `Subtotal` DECIMAL(10, 2) NOT NULL,
+        FOREIGN KEY (`OrderID`) REFERENCES Orders(`OrderID`),
+        FOREIGN KEY (`CakeID`) REFERENCES Cakes(`CakeID`)
+    );  

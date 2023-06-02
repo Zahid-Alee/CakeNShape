@@ -26,9 +26,9 @@
                 $categories = $con->select($query);
                 if (!empty($categories)) {
                     foreach ($categories as $cat) {
-                ?>
+                        ?>
                         <option value="<?php echo $cat['CategoryID']; ?>"><?php echo $cat['CategoryName']; ?></option>
-                <?php
+                        <?php
                     }
                 } else {
                     echo "<strong>No Categories found!</strong>";
@@ -54,7 +54,8 @@
             <input type="file" class="form-control" name="Image">
         </div>
 
-        <button type="submit" id="submit-btn" class="btn btn-danger closeModalBtn2 "><i class="fas fa-paper-plane"></i> Submit</button>
+        <button type="submit" id="submit-btn" class="btn btn-danger closeModalBtn2 "><i class="fas fa-paper-plane"></i>
+            Submit</button>
     </form>
 
 </div>
@@ -68,9 +69,9 @@
         const formValues = new FormData(event.target);
         console.log(formValues)
         fetch('http://localhost/CakeNShape/Model/insertCake.php', {
-                method: 'POST',
-                body: formValues
-            })
+            method: 'POST',
+            body: formValues
+        })
             .then(response => response.text())
             .then(data => {
                 console.log('Success:', data);

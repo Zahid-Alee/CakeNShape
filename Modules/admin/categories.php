@@ -213,7 +213,7 @@
             id: id,
             method: 'delete'
         }
-        fetch('Model/handleCategories.php', {
+        fetch('Model/delCategory.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

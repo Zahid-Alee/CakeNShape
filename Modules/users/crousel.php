@@ -1,26 +1,51 @@
-<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-  <ol class="carousel-indicators">
-    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-  </ol>
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img class="d-block w-100" src="https://cdn.pixabay.com/photo/2023/05/22/10/49/houses-8010401__340.jpg" alt="First slide">
+<div class="carousel">
+  <ul class="slides">
+    <input type="radio" name="radio-buttons" id="img-1" checked />
+    <li class="slide-container">
+      <div class="slide-image">
+        <img src="Modules/users/images/cake-2.jpg">
+      </div>
+      <div class="carousel-controls">
+        <label for="img-3" class="prev-slide">
+          <span>&lsaquo;</span>
+        </label>
+        <label for="img-2" class="next-slide">
+          <span>&rsaquo;</span>
+        </label>
+      </div>
+    </li>
+    <input type="radio" name="radio-buttons" id="img-2" />
+    <li class="slide-container">
+      <div class="slide-image">
+        <img src="Modules/users/images/cake-5.jpg">
+      </div>
+      <div class="carousel-controls">
+        <label for="img-1" class="prev-slide">
+          <span>&lsaquo;</span>
+        </label>
+        <label for="img-3" class="next-slide">
+          <span>&rsaquo;</span>
+        </label>
+      </div>
+    </li>
+    <input type="radio" name="radio-buttons" id="img-3" />
+    <li class="slide-container">
+      <div class="slide-image">
+        <img src="Modules/users/images/cake-6.jpg">
+      </div>
+      <div class="carousel-controls">
+        <label for="img-2" class="prev-slide">
+          <span>&lsaquo;</span>
+        </label>
+        <label for="img-1" class="next-slide">
+          <span>&rsaquo;</span>
+        </label>
+      </div>
+    </li>
+    <div class="carousel-dots">
+      <label for="img-1" class="carousel-dot" id="img-dot-1"></label>
+      <label for="img-2" class="carousel-dot" id="img-dot-2"></label>
+      <label for="img-3" class="carousel-dot" id="img-dot-3"></label>
     </div>
-    <div class="carousel-item">
-      <img class="d-block w-100" src="https://cdn.pixabay.com/photo/2023/05/22/10/49/houses-8010401__340.jpg" alt="Second slide">
-    </div>
-    <div class="carousel-item">
-      <img class="d-block w-100" src="https://cdn.pixabay.com/photo/2023/05/22/10/49/houses-8010401__340.jpg" alt="Third slide">
-    </div>
-  </div>
-  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
+  </ul>
 </div>

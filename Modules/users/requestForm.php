@@ -51,6 +51,8 @@
       .then(response => response.text())
       .then(data => {
         console.log('Success:', data);
+        location.reload();
+
 
       })
       .catch((error) => {

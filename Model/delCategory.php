@@ -17,10 +17,6 @@ class DelCategory
 
     function delCat($categoryID)
     {
-        // Delete record from blood_stock table
-        // Delete cakes with the specified CategoryID
-        // Get the CakeIDs associated with the specified CategoryID
-        // Get the CakeIDs associated with the specified CategoryID
         $query = "SELECT CakeID FROM cakes WHERE CategoryID = ?";
         $paramType = "s";
         $paramValue = array($categoryID); // Replace $categoryID with the actual CategoryID you want to delete

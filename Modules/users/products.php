@@ -8,13 +8,13 @@
 
     $con = new DataSource;
     // Retrieve the cake details based on the CakeID
-    $query = 'SELECT CakeID, CakeName, CategoryName, cakes.CategoryID, MaterialUsed, Flavor, Weight, Price, cakes.Image, Quantity FROM cakes INNER JOIN categories ON categories.CategoryID = cakes.CategoryID ';
+    $query = 'SELECT CakeID, CakeName,cakes.discount ,CategoryName, cakes.CategoryID, MaterialUsed, Flavor, Weight, Price, cakes.Image, Quantity FROM cakes INNER JOIN categories ON categories.CategoryID = cakes.CategoryID ';
 
     $cakes = $con->select($query);
 
     if (!empty($cakes)) {
       foreach ($cakes as $cake) {
-
+        // print_r($cake);
         ?>
 
         <div class="card">
@@ -25,18 +25,26 @@
           <div class="card-category"><i class="bx bx-category"></i>
             <?php echo $cake['CategoryName'] ?>
           </div>
-          <div class="card-price"><i class="bx bx-dollar"></i>
+          <div class="card-price"><Strong>Rs: </Strong>
             <?php echo $cake['Price'] ?>
           </div>
-          <div class="card-discount"><i class="fa fa-tag"></i> 10% off</div>
-          <button class="add-to-cart"
-            onClick="addToCart('<?php echo $cake['CakeID'] ?>', '<?php echo $cake['CakeName'] ?>', '<?php echo $cake['Price'] ?>','<?php echo $_SESSION['userID'] ?>')">Add
-            to Cart</button>
+          <div class="card-discount"><i class="fa fa-tag"></i>
+            <?php echo 'Rs. ' . $cake['discount'] ?> off
+          </div>
+
+          <?php if ($isLogin) { ?>
+            <button class="add-to-cart"
+              onClick="addToCart('<?php echo $cake['CakeID'] ?>', '<?php echo $cake['CakeName'] ?>', '<?php echo $cake['Price'] ?>','<?php echo $_SESSION['userID'] ?>')">Add
+              to Cart</button>
+          <?php } else { ?>
+            <button class="add-to-cart" onClick="location.href='login.php'">Login to Add to Cart</button>
+          <?php } ?>
         </div>
+
         <?php
       }
     } else {
-      echo "<strong>No cake found</strong>";
+      echo "<strong>No cakes</strong>";
     }
 
     ?>
@@ -58,7 +66,7 @@
       userID: userID,
       price: Price,
       method: 'add'
-    };  
+    };
 
     fetch('Model/handleCart.php', {
       method: 'POST',
@@ -70,7 +78,7 @@
       .then(response => response.text())
       .then(data => {
         console.log('Response:', data);
-        // location.reload();
+        location.reload();
       })
       .catch(error => {
         console.error('Error:', error);

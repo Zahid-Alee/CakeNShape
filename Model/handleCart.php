@@ -38,21 +38,22 @@ class HandleCart
         // If donation_id does not exist, insert new record and return success message
         else {
             echo 'inserting cart';
-            $query = 'SELECT Image FROM cakes WHERE CakeID = ?';
+            $query = 'SELECT * FROM cakes WHERE CakeID = ?';
             $paramType = 's';
             $paramValue = array($data['cakeID']);
             $result = $this->conn->select($query, $paramType, $paramValue);
 
             if ($result) {
                 $imagePath = $result[0]['Image']; // Assuming Image is the column name in the cakes table
-
-                $query = 'INSERT INTO cart (CakeID, userID, CakeName, price, quantity, total, Image) VALUES (?, ?, ?, ?, ?, ?, ?)';
-                $paramType = 'sisssss';
+                $discount = $result[0]['discount'];
+                $query = 'INSERT INTO cart (CakeID, userID, CakeName, price,discount, quantity, total, Image) VALUES (?, ?, ?, ?, ?,?, ?, ?)';
+                $paramType = 'sissssss';
                 $paramValue = array(
                     $data['cakeID'],
                     $data['userID'],
                     $data['cakeName'],
                     $data['price'],
+                    $discount,
                     1,
                     $data['price'],
                     $imagePath

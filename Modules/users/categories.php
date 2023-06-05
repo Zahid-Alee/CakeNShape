@@ -27,10 +27,7 @@
             $queryParam = 's';
             $queryValue = array($category['CategoryID']);
             $count = $con->select($query, $queryParam, $queryValue);
-            if (!empty($count)) {
-              $totalCakes = count($count);
-
-            }
+            $totalCakes = !empty($count) ? count($count) : 0;
             ?>
             <div class="items">
               Total Cakes :
@@ -40,15 +37,14 @@
               <h3>
                 <?php echo $category['CategoryName'] ?>
               </h3>
-              <a href="Modules/users/shopByCategory.php?CategoryID=<?php echo $category['CategoryID']; ?>"><button
-                  class='btn btn-success'>Shop Now</button></a>
+              
             </div>
           </div>
         </div>
         <?php
       }
     } else {
-      echo "<strong>No cake found</strong>";
+      echo "<strong>No cakes found</strong>";
     }
 
     ?>

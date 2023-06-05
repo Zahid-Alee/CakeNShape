@@ -37,26 +37,71 @@ class HandleOrders
 
     function acceptOrder($data)
     {
-        $query = "UPDATE orders SET OrderStatus = 'approved' WHERE OrderID = ?";
+        $orderID = $data['orderID'];
+    
+        // Check if there is sufficient quantity for the cakes in the order
+        $query = "SELECT oi.CakeID, oi.Quantity, c.Quantity AS AvailableQuantity
+                  FROM Order_Items AS oi
+                  JOIN Cakes AS c ON oi.CakeID = c.CakeID
+                  WHERE oi.OrderID = ?";
         $paramType = "i"; // Change "s" to "i" for integer
-        $paramValue = array($data['orderID']);
-        $acceptedOrder = $this->conn->update($query, $paramType, $paramValue);
-        $notID = $this->createAdminNotification($data);
-
-        if (!empty($acceptedOrder) && !empty($notID)) {
-            $response = array(
-                "status" => "success",
-                "message" => "Updated successfully"
-            );
-        } else {
+        $paramValue = array($orderID);
+        $orderItems = $this->conn->select($query, $paramType, $paramValue);
+    
+        $insufficientQuantity = false;
+    
+        foreach ($orderItems as $orderItem) {
+            $cakeID = $orderItem['CakeID'];
+            $quantity = $orderItem['Quantity'];
+            $availableQuantity = $orderItem['AvailableQuantity'];
+    
+            if ($quantity > $availableQuantity) {
+                $insufficientQuantity = true;
+                break;
+            }
+        }
+    
+        if ($insufficientQuantity) {
             $response = array(
                 "status" => "error",
-                "message" => "Update failed try again later"
+                "message" => "Insufficient quantity for one or more cakes in the order"
             );
+        } else {
+            // Update the order status to 'approved'
+            $query = "UPDATE Orders SET OrderStatus = 'approved' WHERE OrderID = ?";
+            $paramType = "i"; // Change "s" to "i" for integer
+            $paramValue = array($orderID);
+            $this->conn->update($query, $paramType, $paramValue);
+    
+            // Update the cake quantities
+            foreach ($orderItems as $orderItem) {
+                $cakeID = $orderItem['CakeID'];
+                $quantity = $orderItem['Quantity'];
+    
+                $query = "UPDATE Cakes SET Quantity = Quantity - ? WHERE CakeID = ?";
+                $paramType = "is"; // Change "ss" to "is" for integer and string
+                $paramValue = array($quantity, $cakeID);
+                $this->conn->update($query, $paramType, $paramValue);
+            }
+    
+            $notID = $this->createAdminNotification($data);
+    
+            if (!empty($notID)) {
+                $response = array(
+                    "status" => "success",
+                    "message" => "Order accepted and updated successfully"
+                );
+            } else {
+                $response = array(
+                    "status" => "error",
+                    "message" => "Failed to create admin notification"
+                );
+            }
         }
-
+    
         return $response;
     }
+    
 
     function deleteOrder($data)
     {

@@ -3,7 +3,7 @@
   <span class="logo_name">Cake N Shape</span>
 </div>
 <ul class="nav-links">
-  <li>
+  <!-- <li>
     <a href="?link=dashboard">
       <i class='bx bx-grid-alt'></i>
       <span class="link_name">DashBoard</span>
@@ -11,7 +11,7 @@
     <ul class="sub-menu blank">
       <li><a class="link_name" href="?link=dashboard">DashBoard</a></li>
     </ul>
-  </li>
+  </li> -->
 
   <li>
     <a href="?link=categories">

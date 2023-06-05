@@ -1,67 +1,61 @@
-<section class="reviews">
-  <h2>Customer Reviews</h2>
-  <div class="reviews-container">
+<section class="testimonial text-center">
+  <div class="container">
 
-    <?php
-    use DataSource\DataSource;
+    <div class="heading text-light">
+      Customer Reviews
+    </div>
+    <div id="testimonial4" class="carousel slide text-dark" data-ride="carousel">
 
-    require_once __DIR__ . '../../../lib/DataSource.php';
-
-    $con = new DataSource;
-    // Retrieve the cake details based on the CakeID
-    $query = 'SELECT feedback.userID,FeedbackText,FeedbackDate,username from feedback inner join users on feedback.userID=users.userID';
-
-    $reviews = $con->select($query);
-
-    if (!empty($reviews)) {
-      foreach ($reviews as $review) {
-
-        ?>
-
-
-        <div class="review">
-          <div class="user">
-            <div class="user-image">
-              <img src="https://cdn.pixabay.com/photo/2014/04/03/11/47/avatar-312160_640.png" alt="User 2" />
-
-            </div>
-            <div class="user-info">
-              <p class="name">
-                <?php echo $review['username'] ?>
-              </p>
-              <p class="date">
-                <i class="far fa-calendar-alt"></i>
-                <?php echo $review['FeedbackDate'] ?>
-              </p>
-            </div>
-          </div>
-          <!-- <div class="rating">
-            <div class="stars">
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="far fa-star"></i>
-            </div>
-            <p class="score">4/5</p>
-          </div> -->
-          <p class="message">
-            <?php echo $review['FeedbackText'] ?>
-          </p>
-        </div>
-
-
-
-
+      <div class="carousel-inner" role="listbox">
 
         <?php
-      }
-    } else {
-      echo "<strong>No Reviews Yet</strong>";
-    }
+        use DataSource\DataSource;
 
-    ?>
+        require_once __DIR__ . '../../../lib/DataSource.php';
 
+        $con = new DataSource;
+        // Retrieve the reviews from the feedback table
+        $query = 'SELECT feedback.userID,FeedbackText,FeedbackDate,username from feedback inner join users on feedback.userID=users.userID';
+
+        $reviews = $con->select($query);
+
+        if (!empty($reviews)) {
+          $active = true;
+          foreach ($reviews as $review) {
+            $testimonialClass = ($active) ? 'carousel-item active' : 'carousel-item';
+            ?>
+
+            <div class="<?php echo $testimonialClass; ?>">
+              <div class="testimonial4_slide">
+                <img src="https://i.ibb.co/8x9xK4H/team.jpg" class="img-circle img-responsive" />
+                <p>
+                  <?php echo $review['FeedbackText']; ?>
+                </p>
+                <h4>
+                  <?php echo $review['username']; ?>
+                </h4>
+              </div>
+            </div>
+
+            <?php
+            $active = false;
+          }
+        } else {
+          echo "<div class='carousel-item active'>
+                  <div class='testimonial4_slide'>
+                    <p>No Reviews Yet</p>
+                  </div>
+                </div>";
+        }
+        ?>
+
+      </div>
+      <a class="carousel-control-prev" href="#testimonial4" data-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </a>
+      <a class="carousel-control-next" href="#testimonial4" data-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </a>
+    </div>
   </div>
-
 </section>

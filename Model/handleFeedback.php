@@ -9,17 +9,18 @@ class HandleFeedback
 
     function __construct()
     {
-
         require_once __DIR__ . '/../lib/DataSource.php';
         $this->conn = new DataSource();
     }
+
     function insertFeedback($data)
     {
+        $feedbackID = uniqid('feedback-');
 
-        // Delete record from blood_stock table
-        $query = "INSERT INTO  feedback (userID,FeedbackText) VALUE(?,?) ";
-        $paramType = "is";
-        $paramValue = array($data['userID'], $data['message']);
+        // Insert record into the feedback table
+        $query = "INSERT INTO feedback (FeedbackID, email, username, phone, FeedbackText) VALUES (?, ?, ?, ?, ?)";
+        $paramType = "sssss";
+        $paramValue = array($feedbackID, $data['email'], $data['username'], $data['phone'], $data['message']);
         $feedID = $this->conn->insert($query, $paramType, $paramValue);
 
         if (!empty($feedID)) {
@@ -30,7 +31,7 @@ class HandleFeedback
         } else {
             $response = array(
                 "status" => "error",
-                "message" => "There was and error inserting Feedback."
+                "message" => "There was an error inserting feedback."
             );
         }
 
@@ -40,13 +41,8 @@ class HandleFeedback
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = $_POST;
-    print_r($data);
-      $feed = new HandleFeedback;
+    $feed = new HandleFeedback;
     $response = $feed->insertFeedback($data);
 
     echo json_encode($response);
 }
-
-  
-
-

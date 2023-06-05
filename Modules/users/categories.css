@@ -1,64 +1,62 @@
 .category-container {
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 300px));
-    gap: 1%;
-    align-items: center;
-    justify-content: center;
-    /* margin: auto; */
-  }
-  
-  .category {
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05), 0 1px 3px 1px rgba(0, 0, 0, 0.08);
-    border: 1px solid #d9d9d9;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    /* max-width: 300px; */
-  }
-  
-  .category .tag {
-    font-size: 25px;
-    color: #059100;
-    /* position: relative; */
-    align-self: flex-start;
-    /* left: 0; */
-    /* top: -10px; */
-  }
-  
-  .details {
-    margin-top: 50px;
-    text-align: center;
-  }
-  
-  .details h3 {
-    font-size: 20px;
-    font-weight: 600;
-    color: #761f3c;
-    padding: 10px;
-  }
-  
-  .details .items {
-    /* color: #06b300; */
-    border-radius: 2px;
-    font-weight: 700;
-  }
-  
-  .category .img {
-    height: 200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .category img {
-    width: 200px;
-    border-radius: 50%;
-    height: 200px;
-    border: 3px solid palevioletred;
-    align-self: flex-end;
-    /* height: 200px; */
-  }
-  
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 300px));
+  gap: 1%;
+  align-items: center;
+  justify-content: center;
+}
+
+.category {
+  border: 1px solid #d9d9d9;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid black;
+  box-shadow: 2px 4px 5px black;
+}
+
+.category:hover {
+  box-shadow: 4px 2px 5px black;
+}
+
+.category .tag {
+  font-size: 25px;
+  color: #059100;
+  align-self: flex-start;
+}
+
+.details {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.details h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #761f3c;
+  padding: 10px;
+}
+
+.details .items {
+  border-radius: 2px;
+  font-weight: 700;
+}
+
+.category .img {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.category img {
+  width: 200px;
+  border-radius: 50%;
+  height: 200px;
+  border: 3px solid palevioletred;
+  align-self: flex-end;
+}

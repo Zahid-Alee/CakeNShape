@@ -26,8 +26,8 @@ class CakesInsertion
             // Move the uploaded image to the desired directory
             if (move_uploaded_file($image['tmp_name'], $imagePath)) {
                 // Image uploaded successfully
-                $query = 'INSERT INTO cakes (CakeID, CakeName, CategoryID, MaterialUsed, Flavor, Weight, Price, Image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-                $paramType = 'ssssssss';
+                $query = 'INSERT INTO cakes (CakeID, CakeName, CategoryID, MaterialUsed, Flavor, Weight, Price,Quantity,discount, Image) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?)';
+                $paramType = 'ssssssssss';
                 $paramValue = array(
                     $_POST['CakeID'],
                     $_POST['CakeName'],
@@ -36,6 +36,8 @@ class CakesInsertion
                     $_POST['Flavor'],
                     $_POST['Weight'],
                     $_POST['Price'],
+                    $_POST['Quantity'],
+                    $_POST['Discount'],
                     $imagePath
                 );
 

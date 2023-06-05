@@ -1,13 +1,18 @@
 <?php
 use DataSource\DataSource;
 
-session_start();
-$userName = $_SESSION['username'];
-$loggedInUserID = $_SESSION['userID'];
 $totalBill = 0;
 $totalDiscount = 0;
 $checkCart = false;
 $checkNotifications = false;
+$loggedInUserID = null;
+
+if ($isLogin) {
+  session_start();
+  $loggedInUserID = $_SESSION['userID'];
+} else {
+
+}
 
 require_once __DIR__ . '../../../lib/DataSource.php';
 
@@ -16,11 +21,9 @@ $con = new DataSource;
 $queryForCat = 'SELECT * FROM categories ';
 $categories = $con->select($queryForCat);
 
-$queryForCart = 'SELECT * FROM cart  where userID=? ';
+$queryForCart = 'SELECT * FROM cart    where userID=? ';
 $queryParam = 's';
-$queryValue = array($userID);
-
-// Assuming you have the logged-in user's ID stored in the session
+$queryValue = array($loggedInUserID);
 
 $query = "SELECT * FROM user_notifications WHERE userID = ?";
 $paramType = "i";
@@ -42,12 +45,12 @@ if (!empty($cartItems)) {
 ?>
 
 <header>
-  <div class="header-bg">
-    <img src="" alt="">
+  <div class="header-bg ">
+    <img src="Modules/users/images/headerBg.png" alt="">
   </div>
-  <nav class="nav-bar">
+  <nav class="nav-bar py-2">
     <ul class="navigation">
-      <li class="nav-items"><i class="fas fa-home"></i> Home</li>
+      <li class="nav-items"><i class="bx bx-home"></i> Home</li>
       <li class="nav-items dropdown" onclick='toggleCat()'>
         <i class="bx bx-category"></i>
         <a href="#">Categories</a>
@@ -68,31 +71,59 @@ if (!empty($cartItems)) {
             echo "<strong>No cake found</strong>";
           }
           ?>
-<li id=" cat-overlay" onclick='closeCart()'>
+<li class=" cat-overlay" onclick='closeCart()'>
       </li>
     </ul>
     </li>
-    <li class=" nav-items" onclick='openPopup()'>
-      <i class="bx bx-cake"></i>
-      Custom Design
-    </li>
-    <li class="nav-items">
-      <i class="bx bx-party"></i> See Out Creations
-    </li>
-    <li id="notifications">
-      <a style="position:relative;" href="Modules/users/notifications.php"><i class="fas fa-bell px-1"> </i>
-        Notifications <span class="count" style="left:117px">
+    <?php if ($isLogin) { ?>
+      <li class=" nav-items" onclick='openPopup()'>
+        <i class="bx bx-cake"></i>
+        Custom Cakes
+      </li>
+    <?php } else { ?>
+      <a class=" nav-items text-light" href='login.php'>
+        <i class="bx bx-cake"></i>
+        Custom Cakes
+      </a>
+    <?php } ?>
 
-          <?php echo $notCount ?>
-        </span></a>
-
-    </li>
-    <a class="nav-items" href="logout.php">
-      <i class="bx bx-logout"></i>
-      <?php echo $userName ?>
+    <a href="Modules/users/ourCreations.php" class='text-light'>
+      <li class="nav-items">
+        <i class="bx bx-party"></i> See Our Creations
+      </li>
     </a>
+    <?php if ($isLogin) { ?>
+      <li id="notifications">
+        <a style="position:relative;" href="Modules/users/notifications.php"><i class="fas fa-bell px-1"> </i>
+          Notifications <span class="count" style="left:117px">
+
+            <?php echo $notCount ?>
+          </span></a>
+
+      </li>
+    <?php } else { ?>
+      <li id="notifications">
+        <a style="position:relative;" href="login.php"><i class="bx bx-bell px-1"> </i>
+          Notifications <span class="count" style="left:117px">
+
+            <?php echo $notCount ?>
+          </span></a>
+
+      </li>
+    <?php } ?>
+    <?php if ($isLogin) {
+      echo "<a class='nav-items text-light text-center' href='logout.php'>
+     <i class='bx bx-log-out'></i> $username
+    </a>";
+    } else {
+      echo "<a class='nav-items text-light' href='login.php'>
+      <i class='bx bx-log-in'></i> Login
+     </a>";
+    }
+    ?>
+
     <li id="cart-icon">
-      <span <i class="fas fa-shopping-cart"></i></span>
+      <span><i class="bx bx-cart text-lg"></i></span>
       <span id="cart-count" class="count">
         <?php echo $cartCount ?>
       </span>
@@ -131,6 +162,7 @@ if (!empty($cartItems)) {
                   $totalBill = $totalBill + $item['total'];
                   $totalDiscount = $totalDiscount + $item['discount'];
                   $userID = $item['userID'];
+                  $totalBill = $totalBill - $totalDiscount;
                   ?>
                   <tr>
                     <td class="p-4">
@@ -198,7 +230,7 @@ if (!empty($cartItems)) {
           </div>
         <?php } ?>
         <div class="float-right">
-          <button type="button" class="btn  mt-2 mr-3 back-to-shopping-btn" onclick="closeCart()">
+          <button type="button" class="btn btn-success  mt-2 mr-3 back-to-shopping-btn" onclick="closeCart()">
             Back to shopping
           </button>
           <?php if ($checkCart) {
@@ -211,12 +243,12 @@ if (!empty($cartItems)) {
     </div>
   </div>
 
-  
+
   <div class="popup">
     <div class="popup-content">
       <div class="popup-header">
         <h2> Order Custom Cake </h2>
-        <span class="close-popup-btn" onclick="closePopup()">&times;</span>
+        <span class="close-btn" style="cursor:pointer; font-size:20px;" onclick="closePopup()">&times;</span>
       </div>
       <div class="popup-body">
         <div class="card-body">
@@ -230,7 +262,7 @@ if (!empty($cartItems)) {
               <input type="number" max="3" class="form-control" name="Quantity" placeholder='Upload Cake Image'>
             </div>
             <div class="form-group">
-              <label for="description"><i class="fas fa-weight"></i> Description</label>
+              <label for="description"><i class="bx  bx-message"></i> Description</label>
               <textarea class="form-control" name="Description" max="4" placeholder="Enter Cake Description "
                 rows="5"> </textarea>
             </div>
@@ -254,7 +286,15 @@ if (!empty($cartItems)) {
 
 <!-- *************************Shopppig Cart**************************** -->
 
+<style>
 
+  i{
+    font-weight: bold;
+    font-size: 20px;
+    vertical-align: middle;
+    text-align: center;
+  }
+  </style>
 
 
 <script>
@@ -351,7 +391,7 @@ if (!empty($cartItems)) {
       .then(response => response.text())
       .then(data => {
         console.log('Response:', data);
-        // location.reload();
+        location.reload();
         // openCart();
       })
       .catch(error => {
@@ -361,24 +401,25 @@ if (!empty($cartItems)) {
 
 
   const form = document.getElementById('cakeInsertionForm');
-    form.addEventListener('submit', submitForm);
+  form.addEventListener('submit', submitForm);
 
-    function submitForm(event) {
-        event.preventDefault();
-        const formValues = new FormData(event.target);
-        console.log(formValues)
-        fetch('http://localhost/CakeNShape/Model/customCake.php', {
-                method: 'POST',
-                body: formValues
-            })
-            .then(response => response.text())
-            .then(data => {
-                console.log('Success:', data);
+  function submitForm(event) {
+    event.preventDefault();
+    const formValues = new FormData(event.target);
+    console.log(formValues)
+    fetch('http://localhost/CakeNShape/Model/customCake.php', {
+      method: 'POST',
+      body: formValues
+    })
+      .then(response => response.text())
+      .then(data => {
+        console.log('Success:', data);
+        location.reload();
 
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-    }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
 
 </script>

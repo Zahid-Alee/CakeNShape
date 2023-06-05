@@ -8,6 +8,7 @@
 body{
   width: 100%;
   overflow-x: hidden;
+  position: relative;
 }
 .section-title{
 
@@ -16,6 +17,7 @@ body{
   text-align: center;
   text-transform: capitalize;
   padding: 10px;
+  /* color: white; */
 }
 
 .userPage{
@@ -25,7 +27,27 @@ body{
   width: 100vw;
   flex-direction: column;
   gap: 70px;
+  /* position: relative; */
+  /* background:linear-gradient(); */
+  /* background-image: linear-gradient(45deg, #ee9ca7 0%, #ffdde1 100%); */
+  /* background-image: linear-gradient(to right, #ffc3a0 0%, #ffafbd 100%); */
+  /* background-image: linear-gradient(-45deg, #FFC796 0%, #FF6B95 100%); */
+  /* background-image: linear-gradient(to top, #dfe9f3 0%, white 100%); */
+  background-color: ghostwhite;
+
+  /* background-image: linear-gradient(to top, #ff0844 0%, #ffb199 100%); */
+  /* background-image: linear-gradient(to top, #9795f0 0%, #fbc8d4 100%); */
 }
+/* .userPage::before{
+  content: '';
+  position: absolute;
+  background: url('images/body-bg-1.jpg') center center/cover;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: -1;
+} */
 
 .reviews {
   display: flex;

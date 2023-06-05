@@ -12,9 +12,17 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js">
-  </script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <title>Document</title>
+  <style>
+    .order-details {
+      display: none;
+    }
+
+    .order-details.show {
+      display: block;
+    }
+  </style>
 </head>
 
 <body>
@@ -65,7 +73,7 @@
 
           ?>
 
-          <div class="container">
+          <div class="container my-5">
             <div class="card notification-box">
               <div class="card-header">
                 <h5 class="card-title">
@@ -107,6 +115,9 @@
                     <?php echo $orderStatus; ?>
                   </p>
                 </div>
+                <div class="text-center mt-3 toggle-icon"  onclick="toggleOrderDetails(this)">
+                  <i class="fa fa-chevron-down toggle-details"></i>
+                </div>
               </div>
             </div>
           </div>
@@ -122,10 +133,13 @@
     ?>
   </div>
 
-
   <script>
-    const delNotification = (notID) => {
+    function toggleOrderDetails(icon) {
+      var orderDetails = icon.parentElement.parentElement.querySelector('.order-details');
+      orderDetails.classList.toggle('show');
+    }
 
+    const delNotification = (notID) => {
       fetch('/CakeNShape/Model/handleNotification.php', {
         method: 'POST',
         headers: {
@@ -141,11 +155,8 @@
         .catch(error => {
           console.error('Error:', error);
         });
-
     }
   </script>
-
-
 </body>
 
 </html>

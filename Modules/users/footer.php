@@ -1,12 +1,14 @@
 <?php
-$userID = $_SESSION['userID'] ?>
+$isLogin ?
+    $userID = $_SESSION['userID'] : $userID = null;
+?>
 <footer>
     <div class="main-content">
         <div class="left box">
             <h2>About us</h2>
             <div class="content">
-                <p>CodinNepal is a YouTube channel where you can learn web designing, web development, ui/ux designing,
-                    html css tutorial, hover animation and effects, javascript and jquery tutorial and related so on.
+                <p>Cake N Shape Offers you a variety of delecious cakes and good customer service, Other than that you
+                    can order custom cakes of your choice Which makes your event Special.
                 </p>
                 <div class="social">
                     <a href="https://facebook.com/coding.np"><span class="fab fa-facebook-f"></span></a>
@@ -22,7 +24,7 @@ $userID = $_SESSION['userID'] ?>
             <div class="content">
                 <div class="place">
                     <span class="fas fa-map-marker-alt"></span>
-                    <span class="text">Birendranagar, Surkhet</span>
+                    <span class="text">Vehari, University Town</span>
                 </div>
                 <div class="phone">
                     <span class="fas fa-phone-alt"></span>
@@ -30,15 +32,15 @@ $userID = $_SESSION['userID'] ?>
                 </div>
                 <div class="email">
                     <span class="fas fa-envelope"></span>
-                    <span class="text">abc@example.com</span>
+                    <span class="text">CakeNShape@example.com</span>
                 </div>
             </div>
         </div>
 
-        <div class="right box">
-            <h2>Contact us</h2>
+        <!-- <div class="right box">
+            <h2>Give Review</h2>
             <div class="content">
-                <form id="feedbackForm">
+                <form id="feedback" >
                     <input type="text" name="userID" value="<?php echo $userID ?>" hidden>
                     <div class="msg">
                         <div class="text">Message *</div>
@@ -49,11 +51,11 @@ $userID = $_SESSION['userID'] ?>
                     </div>
                 </form>
             </div>
-        </div>
+        </div> -->
     </div>
     <div class="bottom">
         <center>
-            <span class="credit">Created By <a href="mailto:zahid177617@gmail.com">Zahid Ali</a> | </span>
+            <span class="credit">Created By <a href="mailto:zahid177617@gmail.com"> Cake N Shape</a> | </span>
             <span class="far fa-copyright"></span><span> 2023 All rights reserved.</span>
         </center>
     </div>
@@ -61,7 +63,7 @@ $userID = $_SESSION['userID'] ?>
 
 <script>
 
-    const form = document.getElementById('feedbackForm');
+    const form = document.getElementById('feedback');
     form.addEventListener('submit', submitForm);
 
     function submitForm(event) {
@@ -75,7 +77,7 @@ $userID = $_SESSION['userID'] ?>
             .then(response => response.text())
             .then(data => {
                 console.log('Success:', data);
-                location.reload();
+                // location.reload();
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -83,3 +85,5 @@ $userID = $_SESSION['userID'] ?>
     }
 
 </script>
+
+

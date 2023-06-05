@@ -3,17 +3,17 @@
         <input type="text" name="CakeID" value="<?php echo uniqid('cake-') ?>" hidden>
 
         <div class="form-group">
-            <label for="CakeName"><i class="fas fa-user"></i> Cake Name</label>
-            <input type="text" class="form-control" name="CakeName" placeholder="Enter cake name">
+            <label for="CakeName"> Cake Name</label>
+            <input type="text" class="form-control" name="CakeName" placeholder="Enter cake name" required>
         </div>
         <div class="form-group">
-            <label for="MaterialUsed"><i class="fas fa-male"></i> Material Used</label>
-            <input type="text" class="form-control" name="MaterialUsed" placeholder="Enter material used">
+            <label for="MaterialUsed"> Material Used</label>
+            <input type="text" class="form-control" name="MaterialUsed" placeholder="Enter material used" required>
         </div>
 
         <div class="form-group">
-            <label for="CategoryID"><i class="fas fa-notes-medical"></i> Category</label>
-            <select class="form-control" name="CategoryID">
+            <label for="CategoryID"> Category</label>
+            <select class="form-control" name="CategoryID" required>
                 <option value="" disabled selected>Select Category</option>
 
                 <?php
@@ -38,20 +38,28 @@
         </div>
 
         <div class="form-group">
-            <label for="Weight"><i class="fas fa-male"></i> Weight</label>
-            <input type="number" class="form-control" name="Weight" placeholder="Enter cake weight in grams">
+            <label for="Weight"> Weight</label>
+            <input type="number" class="form-control" name="Weight" required placeholder="Enter cake weight in grams">
         </div>
         <div class="form-group">
-            <label for="Flavor"><i class="fas fa-male"></i> Flavor</label>
-            <input type="text" class="form-control" name="Flavor" placeholder="Enter cake flavor">
+            <label for="Flavor"> Flavor</label>
+            <input type="text" class="form-control" name="Flavor" placeholder="Enter cake flavor" required>
         </div>
         <div class="form-group">
-            <label for="Price"><i class="fas fa-price"></i> Price</label>
-            <input type="number" class="form-control" name="Price" placeholder="Enter cake price">
+            <label for="Price"> Price</label>
+            <input type="number" class="form-control" name="Price" placeholder="Enter cake price" required>
         </div>
         <div class="form-group">
-            <label for="Image"><i class="fas fa-file"></i> Image</label>
-            <input type="file" class="form-control" name="Image">
+            <label for="Quantity"> Quantity</label>
+            <input type="number" class="form-control" name="Quantity" placeholder="Enter cake price" required>
+        </div>
+        <div class="form-group">
+            <label for="Discount"> Discount</label>
+            <input type="number" class="form-control" name="Discount" placeholder="Enter cake price" required>
+        </div>
+        <div class="form-group">
+            <label for="Image"> Image</label>
+            <input type="file" class="form-control" name="Image" required>
         </div>
 
         <button type="submit" id="submit-btn" class="btn btn-danger closeModalBtn2 "><i class="fas fa-paper-plane"></i>
@@ -75,6 +83,7 @@
             .then(response => response.text())
             .then(data => {
                 console.log('Success:', data);
+                location.reload();
 
             })
             .catch((error) => {

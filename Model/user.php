@@ -133,14 +133,14 @@ class user
                 $password = $_POST["login-password"];
             }
             $hashedPassword = $userRecord[0]["password"];
-            $loginPassword = 0;
+            $loginPassword = false;
             if (password_verify($password, $hashedPassword)) {
-                $loginPassword = 1;
+                $loginPassword = true;
             }
         } else {
-            $loginPassword = 0;
+            $loginPassword = false;
         }
-        if ($loginPassword == 1) {
+        if ($loginPassword == true) {
             // login sucess so store the user's username in
             // the session
             session_start();

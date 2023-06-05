@@ -3,19 +3,9 @@
 
 $userID = $_SESSION['userID']; ?>
 
-<div class="alerts-notifications">
-    <div id="success-alert" class="alert alert-success alert-dismissible fade show d-none" role="alert">
-        Success message here
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-
-    <div id="error-alert" class="alert alert-danger alert-dismissible fade show d-none" role="alert">
-        Not Enough Blood For This Blood Type
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-</div>
+<!--  -->
 <table class="table table-striped table-bordered">
-    <h3 class="page-heading">Cake Inventory</h3>
+    <h3 class="page-heading">Cake Orders</h3>
     <thead class="thead-dark">
         <tr>
             <th scope="col" class='text-center'><i class="fa fa-user px-2"></i>Customer Name</th>
@@ -23,8 +13,6 @@ $userID = $_SESSION['userID']; ?>
             <th scope="col" class='text-center'><i class="bx bx-credit-card px-2"></i>PaymentMethod</th>
             <th scope="col" class='text-center'><i class="bx bx-calendar px-2"></i>Order Date</th>
             <th scope="col" class='text-center'><i class="bx bx-calendar px-2"></i>DeliveryDate? Date</th>
-            <!-- <th scope="col" class='text-center'><i class="fas fa-tint"></i>Total </th> -->
-            <!-- <th scope="col" class='text-center'><i class="fas fa-dollar-sign"></i> Date</th> -->
             <th scope="col" class='text-center'><i class="fas fa-cog px-2"></i>Action</th>
         </tr>
     </thead>
@@ -101,7 +89,7 @@ $userID = $_SESSION['userID']; ?>
             .then(response => response.text())
             .then(data => {
                 console.log('Response:', data);
-                // location.reload();
+                location.reload();
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -124,7 +112,7 @@ $userID = $_SESSION['userID']; ?>
             .then(response => response.text())
             .then(data => {
                 console.log('Response:', data);
-                // location.reload();
+                location.reload();
             })
             .catch(error => {
                 console.error('Error:', error);

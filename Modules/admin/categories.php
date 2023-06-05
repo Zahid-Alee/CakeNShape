@@ -141,7 +141,7 @@
     <div id="donation-popup" class="popup">
         <div class="popup-content">
             <div class="popup-header">
-                <h2>inset Category Form</h2>
+                <h2>Insert Category</h2>
                 <span class="close-popup-btn" onclick="closePopup()">&times;</span>
             </div>
             <div class="popup-body">
@@ -150,7 +150,7 @@
                     <input type="text" name='CategoryID' value='<?php echo uniqid('cat-') ?>' hidden>
 
                     <div class="form-group">
-                        <label for="CategoryName"><i class="fas fa-male"></i> Cateogry name</label>
+                        <label for="CategoryName"><i class="bx bx-category"></i> Cateogry name</label>
                         <input type="text" class="form-control" name="CategoryName" placeholder="Enter Category Name">
                     </div>
                     <div class="form-group">
@@ -200,7 +200,7 @@
             .then(response => response.text())
             .then(data => {
                 console.log('Success:', data);
-                // location.reload();
+                location.reload();
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -223,7 +223,7 @@
             .then(response => response.text())
             .then(data => {
                 console.log('Success:', data);
-                // location.reload();
+                location.reload();
             })
             .catch(error => {
                 console.error('Error:', error);

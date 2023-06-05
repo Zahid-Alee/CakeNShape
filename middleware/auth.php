@@ -17,11 +17,7 @@ class AuthMiddleware
             return $username;
             // exit;
         } else {
-            // since the username is not set in session, the user is not-logged-in
-            // he is trying to access this page unauthorized
-            // so let's clear all session variables and redirect him to login
-            // self::logout();
-            // header('Location:','./logout.php');
+            
             return false;
             exit;
         }

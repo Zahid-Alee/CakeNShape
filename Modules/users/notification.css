@@ -1,3 +1,15 @@
+
+*{
+  transition: all .3s !important ;
+
+}
+body {
+  background-color:gainsboro !important;
+}
+
+
+
+
 .card-title {
   margin-bottom: 0.5rem;
   display: flex;
@@ -33,4 +45,23 @@
 }
 .bold{
   font-weight: bold;
+}
+
+
+.toggle-icon{
+  cursor: pointer;
+  background-color: gray;
+  color: whitesmoke;
+  font-weight: 700;
+  font-size: 20px;
+  border-radius: 50%;
+  width: fit-content; 
+  margin: auto;
+  height: 35px;
+  width: 35px;
+}
+.toggle-icon i{
+
+  text-align: center;
+  vertical-align: middle;
 }

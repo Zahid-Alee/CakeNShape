@@ -27,7 +27,7 @@ Create Table
         `MaterialUsed` VARCHAR(100) NOT NULL,
         `Flavor` VARCHAR(50) NOT NULL,
         `Weight` INT NOT NULL,
-        `Quantity` INT NOT NULL,
+        `Quantity` INT NOT NULL DEFAULT 1,
         `Price` DECIMAL(10, 2) NOT NULL,
         `discount` INT(11) NULL DEFAULT 0,
         `Image` VARCHAR(200) NOT NULL,
@@ -71,7 +71,7 @@ CREATE TABLE
         `Subtotal` DECIMAL(10, 2) NOT NULL,
         FOREIGN KEY (`OrderID`) REFERENCES Orders(`OrderID`),
         FOREIGN KEY (`CakeID`) REFERENCES Cakes(`CakeID`)
-    );      
+    );       
 
 CREATE TABLE
     Feedback (

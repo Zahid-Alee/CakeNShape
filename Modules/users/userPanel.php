@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="Modules/users/user.css">
     <link rel="stylesheet" href="Modules/users/services.css">
     <link rel="stylesheet" href="Modules/users/categories.css">
+    <link rel="stylesheet" href="Modules/users/crousel.css">
     <link rel="stylesheet" href="Modules/users/header.css">
     <link rel="stylesheet" href="Modules/users/products.css">
     <link rel="stylesheet" href="Modules/users/reviews.css">
@@ -19,12 +20,16 @@
 
 <body>
     <?php include('./Modules/users/header.php') ?>
+    <?php include('./Modules/users/crousel.php') ?>
 
-    <div class='userPage'>
+    <div class='userPage pt-0'>
 
         <?php include('./Modules/users/services.php') ?>
         <?php include('./Modules/users/categories.php') ?>
         <?php include('./Modules/users/products.php') ?>
+        <?php include('./Modules/users/reviews.php') ?>
+
+
     </div>
 
     <?php include('./Modules/users/footer.php') ?>

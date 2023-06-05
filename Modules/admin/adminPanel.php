@@ -31,10 +31,8 @@
     </div>
     <div class='dashboard-content px-2'>
       <?php
-      $link = isset($_GET['link']) ? $_GET['link'] : 'dashboard';
-      if ($link == 'dashboard') {
-        include 'dashboard.php';
-      } elseif ($link == 'cakeStock') {
+      $link = isset($_GET['link']) ? $_GET['link'] : 'cakeStock';
+      if ($link == 'cakeStock') {
         include 'cakeStock.php';
       } elseif ($link == 'donationRequest') {
         include 'donationRequest.php';

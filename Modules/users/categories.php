@@ -1,5 +1,5 @@
 <section class="categories">
-  <h2 class='section-title'>Shop by Category</h2>
+  <h2 class='section-title' >Cake <span style="font-family:Lobster;">Categories</span> </h2>
   <div class="category-container">
     <?php
     use DataSource\DataSource;

@@ -9,7 +9,14 @@
   <title>Document</title>
   <link rel="stylesheet" href="Modules/admin/sidebar.css">
   <link rel="stylesheet" href="Modules/admin/admin.css">
-  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+  <!-- CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+  <!-- JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -29,10 +36,12 @@
         <a href="logout.php"> </i> <i class='bx bx-log-out'></i></a>
       </span>
     </div>
-    <div class='dashboard-content px-2'>
+    <div class='dashboard-content px-2' style="width: 100%; height:100%">
       <?php
-      $link = isset($_GET['link']) ? $_GET['link'] : 'cakeStock';
-      if ($link == 'cakeStock') {
+      $link = isset($_GET['link']) ? $_GET['link'] : 'dashboard';
+      if ($link == 'dashboard') {
+        include 'dashboard.php';
+      } elseif ($link == 'cakeStock') {
         include 'cakeStock.php';
       } elseif ($link == 'donationRequest') {
         include 'donationRequest.php';
@@ -56,7 +65,7 @@
 
   </section>
   <script>
-    window.addEventListener('load', function () {
+    window.addEventListener('load', function() {
       var preloader = document.getElementById('preloader');
       preloader.style.display = 'none';
     });

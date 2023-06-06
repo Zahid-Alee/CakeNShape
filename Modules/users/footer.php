@@ -5,7 +5,7 @@ $isLogin ?
 <footer>
     <div class="main-content">
         <div class="left box">
-            <h2>About us</h2>
+            <h2 >About us</h2>
             <div class="content">
                 <p>Cake N Shape Offers you a variety of delecious cakes and good customer service, Other than that you
                     can order custom cakes of your choice Which makes your event Special.
@@ -20,7 +20,7 @@ $isLogin ?
         </div>
 
         <div class="center box">
-            <h2>Address</h2>
+            <h2 style="font-family: Lobster;" >Address</h2>
             <div class="content">
                 <div class="place">
                     <span class="fas fa-map-marker-alt"></span>

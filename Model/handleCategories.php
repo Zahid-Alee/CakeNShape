@@ -64,14 +64,14 @@ class HandleCategories
 
         return $response;
     }
-    function updateCat($data)
+    function updateCat()
     {
         // Image uploaded successfully
-        $query = "UPDATE categories  SET  CategoryName = ?  WHERE CategoryID = ?";
+        $query = "UPDATE categories  SET  CategoryName = ? WHERE CategoryID = ?";
         $paramType = "si";
         $paramValue = array(
-            $data['CategoryName'],
-            $data['CategoryID'],
+            $_POST['CategoryName'],
+            $_POST['CategoryID'],
         );
 
         $catID = $this->conn->update($query, $paramType, $paramValue);
@@ -88,8 +88,7 @@ class HandleCategories
             );
         }
 
-        return $response;   
-
+        return $response;
     }
     function deleteCat($id)
     {
@@ -117,17 +116,13 @@ class HandleCategories
 
         return $response;
     }
-
-
-
 }
 
 if ($_POST) {
-    $json = file_get_contents('php://input');
-    $data = json_decode($json, true);
+    $data = $_POST;
     $handleCat =
         new HandleCategories;
-    $data = $_POST;
+    // $data = $_POST;
     print_r($data);
     if ($_POST['method'] == 'insert') {
         echo 'insert call';
@@ -140,8 +135,6 @@ if ($_POST) {
     } elseif ($data['method'] == 'update') {
 
         // print($data);
-        $handleCat->updateCat($data);
+        $handleCat->updateCat();
     }
-
-}
-;
+};

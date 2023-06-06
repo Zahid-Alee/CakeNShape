@@ -162,7 +162,7 @@
     <div class="popup">
         <div class="popup-content">
             <div class="popup-header">
-                <h2>Insert Cakes </h2>
+                <h2 style='font-family:Lobster'>Insert Cakes </h2>
                 <span class="close-btn" onclick="closePopup()">&times;</span>
             </div>
             <div class="popup-body">

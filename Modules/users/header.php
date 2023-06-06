@@ -1,4 +1,5 @@
 <?php
+
 use DataSource\DataSource;
 
 $totalBill = 0;
@@ -11,7 +12,6 @@ if ($isLogin) {
   session_start();
   $loggedInUserID = $_SESSION['userID'];
 } else {
-
 }
 
 require_once __DIR__ . '../../../lib/DataSource.php';
@@ -45,22 +45,27 @@ if (!empty($cartItems)) {
 ?>
 
 <header>
-  <div class="header-bg ">
+  <div class="header-bg">
     <img src="Modules/users/images/headerBg.png" alt="">
   </div>
-  <nav class="nav-bar py-2">
-    <ul class="navigation">
-      <li class="nav-items"><i class="bx bx-home"></i> Home</li>
-      <li class="nav-items dropdown" onclick='toggleCat()'>
-        <i class="bx bx-category"></i>
-        <a href="#">Categories</a>
-        <ul class="dropdown-menu d-none"">
+  <nav class="navbar navbar-expand-lg navbar-light  py-2 px-4">
+    <a class="navbar-brand" href="#"><i class="bx bx-home"></i></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-items dropdown" onclick='toggleCat()'>
+          <a class="" href="#">
+          <i class="bx bx-category"></i>
+            Categories</a>
+          <ul class="dropdown-menu d-none"">
           <?php
 
           if (!empty($categories)) {
             foreach ($categories as $cat) {
 
-              ?>
+          ?>
               <li>
                 <?php echo $cat['CategoryName'] ?>
               </li>
@@ -68,67 +73,80 @@ if (!empty($cartItems)) {
           <?php
             }
           } else {
-            echo "<strong>No cake found</strong>";
+            echo "<center class='text-center'>No categories</center>";
           }
           ?>
-<li class=" cat-overlay" onclick='closeCart()'>
+       <li class="cat-overlay" onclick='closeCart()'>
+        </li>
+      </ul>
       </li>
-    </ul>
-    </li>
-    <?php if ($isLogin) { ?>
-      <li class=" nav-items" onclick='openPopup()'>
-        <i class="bx bx-cake"></i>
-        Custom Cakes
+      <?php if ($isLogin) { ?>
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick='openPopup()'>
+            <i class="bx bx-cake"></i> Custom Cakes
+          </a>
+        </li>
+      <?php } else { ?>
+        <li class="nav-item">
+          <a class="nav-link" href="login.php">
+            <i class="bx bx-cake"></i> Custom Cakes
+          </a>
+        </li>
+      <?php } ?>
+      <li class="nav-item">
+        <a class="nav-link" href="Modules/users/ourCreations.php">
+          <i class="bx bx-party"></i> See Our Creations
+        </a>
       </li>
-    <?php } else { ?>
-      <a class=" nav-items text-light" href='login.php'>
-        <i class="bx bx-cake"></i>
-        Custom Cakes
-      </a>
-    <?php } ?>
-
-    <a href="Modules/users/ourCreations.php" class='text-light'>
-      <li class="nav-items">
-        <i class="bx bx-party"></i> See Our Creations
+      <?php if ($isLogin) { ?>
+        <li class="nav-item">
+          <a class="nav-link" href="Modules/users/notifications.php">
+            <i class="bx bx-chat px-1"></i> Notifications
+            <sup class="text-danger">
+              <strong style="font-size: large;">
+                <?php echo $notCount ?>
+              </strong>
+            </sup>
+          </a>
+        </li>
+      <?php } else { ?>
+        <li class="nav-item">
+          <a class="nav-link" href="login.php">
+            <i class="fas fa-bell px-1"></i> Notifications
+            <sup class="text-danger">
+              <strong style="font-size: large;">
+                <?php echo $notCount ?>
+              </strong>
+            </sup>
+          </a>
+        </li>
+      <?php } ?>
+      <?php if ($isLogin) { ?>
+        <li class="nav-item">
+          <a class="nav-link" href="logout.php">
+            <i class="bx bx-log-out"></i>
+            <?php echo $username ?>
+          </a>
+        </li>
+      <?php } else { ?>
+        <li class="nav-item">
+          <a class="nav-link" href="login.php">
+            <i class="bx bx-log-in"></i> Login
+          </a>
+        </li>
+      <?php } ?>
+      <li class="nav-item" id='cart-icon'>
+        <a class="nav-link" href="#">
+          <i class="bx bx-cart text-lg"></i>
+          <sup class="text-danger">
+            <strong style="font-size: large;">
+              <?php echo $cartCount ?>
+            </strong>
+          </sup>
+        </a>
       </li>
-    </a>
-    <?php if ($isLogin) { ?>
-      <li id="notifications">
-        <a style="position:relative;" href="Modules/users/notifications.php"><i class="fas fa-bell px-1"> </i>
-          Notifications <span class="count" style="left:117px">
-
-            <?php echo $notCount ?>
-          </span></a>
-
-      </li>
-    <?php } else { ?>
-      <li id="notifications">
-        <a style="position:relative;" href="login.php"><i class="bx bx-bell px-1"> </i>
-          Notifications <span class="count" style="left:117px">
-
-            <?php echo $notCount ?>
-          </span></a>
-
-      </li>
-    <?php } ?>
-    <?php if ($isLogin) {
-      echo "<a class='nav-items text-light text-center' href='logout.php'>
-     <i class='bx bx-log-out'></i> $username
-    </a>";
-    } else {
-      echo "<a class='nav-items text-light' href='login.php'>
-      <i class='bx bx-log-in'></i> Login
-     </a>";
-    }
-    ?>
-
-    <li id="cart-icon">
-      <span><i class="bx bx-cart text-lg"></i></span>
-      <span id="cart-count" class="count">
-        <?php echo $cartCount ?>
-      </span>
-    </li>
-    </ul>
+      </ul>
+    </div>
   </nav>
   <div id="cart-container" class="clearfix p-0">
     <!-- Shopping cart table -->
@@ -163,12 +181,11 @@ if (!empty($cartItems)) {
                   $totalDiscount = $totalDiscount + $item['discount'];
                   $userID = $item['userID'];
                   $totalBill = $totalBill - $totalDiscount;
-                  ?>
+              ?>
                   <tr>
                     <td class="p-4">
                       <div class="media align-items-center">
-                        <img src="<?php echo substr($item['Image'], 3) ?>"
-                          class="product-img d-block ui-w-40 ui-bordered mr-4" alt="">
+                        <img src="<?php echo substr($item['Image'], 3) ?>" class="product-img d-block ui-w-40 ui-bordered mr-4" alt="">
                         <div class="media-body">
                           <a href="#" class="d-block text-dark">
                             <?php echo $item['CakeName']; ?>
@@ -186,12 +203,10 @@ if (!empty($cartItems)) {
                       <?php echo $item['total']; ?>
                     </td>
                     <td class="text-center align-middle px-0">
-                      <span onclick="delteCartItem(<?php echo $item['cartID']; ?>)"
-                        class="shop-tooltip close float-none text-danger" title=""
-                        data-original-title="Remove">&times;</span>
+                      <span onclick="delteCartItem(<?php echo $item['cartID']; ?>)" class="shop-tooltip close float-none text-danger" title="" data-original-title="Remove">&times;</span>
                     </td>
                   </tr>
-                  <?php
+              <?php
                 }
               }
               ?>
@@ -201,7 +216,7 @@ if (!empty($cartItems)) {
         <!-- / Shopping cart table -->
         <?php if (!empty($cartItems)) {
           $checkCart = true;
-          ?>
+        ?>
           <div>
             <table class="d-flex">
               <tr>
@@ -247,7 +262,7 @@ if (!empty($cartItems)) {
   <div class="popup">
     <div class="popup-content">
       <div class="popup-header">
-        <h2> Order Custom Cake </h2>
+        <h2 style="font-family:'Lobster';"> Order Custom Cake </h2>
         <span class="close-btn" style="cursor:pointer; font-size:20px;" onclick="closePopup()">&times;</span>
       </div>
       <div class="popup-body">
@@ -263,16 +278,14 @@ if (!empty($cartItems)) {
             </div>
             <div class="form-group">
               <label for="description"><i class="bx  bx-message"></i> Description</label>
-              <textarea class="form-control" name="Description" max="4" placeholder="Enter Cake Description "
-                rows="5"> </textarea>
+              <textarea class="form-control" name="Description" max="4" placeholder="Enter Cake Description " rows="5"> </textarea>
             </div>
             <div class="form-group">
               <label for="Image"><i class="fas fa-file"></i> Image </label>
               <input type="file" class="form-control" name="Image" placeholder='Upload Cake Image'>
             </div>
 
-            <button type="submit" id="submit-btn" class="btn btn-danger closeModalBtn2 "><i
-                class="fas fa-paper-plane"></i> Submit</button>
+            <button type="submit" id="submit-btn" class="btn btn-danger closeModalBtn2 "><i class="fas fa-paper-plane"></i> Submit</button>
           </form>
 
         </div>
@@ -287,14 +300,13 @@ if (!empty($cartItems)) {
 <!-- *************************Shopppig Cart**************************** -->
 
 <style>
-
-  i{
+  i {
     font-weight: bold;
     font-size: 20px;
     vertical-align: middle;
     text-align: center;
   }
-  </style>
+</style>
 
 
 <script>
@@ -357,12 +369,12 @@ if (!empty($cartItems)) {
     }
 
     fetch('Model/handleCart.php', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
       .then(response => response.text())
       .then(data => {
         console.log('Response:', data);
@@ -382,12 +394,12 @@ if (!empty($cartItems)) {
     }
 
     fetch('Model/handleCart.php', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
       .then(response => response.text())
       .then(data => {
         console.log('Response:', data);
@@ -408,9 +420,9 @@ if (!empty($cartItems)) {
     const formValues = new FormData(event.target);
     console.log(formValues)
     fetch('http://localhost/CakeNShape/Model/customCake.php', {
-      method: 'POST',
-      body: formValues
-    })
+        method: 'POST',
+        body: formValues
+      })
       .then(response => response.text())
       .then(data => {
         console.log('Success:', data);
@@ -421,5 +433,4 @@ if (!empty($cartItems)) {
         console.error('Error:', error);
       });
   }
-
 </script>

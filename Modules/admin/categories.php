@@ -31,20 +31,18 @@
         align-items: center;
     }
 
-    .close-popup,
-    {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+    .close-popup {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
     }
 
     .close-popup:hover,
-    .close-popup:focus,
-    {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+    .close-popup:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
 
     }
 
@@ -113,7 +111,7 @@
 
         if (!empty($categories)) {
             foreach ($categories as $category) {
-                ?>
+        ?>
                 <tr>
                     <td scope="row" class='text-center'>
                         <?php echo $category['CategoryName']; ?>
@@ -121,17 +119,13 @@
                     <td class='text-center'><img src="<?php echo substr($category['Image'], 3) ?>" height="75" width="75" />
                     </td>
                     <td class='text-center'>
-                        <a class="table-icon text-info px-2"
-                            href="Modules/admin/updateCategory.php?CategoryID=<?php echo $category['CategoryID']; ?>"><i
-                                class="fas fa-edit"></i></a>
+                        <a class="table-icon text-info px-2" href="Modules/admin/updateCategory.php?CategoryID=<?php echo $category['CategoryID']; ?>"><i class="fas fa-edit"></i></a>
 
-                        <span class="table-icon text-danger px-2"
-                            onclick="delCategory('<?php echo $category['CategoryID']; ?>','delete')"><i
-                                class="fas fa-times"></i></span>
+                        <span class="table-icon text-danger px-2" onclick="delCategory('<?php echo $category['CategoryID']; ?>','delete')"><i class="fas fa-times"></i></span>
 
                     </td>
                 </tr>
-                <?php
+        <?php
             }
         } else {
             echo "<strong>No cakes found</strong>";
@@ -141,7 +135,7 @@
     <div id="donation-popup" class="popup">
         <div class="popup-content">
             <div class="popup-header">
-                <h2>Insert Category</h2>
+                <h2 style="font-family: 'Lobster';">Insert Category</h2>
                 <span class="close-popup-btn" onclick="closePopup()">&times;</span>
             </div>
             <div class="popup-body">
@@ -151,15 +145,14 @@
 
                     <div class="form-group">
                         <label for="CategoryName"><i class="bx bx-category"></i> Cateogry name</label>
-                        <input type="text" class="form-control" name="CategoryName" placeholder="Enter Category Name">
+                        <input type="text" class="form-control" name="CategoryName" placeholder="Enter Category Name" required>
                     </div>
                     <div class="form-group">
                         <label for="Image"><i class="fas fa-file"></i> Image </label>
-                        <input type="file" class="form-control" name="Image">
+                        <input type="file" class="form-control" name="Image" required>
                     </div>
 
-                    <button type="submit" id="submit-btn" class="btn btn-danger " onclick="closePopup()"><i
-                            class="fas fa-paper-plane"></i>
+                    <button type="submit" id="submit-btn" class="btn btn-danger"><i class="fas fa-paper-plane"></i>
                         Submit</button>
                 </form>
             </div>
@@ -194,9 +187,9 @@
         const formValues = new FormData(event.target);
         console.log(formValues);
         fetch('Model/handleCategories.php', {
-            method: 'POST',
-            body: formValues
-        })
+                method: 'POST',
+                body: formValues
+            })
             .then(response => response.text())
             .then(data => {
                 console.log('Success:', data);
@@ -214,12 +207,12 @@
             method: 'delete'
         }
         fetch('Model/delCategory.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
             .then(response => response.text())
             .then(data => {
                 console.log('Success:', data);
@@ -230,5 +223,4 @@
             });
 
     }
-
 </script>

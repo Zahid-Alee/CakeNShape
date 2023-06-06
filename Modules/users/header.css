@@ -5,7 +5,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: -1;
+  z-index:-1;
 }
 
 .header-bg img {
@@ -13,12 +13,22 @@
 }
 
 nav {
-  background-color: #de267f;
+  background-color: #F6E6E7 !important;
   width: 100%;
   top: 0px;
   z-index: 10;
+  height: 60px;
+  
 }
+nav a{
 
+  color: #713b45 !important;
+  font-weight: 500;
+}
+nav i{
+
+  font-weight: 700;
+}
 nav ul {
   display: flex;
   justify-content: center;
@@ -65,15 +75,6 @@ nav ul li:hover {
   cursor: pointer;
 }
 
-/*   
-  .nav-items i {
-    visibility: hidden;
-  }
-  
-  .nav-items:hover i {
-    visibility: visible;
-    transition: all 0.3s;
-  } */
 
 .dropdown-menu {
   display: block;
@@ -93,19 +94,7 @@ nav ul li:hover {
   position: relative;
 }
 
-.count {
-  position: absolute;
-  text-align: center;
-  height: 20px;
-  width: 20px;
-  top: -8px;
-  right: -8px;
-  background-color: red;
-  color: white;
-  border-radius: 50%;
-  font-size: 12px;
-  font-weight: bold;
-}
+
 
 .disable-scroll {
   overflow: hidden;
@@ -177,6 +166,17 @@ nav ul li:hover {
   vertical-align: middle;
 }
 
+
+
+
+/* @media only screen and (max-width:900px) {
+
+  nav
+  
+} */
+
+
+
 /* ********Custom Cake ************* */
 .popup {
   display: none;
@@ -188,6 +188,8 @@ nav ul li:hover {
   height: 100%;
   overflow: scroll;
   background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+
 }
 
 .popup-content {
@@ -200,6 +202,7 @@ nav ul li:hover {
   display: flex;
   flex-direction: column;
   max-width: 600px;
+  /* position: relative; */
 }
 
 .popup-header {

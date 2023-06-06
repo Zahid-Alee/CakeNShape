@@ -1,19 +1,5 @@
 <div class="container">
     <h3 class="py-4 text-center font-weight-bold">Cake Sales Records</h3>
-    <!-- <div class="filters">
-        <label for="year">Year:</label>
-        <select id="year">
-            <option value="">All</option>
-            <option value="2021">2021</option>
-            <option value="2022">2022</option>
-        </select>
-        <label for="month">Month:</label>
-        <select id="month">
-            <option value="">All</option>
-            <option value="1">January</option>
-            <option value="2">February</option>
-        </select>
-    </div> -->
     <table class="table">
         <thead>
             <tr>

@@ -15,14 +15,14 @@
   align-items: center;
   justify-content: center;
   border: 1px solid #c3c3c3;
-  background-color: #fff2f28c;
+  background-color: #F6E6E7;
 }
 
 .services h2 {
   font-size: 22px;
   font-weight: 600;
   padding: 10px;
-  color: #a71947;
+  color: #7e414c;
 }
 
 .services p {
@@ -33,6 +33,6 @@
 
 .services .icon {
   font-size: 28px;
-  color: #a71947;
+  color: #7e414c;
 }
 

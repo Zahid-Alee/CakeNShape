@@ -34,7 +34,7 @@
 
           <?php if ($isLogin) { ?>
             <button class="add-to-cart"
-              onClick="addToCart('<?php echo $cake['CakeID'] ?>', '<?php echo $cake['CakeName'] ?>', '<?php echo $cake['Price'] ?>','<?php echo $_SESSION['userID'] ?>')">Add
+              onClick="addCart('<?php echo $cake['CakeID'] ?>', '<?php echo $cake['CakeName'] ?>', '<?php echo $cake['Price'] ?>','<?php echo $_SESSION['userID'] ?>')">Add
               to Cart</button>
           <?php } else { ?>
             <button class="add-to-cart" onClick="location.href='login.php'">Login to Add to Cart</button>
@@ -57,7 +57,7 @@
 <script>
   // JavaScript code
 
-  const addToCart = (CakeID, CakeName, Price, userID) => {
+  const addCart = (CakeID, CakeName, Price, userID) => {
     openCart();
     // console.log(Price, CakeName, CakeID);
     let data = {

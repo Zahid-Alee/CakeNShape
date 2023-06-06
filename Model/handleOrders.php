@@ -30,104 +30,127 @@ class HandleOrders
             return "User not found";
         }
     }
-
     function acceptOrder($data)
-    {
-        $orderID = $data['orderID'];
+{
+    $orderID = $data['orderID'];
 
-        // Check if there is sufficient quantity for the cakes in the order
-        $query = "SELECT oi.CakeID, oi.Quantity, c.Quantity AS AvailableQuantity
-                  FROM Order_Items AS oi
-                  JOIN Cakes AS c ON oi.CakeID = c.CakeID
-                  WHERE oi.OrderID = ?";
+    // Check if there is sufficient quantity for the cakes in the order
+    $query = "SELECT oi.CakeID, oi.Quantity, c.Quantity AS AvailableQuantity, c.Price
+              FROM Order_Items AS oi
+              JOIN Cakes AS c ON oi.CakeID = c.CakeID
+              WHERE oi.OrderID = ?";
+    $paramType = "i";
+    $paramValue = array($orderID);
+    $orderItems = $this->conn->select($query, $paramType, $paramValue);
+
+    $insufficientQuantity = false;
+
+    foreach ($orderItems as $orderItem) {
+        $cakeID = $orderItem['CakeID'];
+        $quantity = $orderItem['Quantity'];
+        $availableQuantity = $orderItem['AvailableQuantity'];
+
+        if ($quantity > $availableQuantity) {
+            $insufficientQuantity = true;
+            break;
+        }
+    }
+
+    if ($insufficientQuantity) {
+        $response = array(
+            "status" => "error",
+            "message" => "Insufficient quantity for one or more cakes in the order"
+        );
+    } else {
+        // Update the order status to 'approved'
+        $query = "UPDATE Orders SET OrderStatus = 'approved' WHERE OrderID = ?";
         $paramType = "i";
         $paramValue = array($orderID);
-        $orderItems = $this->conn->select($query, $paramType, $paramValue);
+        $this->conn->update($query, $paramType, $paramValue);
 
-        $insufficientQuantity = false;
+        // Calculate total sales and insert a single sales record per order
+        $totalQuantity = 0;
+        $totalSubtotal = 0;
 
         foreach ($orderItems as $orderItem) {
-            $cakeID = $orderItem['CakeID'];
             $quantity = $orderItem['Quantity'];
-            $availableQuantity = $orderItem['AvailableQuantity'];
+            $price = $orderItem['Price'];
 
-            if ($quantity > $availableQuantity) {
-                $insufficientQuantity = true;
-                break;
-            }
+            $totalQuantity += $quantity;
+            $totalSubtotal += $quantity * $price;
+
+            $cakeID = $orderItem['CakeID'];
+
+            $query = "UPDATE Cakes SET Quantity = Quantity - ? WHERE CakeID = ?";
+            $paramType = "is";
+            $paramValue = array($quantity, $cakeID);
+            $this->conn->update($query, $paramType, $paramValue);
         }
 
-        if ($insufficientQuantity) {
+        $query = "INSERT INTO Sales (OrderID, Quantity, Subtotal) VALUES (?, ?, ?)";
+        $paramType = "isd";
+        $paramValue = array($orderID, $totalQuantity, $totalSubtotal);
+        $this->conn->insert($query, $paramType, $paramValue);
+
+        $notID = $this->createAdminNotification($data);
+
+        if (!empty($notID)) {
             $response = array(
-                "status" => "error",
-                "message" => "Insufficient quantity for one or more cakes in the order"
+                "status" => "success",
+                "message" => "Order accepted and updated successfully"
             );
         } else {
-            // Update the order status to 'approved'
-            $query = "UPDATE Orders SET OrderStatus = 'approved' WHERE OrderID = ?";
-            $paramType = "i";
-            $paramValue = array($orderID);
-            $this->conn->update($query, $paramType, $paramValue);
-
-            // Update the cake quantities
-            foreach ($orderItems as $orderItem) {
-                $cakeID = $orderItem['CakeID'];
-                $quantity = $orderItem['Quantity'];
-
-                $query = "UPDATE Cakes SET Quantity = Quantity - ? WHERE CakeID = ?";
-                $paramType = "is";
-                $paramValue = array($quantity, $cakeID);
-                $this->conn->update($query, $paramType, $paramValue);
-            }
-
-            $notID = $this->createAdminNotification($data);
-
-            if (!empty($notID)) {
-                $response = array(
-                    "status" => "success",
-                    "message" => "Order accepted and updated successfully"
-                );
-            } else {
-                $response = array(
-                    "status" => "error",
-                    "message" => "Failed to create admin notification"
-                );
-            }
+            $response = array(
+                "status" => "error",
+                "message" => "Failed to create admin notification"
+            );
         }
-
-        return $response;
     }
+
+    return $response;
+}
+
+
 
     function deleteOrder($data)
     {
         $orderID = $data['orderID'];
-
-        // Delete record from order_items table
-        $query = "DELETE FROM order_items WHERE OrderID = ?";
+    
+        // Set foreign key references to null in user_notifications table
+        $query = "UPDATE user_notifications SET OrderID = NULL WHERE OrderID = ?";
         $paramType = "i";
         $paramValue = array($orderID);
-        $ordersDelId = $this->conn->delete($query, $paramType, $paramValue);
-
+        $this->conn->update($query, $paramType, $paramValue);
+    
+        // Set foreign key references to null in order_items table
+        $query = "UPDATE order_items SET OrderID = NULL WHERE OrderID = ?";
+        $paramType = "i";
+        $paramValue = array($orderID);
+        $this->conn->update($query, $paramType, $paramValue);
+    
         // Delete record from orders table
         $query = "DELETE FROM orders WHERE OrderID = ?";
         $paramType = "i";
         $paramValue = array($orderID);
-        $orderItemsDelId = $this->conn->delete($query, $paramType, $paramValue);
-
-        if (!empty($ordersDelId) && !empty($orderItemsDelId)) {
+        $ordersDelId = $this->conn->delete($query, $paramType, $paramValue);
+    
+        if (!empty($ordersDelId)) {
             $response = array(
                 "status" => "success",
-                "message" => "Record deleted successfully."
+                "message" => "Order deleted successfully."
             );
         } else {
             $response = array(
                 "status" => "error",
-                "message" => "Error deleting orders."
+                "message" => "Error deleting order."
             );
         }
-
+    
         return $response;
     }
+    
+    
+
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

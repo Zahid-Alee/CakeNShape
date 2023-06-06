@@ -54,7 +54,7 @@ CREATE TABLE
 CREATE TABLE
     Orders (
         `OrderID` INT PRIMARY KEY AUTO_INCREMENT,
-        `userID` int(11) NOT NULL,
+        `userID` int(11) NULL,
         `OrderDate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         `DeliveryDate` DATETIME NOT NULL,
         `PaymentMethod` VARCHAR(50) NOT NULL,
@@ -64,14 +64,14 @@ CREATE TABLE
 
 CREATE TABLE
     Order_Items (
-        `id` INT PRIMARY KEY AUTO_INCREMENT ,
-        `OrderID` INT NUll ,
-        `CakeID` VARCHAR(50)  NULL,
+        `id` INT PRIMARY KEY AUTO_INCREMENT,
+        `OrderID` INT NUll,
+        `CakeID` VARCHAR(50) NULL,
         `Quantity` INT NOT NULL,
         `Subtotal` DECIMAL(10, 2) NOT NULL,
         FOREIGN KEY (`OrderID`) REFERENCES Orders(`OrderID`),
         FOREIGN KEY (`CakeID`) REFERENCES Cakes(`CakeID`)
-    );       
+    );
 
 CREATE TABLE
     Feedback (
@@ -85,7 +85,7 @@ CREATE TABLE
 CREATE TABLE
     user_notifications (
         `notID` INT(11) AUTO_INCREMENT,
-        `OrderID` INT NOT NULL,
+        `OrderID` INT NULL,
         `userID` INT NOT NULL,
         `notDate` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         `message` VARCHAR(150) NULL,
@@ -104,4 +104,15 @@ CREATE TABLE
         quantity INT NULL DEFAULT 0,
         discount INT(11) NULL DEFAULT 0,
         FOREIGN KEY (`userID`) REFERENCES users(`userID`) -- FOREIGN KEY (`CakeID`) REFERENCES cakes(`CakeID`)
+    );
+
+CREATE TABLE
+    Sales (
+        `SaleID` INT PRIMARY KEY AUTO_INCREMENT,
+        `OrderID` INT NULL,
+        `CakeID` VARCHAR(50) NULL,
+        `Quantity` INT NOT NULL,
+        `Subtotal` DECIMAL(10, 2) NOT NULL,
+        FOREIGN KEY (`OrderID`) REFERENCES Orders(`OrderID`),
+        FOREIGN KEY (`CakeID`) REFERENCES Cakes(`CakeID`)
     );

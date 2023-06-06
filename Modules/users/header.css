@@ -5,7 +5,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index:-1;
+  z-index: -1;
 }
 
 .header-bg img {
@@ -13,20 +13,17 @@
 }
 
 nav {
-  background-color: #F6E6E7 !important;
+  background-color: #f6e6e7 !important;
   width: 100%;
   top: 0px;
   z-index: 10;
   height: 60px;
-  
 }
-nav a{
-
+nav a {
   color: #713b45 !important;
   font-weight: 500;
 }
-nav i{
-
+nav i {
   font-weight: 700;
 }
 nav ul {
@@ -75,7 +72,6 @@ nav ul li:hover {
   cursor: pointer;
 }
 
-
 .dropdown-menu {
   display: block;
   color: whitesmoke;
@@ -93,8 +89,6 @@ nav ul li:hover {
 #cart-icon {
   position: relative;
 }
-
-
 
 .disable-scroll {
   overflow: hidden;
@@ -116,7 +110,6 @@ nav ul li:hover {
   position: absolute;
   top: 0;
   left: 0;
-  /* width: 100%; */
   height: 100vw;
   max-width: 60%;
   background-color: #fff;
@@ -144,8 +137,7 @@ nav ul li:hover {
 }
 
 .card-body {
-  overflow-y: scroll;
-  overflow-x: hidden;
+  overflow: scroll;
 }
 
 .product-img {
@@ -166,16 +158,11 @@ nav ul li:hover {
   vertical-align: middle;
 }
 
-
-
-
 /* @media only screen and (max-width:900px) {
 
   nav
   
 } */
-
-
 
 /* ********Custom Cake ************* */
 .popup {
@@ -189,7 +176,6 @@ nav ul li:hover {
   overflow: scroll;
   background-color: rgba(0, 0, 0, 0.4);
   z-index: 1000;
-
 }
 
 .popup-content {

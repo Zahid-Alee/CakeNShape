@@ -14,10 +14,10 @@ class CakeSalesModel
 
     function getCakeSalesData()
     {
-        $query = 'SELECT o.OrderID, o.OrderDate, c.CakeName, oi.Quantity, oi.Subtotal
-                  FROM Orders o
-                  INNER JOIN Order_Items oi ON o.OrderID = oi.OrderID
-                  INNER JOIN Cakes c ON oi.CakeID = c.CakeID';
+        $query = 'SELECT c.CakeName, SUM(s.Quantity) AS TotalQuantity
+                  FROM Cakes c
+                  INNER JOIN Sales s ON c.CakeID = s.CakeID
+                  GROUP BY c.CakeName';
 
         $salesData = $this->conn->select($query);
 
@@ -33,4 +33,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     header('Content-Type: application/json');
     echo json_encode($salesData);
 }
-?>

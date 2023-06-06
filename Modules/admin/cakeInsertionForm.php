@@ -1,3 +1,5 @@
+
+
 <div class="card-body">
     <form id="cakeInsertionForm" method="post" enctype="multipart/form-data">
         <input type="text" name="CakeID" value="<?php echo uniqid('cake-') ?>" hidden>
@@ -69,6 +71,24 @@
 </div>
 
 <script>
+
+
+const successAlert = document.getElementById('success-alert');
+    // const errorAlert = document.getElementById('error-alert');
+
+    // const createNotification = (message, callback) => {
+    //     const alertElement = successAlert;
+    //     alertElement.innerHTML = message;
+    //     alertElement.classList.remove('d-none');
+    //     const intervalId = setTimeout(() => {
+    //         alertElement.classList.add('d-none');
+    //         clearTimeout(intervalId);
+    //         if (callback) {
+    //             // callback();
+    //             location.reload()
+    //         }
+    //     }, 2000);
+    // };
     const form = document.getElementById('cakeInsertionForm');
     form.addEventListener('submit', submitForm);
 

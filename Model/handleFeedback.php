@@ -15,12 +15,16 @@ class HandleFeedback
 
     function insertFeedback($data)
     {
+        print_r($data);
+        echo 'hello feedback insertion';
         $feedbackID = uniqid('feedback-');
+        // echo $data['email'];
+
 
         // Insert record into the feedback table
-        $query = "INSERT INTO feedback (FeedbackID, email, username, phone, FeedbackText) VALUES (?, ?, ?, ?, ?)";
-        $paramType = "sssss";
-        $paramValue = array($feedbackID, $data['email'], $data['username'], $data['phone'], $data['message']);
+        $query = "INSERT INTO feedback (FeedbackID, userID, email, FeedbackText) VALUES (?, ?, ?, ?)";
+        $paramType = "ssss";
+        $paramValue = array($feedbackID, $data['userID'], $data['email'], $data['message']);
         $feedID = $this->conn->insert($query, $paramType, $paramValue);
 
         if (!empty($feedID)) {
@@ -37,10 +41,12 @@ class HandleFeedback
 
         return $response;
     }
+
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = $_POST;
+    // print_r($_POST);
     $feed = new HandleFeedback;
     $response = $feed->insertFeedback($data);
 

@@ -58,6 +58,8 @@ footer {
 .box .content {
   margin: 20px 0 0 0;
   position: relative;
+  text-align: left !important;
+
 }
 
 .box .content:before {
@@ -84,6 +86,8 @@ footer {
 
 .left .content .social {
   margin: 20px 0 0 0;
+  text-align: left !important;
+
 }
 
 .left .content .social a {
@@ -117,7 +121,10 @@ footer {
   transition: 0.3s;
   cursor: pointer;
   color: #7e414c;
+  /* text-align: left !important; */
+
 }
+
 
 .center .content .fas:hover {
   background: #f17b20;

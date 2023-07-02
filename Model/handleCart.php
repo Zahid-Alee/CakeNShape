@@ -15,8 +15,7 @@ class HandleCart
 
     function addToCart($data)
     {
-
-        $query = 'SELECT * FROM cart WHERE CakeID = ? AND userID=?';
+        $query = 'SELECT * FROM cart WHERE CakeID = ? AND userID = ?';
         $paramType = 'ss';
         $paramValue = array($data['cakeID'], $data['userID']);
         $cartItem = $this->conn->select($query, $paramType, $paramValue);
@@ -32,11 +31,7 @@ class HandleCart
             $response = array("message" => "Cart updated successfully.");
             // Reload the current page
             return $response;
-
-        }
-
-        // If donation_id does not exist, insert new record and return success message
-        else {
+        } else {
             echo 'inserting cart';
             $query = 'SELECT * FROM cakes WHERE CakeID = ?';
             $paramType = 's';
@@ -46,24 +41,49 @@ class HandleCart
             if ($result) {
                 $imagePath = $result[0]['Image']; // Assuming Image is the column name in the cakes table
                 $discount = $result[0]['discount'];
-                $query = 'INSERT INTO cart (CakeID, userID, CakeName, price,discount, quantity, total, Image) VALUES (?, ?, ?, ?, ?,?, ?, ?)';
-                $paramType = 'sissssss';
-                $paramValue = array(
-                    $data['cakeID'],
-                    $data['userID'],
-                    $data['cakeName'],
-                    $data['price'],
-                    $discount,
-                    1,
-                    $data['price'],
-                    $imagePath
-                );
 
-                $cartID = $this->conn->insert($query, $paramType, $paramValue);
+                // Check if the order type is custom
+                if ($data['orderType'] === 'custom') {
+                    $query = 'INSERT INTO custom_orders (userID, CakeName, price, discount, quantity, description) VALUES (?, ?, ?, ?, ?, ?)';
+                    $paramType = 'isssis';
+                    $paramValue = array(
+                        $data['userID'],
+                        $data['cakeName'],
+                        $data['price'],
+                        $discount,
+                        1,
+                        $data['description']
+                    );
+                    $orderID = $this->conn->insert($query, $paramType, $paramValue);
+
+                    $query = 'INSERT INTO custom_order_items (OrderID, Quantity, Subtotal, Image) VALUES (?, ?, ?, ?)';
+                    $paramType = 'iiis';
+                    $paramValue = array(
+                        $orderID,
+                        1,
+                        $data['price'],
+                        $imagePath
+                    );
+                    $this->conn->insert($query, $paramType, $paramValue);
+                } else {
+                    $query = 'INSERT INTO cart (CakeID, userID, CakeName, price, discount, quantity, total, Image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+                    $paramType = 'sissssss';
+                    $paramValue = array(
+                        $data['cakeID'],
+                        $data['userID'],
+                        $data['cakeName'],
+                        $data['price'],
+                        $discount,
+                        1,
+                        $data['price'],
+                        $imagePath
+                    );
+
+                    $cartID = $this->conn->insert($query, $paramType, $paramValue);
+                }
+
                 $response = array("message" => "Cake added to cart successfully.");
             }
-
-            // echo $image[0];
 
             // Reload the current page
             return $response;
@@ -72,7 +92,6 @@ class HandleCart
 
     function delteItem($data)
     {
-
         $query = 'DELETE FROM cart WHERE cartID = ?';
         $paramValue = array($data['cartID']);
         $paramType = 'i';
@@ -80,6 +99,7 @@ class HandleCart
         $response = array('message' => 'cart item has been removed');
         return $response;
     }
+
     function createUserNotification($id)
     {
         session_start();
@@ -109,31 +129,39 @@ class HandleCart
             $totalDiscount += $item['discount'];
         }
 
-        // Get the current date and delivery date (assuming you have appropriate logic to determine the delivery date)
         $orderDate = date('Y-m-d');
-        $deliveryDate = date('Y-m-d', strtotime('+2 hours')); // Example: delivery in 3 days
+        $deliveryDate = date('Y-m-d', strtotime('+2 hours'));
+
+        // Retrieve the orderType from cart
+        $orderType = $cartItems[0]['orderType'];
+        $desc = $cartItems[0]['description'];
 
         // Insert order details into the orders table
-        $query = 'INSERT INTO orders (userID, OrderDate, DeliveryDate, PaymentMethod, OrderStatus) VALUES (?, ?, ?, ?, ?)';
-        $paramValue = array($userID, $orderDate, $deliveryDate, $data['paymentMethod'], 'Pending'); // Assuming payment method is provided in the input data
-        $paramType = 'issss';
-        $orderID = $this->conn->insert($query, $paramType, $paramValue); // Get the last inserted order ID
-        // Insert cart items into the order-item table
-        foreach ($cartItems as $item) {
-            if ($item['CakeID']) {
-                $query = 'INSERT INTO `order_items` (OrderID, CakeID, Quantity, Subtotal) VALUES (?, ?, ?, ?)';
+        if ($orderType === 'custom') {
+            $query = 'INSERT INTO custom_orders (userID, CakeName, price, discount,description, quantity) VALUES (?, ?, ?, ?, ?,?)';
+            $paramValue = array($userID, 'Custom Cake', $totalBill, $totalDiscount, $desc, count($cartItems));
+            $paramType = 'issssi';
+            $orderID = $this->conn->insert($query, $paramType, $paramValue);
+
+            foreach ($cartItems as $item) {
+                $query = 'INSERT INTO custom_order_items (OrderID, Quantity, Subtotal, Image) VALUES (?, ?, ?, ?)';
+                $paramValue = array($orderID, $item['quantity'], $item['total'], $item['Image']);
+                $paramType = 'iids';
+                $this->conn->insert($query, $paramType, $paramValue);
+            }
+        } else {
+            $query = 'INSERT INTO orders (userID, OrderDate, DeliveryDate, PaymentMethod, OrderStatus, OrderType) VALUES (?, ?, ?, ?, ?, ?)';
+            $paramValue = array($userID, $orderDate, $deliveryDate, $data['paymentMethod'], 'Pending', $orderType);
+            $paramType = 'isssss';
+            $orderID = $this->conn->insert($query, $paramType, $paramValue);
+
+            // Insert cart items into the order-item table
+            foreach ($cartItems as $item) {
+                $query = 'INSERT INTO order_items (OrderID, CakeID, Quantity, Subtotal) VALUES (?, ?, ?, ?)';
                 $paramValue = array($orderID, $item['CakeID'], $item['quantity'], $item['total']);
                 $paramType = 'isid';
-                $ordersItemId = $this->conn->insert($query, $paramType, $paramValue);
+                $this->conn->insert($query, $paramType, $paramValue);
             }
-            else{
-
-                $query = 'INSERT INTO `order_items` (OrderID, Quantity, Subtotal) VALUES ( ?, ?, ?)';
-                $paramValue = array($orderID, $item['quantity'], $item['total']);
-                $paramType = 'iid';
-                $ordersItemId = $this->conn->insert($query, $paramType, $paramValue);
-            }
-
         }
 
         // Delete the cart items for the user
@@ -147,17 +175,14 @@ class HandleCart
         if ($userNotificationId) {
             $response = array('message' => 'Checkout successful');
         } else {
-            $response = array('message' => 'Checkout unsuccessfull');
-
+            $response = array('message' => 'Checkout unsuccessful');
         }
 
-
         // Prepare and return the response
-
         return $response;
     }
-
 }
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $json = file_get_contents('php://input');

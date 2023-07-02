@@ -66,20 +66,45 @@ class HandleCategories
     }
     function updateCat()
     {
-        // Image uploaded successfully
-        $query = "UPDATE categories  SET  CategoryName = ? WHERE CategoryID = ?";
-        $paramType = "si";
-        $paramValue = array(
-            $_POST['CategoryName'],
-            $_POST['CategoryID'],
-        );
+        $uploadDir = '../uploads/cakes-categories/';
+
+        $query = '';
+        $paramType = '';
+        $paramValue = array();
+
+        if ($_FILES['Image']['error'] === UPLOAD_ERR_OK) {
+            $image = $_FILES['Image'];
+
+            echo 'Image is set and updating image also';
+
+            // Generate a unique name for the uploaded image
+            $imageName = uniqid() . '_' . $image['name'];
+            $imagePath = $uploadDir . $imageName;
+
+            if (move_uploaded_file($image['tmp_name'], $imagePath)) {
+                $query = "UPDATE categories SET CategoryName = ?, Image = ? WHERE CategoryID = ?";
+                $paramType = "ssi";
+                $paramValue = array(
+                    $_POST['CategoryName'],
+                    $imagePath,
+                    $_POST['CategoryID']
+                );
+            }
+        } else {
+            $query = "UPDATE categories SET CategoryName = ? WHERE CategoryID = ?";
+            $paramType = "si";
+            $paramValue = array(
+                $_POST['CategoryName'],
+                $_POST['CategoryID']
+            );
+        }
 
         $catID = $this->conn->update($query, $paramType, $paramValue);
 
         if (!empty($catID)) {
             $response = array(
                 "status" => "success",
-                "message" => "updated successfully"
+                "message" => "Updated successfully"
             );
         } else {
             $response = array(
@@ -90,6 +115,7 @@ class HandleCategories
 
         return $response;
     }
+
     function deleteCat($id)
     {
         // Check if record with given stock_id exists in blood_stock table
@@ -132,9 +158,15 @@ if ($_POST) {
         $data = json_decode($json, true);
         echo 'delte call';
         // $handleCat->deleteCat($data);
+        $handleCat->conn->execute("SET FOREIGN_KEY_CHECKS = 0;");
+        $handleCat->deleteCat($data);
+        $handleCat->conn->execute("SET FOREIGN_KEY_CHECKS = 1;");
+
+
     } elseif ($data['method'] == 'update') {
 
         // print($data);
         $handleCat->updateCat();
     }
-};
+}
+;

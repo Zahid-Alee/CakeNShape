@@ -39,7 +39,7 @@
 
       $con = new DataSource;
       // Retrieve the reviews from the feedback table
-      $query = 'SELECT feedback.userID,FeedbackText,FeedbackDate,username from feedback inner join users on feedback.userID=users.userID';
+      $query = 'SELECT * from feedback';
 
       $reviews = $con->select($query);
 
@@ -55,7 +55,7 @@
                 <?php echo $review['FeedbackText']; ?>
               </p>
               <h4 class="font-weight-bold">
-                <?php echo $review['username']; ?>
+                <?php echo $review['Name']; ?>
               </h4>
             </div>
           </div>
@@ -73,11 +73,11 @@
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#testimonial4" data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
+      <!-- <span class="visually-hidden">Previous</span> -->
     </button>
     <button class="carousel-control-next" type="button" data-bs-target="#testimonial4" data-bs-slide="next">
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
+      <!-- <span class="visually-hidden">Next</span> -->
     </button>
   </div>
 </section>

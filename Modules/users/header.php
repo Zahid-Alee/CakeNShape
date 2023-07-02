@@ -426,7 +426,7 @@ if (!empty($cartItems)) {
       .then(response => response.text())
       .then(data => {
         console.log('Success:', data);
-        location.reload();
+        // location.reload();
 
       })
       .catch((error) => {

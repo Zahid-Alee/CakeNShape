@@ -6,6 +6,7 @@
 .carousel-control-prev,
 .carousel-control-next {
   color: black;
+  background-color: transparent;
 }
 
 .testimonial4_slide p,

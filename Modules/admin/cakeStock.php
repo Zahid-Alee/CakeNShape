@@ -1,9 +1,9 @@
 <style>
-
-    strong{
+    strong {
 
         font-weight: 500;
     }
+
     .popup {
         display: none;
         position: fixed;
@@ -36,8 +36,7 @@
         align-items: center;
     }
 
-    .close-btn
- {
+    .close-btn {
         color: #aaa;
         float: right;
         font-size: 28px;
@@ -97,13 +96,13 @@
     <h3 class="page-heading">Cake Inventory</h3>
     <thead class="thead-dark">
         <tr>
-            <th scope="col" class='text-center'><i class="bx bx-cake px-2"></i> Cake Name</th>
-            <th scope="col" class='text-center'><i class="fas fa-image px-2"></i> Image</th>
-            <th scope="col" class='text-center'><i class="fas fa-weight px-2"></i> Weight</th>
-            <th scope="col" class='text-center'><i class="bx bx-category-alt px-2"></i> Category</th>
-            <th scope="col" class='text-center'><i class="fas fa-sort-numeric-up px-2"></i> Quantity</th>
-            <th scope="col" class='text-center'><i class="fas fa-Rs-sign px-2"></i> Price</th>
-            <th scope="col" class='text-center'><i class="fas fa-cog px-2"></i> Action</th>
+            <th scope="col" class='text-center'> Cake Name</th>
+            <th scope="col" class='text-center'> Image</th>
+            <th scope="col" class='text-center'> Weight</th>
+            <th scope="col" class='text-center'> Category</th>
+            <th scope="col" class='text-center'> Quantity</th>
+            <th scope="col" class='text-center'> Price </th>
+            <th scope="col" class='text-center'> Action</th>
         </tr>
     </thead>
     <tbody>
@@ -136,8 +135,8 @@
                     <td class='text-center'>
                         <?php echo $cake['Quantity']; ?>
                     </td>
-                    <td class='text-center'>$
-                        <?php echo $cake['Price']; ?>
+                    <td class='text-center'>
+                       Rs. <?php echo $cake['Price']; ?>
                     </td>
                     <td class='text-center'>
                         <a class="table-icon text-info px-2"
@@ -162,7 +161,7 @@
     <div class="popup">
         <div class="popup-content">
             <div class="popup-header">
-                <h2 style='font-family:Lobster'>Insert Cakes </h2>
+                <h2 style='font-family:Lobster'>Insert Cakes (Admin side) </h2>
                 <span class="close-btn" onclick="closePopup()">&times;</span>
             </div>
             <div class="popup-body">
@@ -185,7 +184,7 @@
                             <label for="CategoryID"><i class="bx bx-category-alt"></i><strong>Category</strong> </label>
                             <select class="form-control" name="CategoryID" required>
                                 <option value="" disabled selected>Select Category</option>
-
+x
                                 <?php
                                 $query = 'SELECT * FROM Categories';
                                 $categories = $con->select($query);
@@ -204,7 +203,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="Weight"> <strong>Weight</strong></label>
+                            <label for="Weight"> <strong>Weight (grams) </strong></label>
                             <input type="number" class="form-control" name="Weight"
                                 placeholder="Enter cake weight in grams" required>
                         </div>
@@ -248,9 +247,10 @@
 
 
 <script>
-    // let method, result;
-    // var successAlert = document.getElementById('success-alert');
-    // var errorAlert = document.getElementById('error-alert');
+
+
+    const form = document.getElementById('cakeInsertionForm');
+    form.addEventListener('submit', submitForm);
     const popup = document.querySelector('.popup');
     const closePopup = () => {
         popup.style.display = 'none';
@@ -273,33 +273,74 @@
             .then(response => response.text())
             .then(data => {
                 console.log('Success:', data);
-                location.reload();
+                // location.reload();
             })
             .catch(error => {
                 console.error('Error:', error);
             });
     };
+    function checkValidations(form) {
+        const cakeName = form.CakeName.value.trim();
+        const materialUsed = form.MaterialUsed.value.trim();
+        const weight = parseFloat(form.Weight.value);
+        const price = parseFloat(form.Price.value);
+        const discount = parseFloat(form.Discount.value);
+        const alphabeticRegex = /^[A-Za-z]+[A-Za-z\s]*\d*$/;
 
-    const form = document.getElementById('cakeInsertionForm');
-    form.addEventListener('submit', submitForm);
+
+        if (cakeName === '' || !alphabeticRegex.test(cakeName)) {
+            alert('Invalid Cakename');
+            return false;
+        }
+
+        if (materialUsed === '') {
+            alert('Material used cannot be empty');
+            return false;
+        }
+
+        if (isNaN(weight) || weight <= 0 || weight > 5000) {
+            alert('Weight should be a number between 0 and 5000 grams');
+            return false;
+        }
+
+        if (isNaN(price) || price <= 0) {
+            alert('Price should be a number greater than 0');
+            return false;
+        }
+
+        if (isNaN(discount) || discount < 0 || discount > price) {
+            alert('Discount should be a number between 0 and the price of the cake');
+            return false;
+        }
+
+        return true;
+    }
+
 
     function submitForm(event) {
         event.preventDefault();
-        const formValues = new FormData(event.target);
-        console.log(formValues)
-        fetch('http://localhost/CakeNShape/Model/insertCake.php', {
-            method: 'POST',
-            body: formValues
-        })
-            .then(response => response.text())
-            .then(data => {
-                console.log('Success:', data);
-                location.reload();
 
+        const form = event.target;
+        const formValues = new FormData(form);
+
+        if (checkValidations(form)) {
+
+            fetch('http://localhost/CakeNShape/Model/insertCake.php', {
+                method: 'POST',
+                body: formValues
             })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+                .then(response => response.text())
+                .then(data => {
+                    console.log('Success:', data);
+                    location.reload();
+
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+
+
     }
 
 </script>

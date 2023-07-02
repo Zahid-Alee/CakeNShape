@@ -29,14 +29,16 @@ class CustomCake
             // Move the uploaded image to the desired directory
             if (move_uploaded_file($image['tmp_name'], $imagePath)) {
                 // Image uploaded successfully
-                $query = 'INSERT INTO cart (userID,total,quantity,description,Image) VALUES(?,?,?,?,?)';
-                $paramType = 'issss';
+                $query = 'INSERT INTO cart (userID,total,quantity,description,Image,OrderType) VALUES(?,?,?,?,?,?)';
+                $paramType = 'isssss';
                 $paramValue = array(
                     $userID,
                     $price,
                     $_POST['Quantity'],
                     $_POST['Description'],
-                    $imagePath
+                    $imagePath,
+                    'custom'
+
                 );
                 $cartID = $this->conn->insert($query, $paramType, $paramValue);
                 $response = array("message" => "Cake added to cart successfully.");

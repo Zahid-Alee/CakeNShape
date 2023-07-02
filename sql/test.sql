@@ -1,9 +1,7 @@
-CREATE TABLE
-    Feedback (
-        `FeedbackID` VARCHAR(50) PRIMARY KEY,
-        `userID` int(11) NOT NULL,
-        `email`varchar(30) NOT NULL,
-        `FeedbackText` TEXT NOT NULL,
-        `FeedbackDate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (`userID`) REFERENCES users(`userID`)
-    );
+CREATE TABLE Sales (
+    id INT(11) PRIMARY KEY AUTO_INCREMENT,
+    OrderID INT(11) NOT NULL,
+    Quantity INT(11) NOT NULL,
+    Subtotal DECIMAL(10, 2) NOT NULL,
+    Category VARCHAR(255) NOT NULL
+);

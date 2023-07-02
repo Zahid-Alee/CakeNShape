@@ -91,15 +91,21 @@
                 </p>
                 <div class="order-details">
                   <p class="order-title">Order Details:</p>
-                  <p><i class="fas fa-id-badge"></i><span class="bold">Order ID:</span>
+                  <p><i class="fas fa-id-badge"></i><span class="bold"> Order ID:</span>
                     <?php echo $orderID; ?>
                   </p>
-                  <p><i class="fas fa-box"></i> <span class="bold">Products:</span>
+                  <p>
                     <?php
-                    foreach ($orderItems as $orderItem) {
-                      $productName = $orderItem['CakeName'];
-                      echo $productName . ", ";
+                    if ($orderItems) {
+                      ?>
+                      <i class="fas fa-box"></i> <span class="bold">Products:</span>
+                      <?php
+                      foreach ($orderItems as $orderItem) {
+                        $productName = $orderItem['CakeName'];
+                        echo $productName . ", ";
+                      }
                     }
+
                     ?>
                   </p>
                   <p><i class="far fa-calendar-alt"></i><span class="bold"> Order Date:</span>
@@ -115,7 +121,7 @@
                     <?php echo $orderStatus; ?>
                   </p>
                 </div>
-                <div class="text-center mt-3 toggle-icon"  onclick="toggleOrderDetails(this)">
+                <div class="text-center mt-3 toggle-icon" onclick="toggleOrderDetails(this)">
                   <i class="fa fa-chevron-down toggle-details"></i>
                 </div>
               </div>

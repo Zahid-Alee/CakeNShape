@@ -30,8 +30,7 @@ Create Table
         `Quantity` INT NOT NULL DEFAULT 1,
         `Price` DECIMAL(10, 2) NOT NULL,
         `discount` INT(11) NULL DEFAULT 0,
-        `Image` VARCHAR(200) NOT NULL,
-        FOREIGN KEY (`CategoryID`) REFERENCES Categories(`CategoryID`)
+        `Image` VARCHAR(200) NOT NULL
     );
 
 CREATE TABLE
@@ -44,11 +43,10 @@ CREATE TABLE
         quantity INT NULL DEFAULT 0,
         discount INT(11) NULL DEFAULT 0,
         description TEXT NULL,
+        orderType VARCHAR(20) DEFAULT 'ByShop',
         total DECIMAL(10, 2) NULL,
         Image VARCHAR(100) Null,
-        PRIMARY KEY (cartID, userID),
-        FOREIGN KEY (`userID`) REFERENCES users(`userID`),
-        FOREIGN KEY (`CakeID`) REFERENCES cakes(`CakeID`)
+        PRIMARY KEY (cartID, userID)
     );
 
 CREATE TABLE
@@ -58,8 +56,8 @@ CREATE TABLE
         `OrderDate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         `DeliveryDate` DATETIME NOT NULL,
         `PaymentMethod` VARCHAR(50) NOT NULL,
-        `OrderStatus` VARCHAR(50) NOT NULL,
-        FOREIGN KEY (`userID`) REFERENCES users(`userID`)
+        `OrderStatus` VARCHAR(50) NOT NULL DEFAULT 'pending',
+        `OrderType` VARCHAR(20) DEFAULT 'ByShop'
     );
 
 CREATE TABLE
@@ -68,18 +66,38 @@ CREATE TABLE
         `OrderID` INT NUll,
         `CakeID` VARCHAR(50) NULL,
         `Quantity` INT NOT NULL,
+        `Subtotal` DECIMAL(10, 2) NOT NULL
+    );
+
+CREATE TABLE
+    custom_orders (
+        id INT(11) PRIMARY KEY AUTO_INCREMENT,
+        `userID` int(11) NOT NULL,
+        CakeName VARCHAR(255) NULL DEFAULT 'Custom Cake',
+        price DECIMAL(10, 2) NOT NULL,
+        quantity INT NULL DEFAULT 0,
+        discount INT(11) NULL DEFAULT 0,
+        description TEXT NOT NULL,
+        `OrderDate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `OrderStatus` VARCHAR(50) NOT NULL DEFAULT 'pending'
+    );
+
+CREATE TABLE
+    custom_order_items (
+        `id` INT PRIMARY KEY AUTO_INCREMENT,
+        `OrderID` INT NUll,
+        `Quantity` INT NOT NULL,
         `Subtotal` DECIMAL(10, 2) NOT NULL,
-        FOREIGN KEY (`OrderID`) REFERENCES Orders(`OrderID`),
-        FOREIGN KEY (`CakeID`) REFERENCES Cakes(`CakeID`)
+        Image VARCHAR(100) Null
     );
 
 CREATE TABLE
     Feedback (
         `FeedbackID` VARCHAR(50) PRIMARY KEY,
-        `userID` int(11) NOT NULL,
+        `Name` VARCHAR(20) NOT NULL,
+        `Email` VARCHAR(40) NOT NULL,
         `FeedbackText` TEXT NOT NULL,
-        `FeedbackDate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (`userID`) REFERENCES users(`userID`)
+        `FeedbackDate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
     );
 
 CREATE TABLE
@@ -90,20 +108,7 @@ CREATE TABLE
         `notDate` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         `message` VARCHAR(150) NULL,
         `notFrom` VARCHAR(30) NULL,
-        FOREIGN KEY (`OrderID`) REFERENCES orders(`OrderID`),
-        FOREIGN KEY (`userID`) REFERENCES users(`userID`),
         PRIMARY KEY(notID, OrderID, userID)
-    );
-
-CREATE TABLE
-    custom_Cake (
-        id INT(11) PRIMARY KEY AUTO_INCREMENT,
-        `userID` int(11) NOT NULL,
-        CakeName VARCHAR(255) NULL DEFAULT 'Custom Cake',
-        price DECIMAL(10, 2) NOT NULL,
-        quantity INT NULL DEFAULT 0,
-        discount INT(11) NULL DEFAULT 0,
-        FOREIGN KEY (`userID`) REFERENCES users(`userID`) -- FOREIGN KEY (`CakeID`) REFERENCES cakes(`CakeID`)
     );
 
 CREATE TABLE
@@ -112,7 +117,5 @@ CREATE TABLE
         `OrderID` INT NULL,
         `CakeID` VARCHAR(50) NULL,
         `Quantity` INT NOT NULL,
-        `Subtotal` DECIMAL(10, 2) NOT NULL,
-        FOREIGN KEY (`OrderID`) REFERENCES Orders(`OrderID`),
-        FOREIGN KEY (`CakeID`) REFERENCES Cakes(`CakeID`)
+        `Subtotal` DECIMAL(10, 2) NOT NULL
     );

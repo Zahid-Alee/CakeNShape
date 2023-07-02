@@ -22,9 +22,9 @@ class HandleFeedback
 
 
         // Insert record into the feedback table
-        $query = "INSERT INTO feedback (FeedbackID, userID, email, FeedbackText) VALUES (?, ?, ?, ?)";
+        $query = "INSERT INTO feedback (FeedbackID, Name, Email, FeedbackText) VALUES (?, ?, ?, ?)";
         $paramType = "ssss";
-        $paramValue = array($feedbackID, $data['userID'], $data['email'], $data['message']);
+        $paramValue = array($feedbackID, $data['name'], $data['email'], $data['message']);
         $feedID = $this->conn->insert($query, $paramType, $paramValue);
 
         if (!empty($feedID)) {

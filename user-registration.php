@@ -104,12 +104,14 @@ function signupValidation() {
 	var Password = $('#signup-password').val();
     var ConfirmPassword = $('#confirm-password').val();
 	var emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+	const alphabeticRegex = /^[A-Za-z]+[A-Za-z\s]*\d*$/;
+
 
 	$("#username-info").html("").hide();
 	$("#email-info").html("").hide();
 
-	if (UserName.trim() == "") {
-		$("#username-info").html("required.").css("color", "#ee0000").show();
+	if (UserName.trim() == ""||!alphabeticRegex.test(UserName)) {
+		$("#username-info").html("invalid username.").css("color", "#ee0000").show();
 		$("#username").addClass("error-field");
 		valid = false;
 	}

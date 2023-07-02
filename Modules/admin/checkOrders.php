@@ -17,6 +17,7 @@ $userID = $_SESSION['userID'];
 ?>
 
 <!--  -->
+<!-- Table for displaying orders from the "Orders" table -->
 <table class="table table-striped table-bordered">
     <h3 class="page-heading">Cake Orders</h3>
     <thead class="thead-dark">
@@ -32,9 +33,12 @@ $userID = $_SESSION['userID'];
     <tbody>
         <?php
         use DataSource\DataSource;
+
         require_once __DIR__ . '../../../lib/DataSource.php';
 
         $con = new DataSource;
+
+        // Query to retrieve orders from the orders table
         $query = 'SELECT *
                   FROM Orders
                   JOIN Users ON Orders.userID = Users.userID
@@ -44,10 +48,13 @@ $userID = $_SESSION['userID'];
         if (!empty($orders)) {
             foreach ($orders as $order) {
                 $orderID = $order['OrderID'];
-                $query = "SELECT oi.CakeID, oi.Quantity, oi.Subtotal, c.CakeName, c.MaterialUsed, c.Flavor, c.Weight, c.Price
+
+                // Query to retrieve order items from the order_items table
+                $query = 'SELECT oi.CakeID, oi.Quantity, oi.Subtotal, c.CakeName, c.MaterialUsed, c.Flavor, c.Weight, c.Price
                           FROM Order_Items AS oi
                           JOIN Cakes AS c ON oi.CakeID = c.CakeID
-                          WHERE oi.OrderID = ?";
+                          WHERE oi.OrderID = ?';
+
                 $paramType = "i";
                 $paramValue = array($orderID);
                 $orderItems = $con->select($query, $paramType, $paramValue);
@@ -66,7 +73,7 @@ $userID = $_SESSION['userID'];
                         <?php echo $order['OrderDate']; ?>
                     </td>
                     <td class='text-center'>
-                        <?php echo $order['DeliveryDate']; ?>
+                        1 hours 30 min
                     </td>
                     <td class='text-center'>
                         <a class="table-icon text-info px-2" style="cursor:pointer"
@@ -78,50 +85,50 @@ $userID = $_SESSION['userID'];
                 <tr>
                     <td colspan="6">
                         <?php if ($orderItems) { ?>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th scope="col" class='text-center'>Cake Name</th>
-                                    <th scope="col" class='text-center'>Material Used</th>
-                                    <th scope="col" class='text-center'>Flavor</th>
-                                    <th scope="col" class='text-center'>Weight</th>
-                                    <th scope="col" class='text-center'>Price</th>
-                                    <th scope="col" class='text-center'>Quantity</th>
-                                    <th scope="col" class='text-center'>Subtotal</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                foreach ($orderItems as $item) {
-                                    ?>
+                            <table class="table table-bordered">
+                                <thead>
                                     <tr>
-                                        <td class='text-center'>
-                                            <?php echo $item['CakeName']; ?>
-                                        </td>
-                                        <td class='text-center'>
-                                            <?php echo $item['MaterialUsed']; ?>
-                                        </td>
-                                        <td class='text-center'>
-                                            <?php echo $item['Flavor']; ?>
-                                        </td>
-                                        <td class='text-center'>
-                                            <?php echo $item['Weight']; ?>
-                                        </td>
-                                        <td class='text-center'>
-                                            <?php echo $item['Price']; ?>
-                                        </td>
-                                        <td class='text-center'>
-                                            <?php echo $item['Quantity']; ?>
-                                        </td>
-                                        <td class='text-center'>
-                                            <?php echo $item['Subtotal']; ?>
-                                        </td>
+                                        <th scope="col" class='text-center'>Cake Name</th>
+                                        <th scope="col" class='text-center'>Material Used</th>
+                                        <th scope="col" class='text-center'>Flavor</th>
+                                        <th scope="col" class='text-center'>Weight</th>
+                                        <th scope="col" class='text-center'>Price</th>
+                                        <th scope="col" class='text-center'>Quantity</th>
+                                        <th scope="col" class='text-center'>Subtotal</th>
                                     </tr>
+                                </thead>
+                                <tbody>
                                     <?php
-                                }
-                                ?>
-                            </tbody>
-                        </table>
+                                    foreach ($orderItems as $item) {
+                                        ?>
+                                        <tr>
+                                            <td class='text-center'>
+                                                <?php echo $item['CakeName']; ?>
+                                            </td>
+                                            <td class='text-center'>
+                                                <?php echo $item['MaterialUsed']; ?>
+                                            </td>
+                                            <td class='text-center'>
+                                                <?php echo $item['Flavor']; ?>
+                                            </td>
+                                            <td class='text-center'>
+                                                <?php echo $item['Weight']; ?>
+                                            </td>
+                                            <td class='text-center'>
+                                                <?php echo $item['Price']; ?>
+                                            </td>
+                                            <td class='text-center'>
+                                                <?php echo $item['Quantity']; ?>
+                                            </td>
+                                            <td class='text-center'>
+                                                <?php echo $item['Subtotal']; ?>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
                         <?php } else {
                             echo "<p>No order items found</p>";
                         } ?>
@@ -136,10 +143,119 @@ $userID = $_SESSION['userID'];
     </tbody>
 </table>
 
+
+<!-- Table for displaying custom orders from the "custom_orders" table -->
+<!-- Table for displaying custom orders from the "custom_orders" table -->
+<table class="table table-striped table-bordered">
+    <h3 class="page-heading">Custom Cake Orders</h3>
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col" class='text-center'><i class="fa fa-user px-2"></i>Customer Name</th>
+            <th scope="col" class='text-center'><i class="fas fa-sort-numeric-up px-2"></i>Quantity</th>
+            <th scope="col" class='text-center'><i class="bx bx-credit-card px-2"></i>Price</th>
+            <th scope="col" class='text-center'><i class="bx bx-calendar px-2"></i>Order Date</th>
+            <th scope="col" class='text-center'><i class="bx bx-calendar px-2"></i>Delivery Date</th>
+            <th scope="col" class='text-center'><i class="bx bx-image px-2"></i>Image</th>
+            <th scope="col" class='text-center'><i class="fas fa-cog px-2"></i>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        $query = 'SELECT *
+                  FROM custom_orders
+                  JOIN Users ON custom_orders.userID = Users.userID';
+        $customOrders = $con->select($query);
+
+        if (!empty($customOrders)) {
+            foreach ($customOrders as $customOrder) {
+                $customOrderID = $customOrder['id'];
+
+                // Query to retrieve order items from the custom_order_items table
+                $query = 'SELECT *
+                          FROM custom_order_items
+                          WHERE custom_order_items.OrderID = ?';
+
+                $paramType = "i";
+                $paramValue = array($customOrderID);
+                $customOrderItems = $con->select($query, $paramType, $paramValue);
+                ?>
+                <tr>
+                    <td scope="row" class='text-center'>
+                        <?php echo $customOrder['username']; ?>
+                    </td>
+                    <td scope="row" class='text-center'>
+                        <?php echo $customOrderItems ? count($customOrderItems) : 0; ?>
+                    </td>
+                    <td class='text-center'>
+                        <?php echo $customOrder['price']; ?>
+                    </td>
+                    <td class='text-center'>
+                        <?php echo $customOrder['OrderDate']; ?>
+                    </td>
+                    <td class='text-center'>
+                        3 hours
+                    </td>
+                    <td class='text-center'>
+                        <?php if ($customOrderItems) { ?>
+                            <img src="<?php echo substr($customOrderItems[0]['Image'], 3); ?>" alt="Cake Image" width="100">
+                        <?php } else {
+                            echo "-";
+                        } ?>
+                    </td>
+                    <td class='text-center'>
+                        <a class="table-icon text-info px-2" style="cursor:pointer"
+                            onclick="acceptReq('<?php echo $customOrderID; ?>',null,'custom')"><i class="fas fa-check"></i></a>
+                        <span class="table-icon text-danger px-2" style="cursor:pointer"
+                            onclick="rejectReq('<?php echo $customOrderID; ?>','custom')"><i class="fas fa-times"></i></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="7">
+                        <?php if ($customOrderItems) { ?>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class='text-center'>Quantity</th>
+                                        <th scope="col" class='text-center'>Subtotal</th>
+                                        <th scope="col" class='text-center'>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($customOrderItems as $item) { ?>
+                                        <tr>
+                                            <td class='text-center'>
+                                                <?php echo $item['Quantity']; ?>
+                                            </td>
+                                            <td class='text-center'>
+                                                <?php echo $item['Subtotal']; ?>
+                                            </td>
+                                            <td class='text-center'>
+                                                <?php echo $customOrder['description']; ?>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        <?php } else {
+                            echo "<p>No custom order items found</p>";
+                        } ?>
+                    </td>
+                </tr>
+                <?php
+            }
+        } else {
+            echo "<strong>No custom orders found</strong>";
+        }
+        ?>
+    </tbody>
+</table>
+
+
+
 <script>
     // Your JavaScript code 
-    
-    
+
+
     const successAlert = document.getElementById('success-alert');
     // const errorAlert = document.getElementById('error-alert');
 
@@ -157,11 +273,12 @@ $userID = $_SESSION['userID'];
         }, 2000);
     };
 
-    const acceptReq = (orderID, CakeID) => {
+    const acceptReq = (orderID, CakeID, orderType) => {
         let data = {
             orderID: orderID,
             method: 'accept',
-            cakeID: CakeID
+            cakeID: CakeID,
+            orderType: orderType
         };
 
         fetch('Model/handleOrders.php', {
@@ -173,7 +290,7 @@ $userID = $_SESSION['userID'];
         })
             .then(response => response.text())
             .then(data => {
-                console.log('Response:',data);
+                console.log('Response:', data);
                 console.log(data)
                 createNotification(data)
             })
@@ -181,11 +298,12 @@ $userID = $_SESSION['userID'];
                 console.error('Error:', error);
             });
     };
-    const rejectReq = (orderID) => {
+    const rejectReq = (orderID, orderType) => {
         let data = {
             orderID: orderID,
             method: 'reject',
             // cakeID: CakeID
+            orderType: orderType
         };
 
         fetch('Model/handleOrders.php', {

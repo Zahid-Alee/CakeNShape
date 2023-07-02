@@ -38,10 +38,14 @@ $isLogin ?
         </div>
 
         <div class="right box">
-            <h2>Give Review</h2>
+            <h2>Submit Feedback</h2>
             <div class="content">
                 <form id="feedback">
-                    <input type="text" name="userID" value="<?php echo $userID ?>" hidden>
+                    <div class="email">
+                        <div class="text">Name *</div>
+                        <input type="text" name="name" required></input>
+                    </div>
+
                     <div class="email">
                         <div class="text">Email *</div>
                         <input type="email" name="email" required></input>
@@ -82,7 +86,7 @@ $isLogin ?
             .then(response => response.text())
             .then(data => {
                 console.log('Success:', data);
-                // location.reload();
+                location.reload();
             })
             .catch(error => {
                 console.error('Error:', error);

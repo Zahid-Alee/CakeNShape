@@ -31,15 +31,15 @@
         align-items: center;
     }
 
-    .close-popup {
+    .close-popup-btn {
         color: #aaa;
         float: right;
         font-size: 28px;
         font-weight: bold;
     }
 
-    .close-popup:hover,
-    .close-popup:focus {
+    .close-popup-btn:hover,
+    .close-popup-btn:focus {
         color: black;
         text-decoration: none;
         cursor: pointer;
@@ -91,9 +91,9 @@
     <h3 class="page-heading">Categories</h3>
     <thead class="thead-dark">
         <tr>
-            <th scope="col" class='text-center'><i class="bx bx-category-alt"></i> Category Name</th>
-            <th scope="col" class='text-center'><i class="fas fa-image"></i> Image</th>
-            <th scope="col" class='text-center'><i class="fas fa-cog"></i> Actions</th>
+            <th style="width:200px" scope="col" class='text-center'> Category Name</th>
+            <th style="width:200px" scope="col" class='text-center'> Image</th>
+            <th style="width:200px" scope="col" class='text-center'> Actions</th>
 
 
         </tr>
@@ -111,7 +111,7 @@
 
         if (!empty($categories)) {
             foreach ($categories as $category) {
-        ?>
+                ?>
                 <tr>
                     <td scope="row" class='text-center'>
                         <?php echo $category['CategoryName']; ?>
@@ -119,16 +119,20 @@
                     <td class='text-center'><img src="<?php echo substr($category['Image'], 3) ?>" height="75" width="75" />
                     </td>
                     <td class='text-center'>
-                        <a class="table-icon text-info px-2" href="Modules/admin/updateCategory.php?CategoryID=<?php echo $category['CategoryID']; ?>"><i class="fas fa-edit"></i></a>
+                        <a class="table-icon text-info px-2"
+                            href="Modules/admin/updateCategory.php?CategoryID=<?php echo $category['CategoryID']; ?>"><i
+                                class="fas fa-edit"></i></a>
 
-                        <span class="table-icon text-danger px-2" onclick="delCategory('<?php echo $category['CategoryID']; ?>','delete')"><i class="fas fa-times"></i></span>
+                        <span class="table-icon text-danger px-2"
+                            onclick="delCategory('<?php echo $category['CategoryID']; ?>','delete')"><i
+                                class="fas fa-times"></i></span>
 
                     </td>
                 </tr>
-        <?php
+                <?php
             }
         } else {
-            echo "<strong>No cakes found</strong>";
+            echo "";
         }
         ?>
     </tbody>
@@ -145,7 +149,8 @@
 
                     <div class="form-group">
                         <label for="CategoryName"><i class="bx bx-category"></i> Cateogry name</label>
-                        <input type="text" class="form-control" name="CategoryName" placeholder="Enter Category Name" required>
+                        <input type="text" class="form-control" name="CategoryName" placeholder="Enter Category Name"
+                            required>
                     </div>
                     <div class="form-group">
                         <label for="Image"><i class="fas fa-file"></i> Image </label>
@@ -166,11 +171,12 @@
         <tfoot>
 </table>
 <script>
-    // let method, result;
-    // var successAlert = document.getElementById('success-alert');
-    // var errorAlert = document.getElementById('error-alert');
+
     const form = document.getElementById('catInsertionForm');
     const popup = document.querySelector('.popup');
+
+    form.addEventListener('submit', submitForm);
+
     const closePopup = () => {
         popup.style.display = 'none';
 
@@ -180,24 +186,46 @@
         popup.style.display = 'block';
     }
 
-    form.addEventListener('submit', submitForm);
+    function checkValidations(form) {
+        const catName = form.CategoryName.value.trim();
+        const alphabeticRegex = /^[A-Za-z]+[A-Za-z\s]*\d*$/;
+
+        if (catName === '' || !alphabeticRegex.test(catName)) {
+            alert('Invalid category name. Please enter a valid category name starting with an alphabet, containing only alphabets, spaces, and optionally ending with integers.');
+            return false;
+        }
+
+        return true;
+    }
+
+
+
+
 
     function submitForm(event) {
+
         event.preventDefault();
-        const formValues = new FormData(event.target);
-        console.log(formValues);
-        fetch('Model/handleCategories.php', {
+
+        const form = event.target;
+        const formValues = new FormData(form);
+
+        if (checkValidations(form)) {
+
+            fetch('Model/handleCategories.php', {
                 method: 'POST',
                 body: formValues
             })
-            .then(response => response.text())
-            .then(data => {
-                console.log('Success:', data);
-                location.reload();
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+                .then(response => response.text())
+                .then(data => {
+                    console.log('Success:', data);
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+
     }
 
 
@@ -207,12 +235,12 @@
             method: 'delete'
         }
         fetch('Model/delCategory.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
             .then(response => response.text())
             .then(data => {
                 console.log('Success:', data);

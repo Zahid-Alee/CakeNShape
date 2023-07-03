@@ -1,93 +1,95 @@
-<?php
-use DataSource\DataSource;
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1 class='text-dark'>Dashboard</h1>
+    <canvas id="myChart" style="max-width: 500px; height: 90%; margin: auto;"></canvas>
+    <table id="salesTable" class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col" class='text-center'>Category</th>
+                <th scope="col" class='text-center'>Total Quantity</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
 
-require_once __DIR__ . '../../../lib/DataSource.php';
+    <script>
+        $(document).ready(function() {
+            loadSalesData();
+        });
 
-$con = new DataSource;
-$query = 'SELECT *
-          FROM Sales
-          JOIN Orders ON Sales.OrderID = Orders.OrderID
-          JOIN Users ON Orders.userID = Users.userID';
-$sales = $con->select($query);
+        function loadSalesData() {
+            $.ajax({
+                url: 'Model/salesData.php',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    updateChart(data);
+                    updateTable(data);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching sales data:', error);
+                }
+            });
+        }
 
-if (!empty($sales)) {
-    foreach ($sales as $sale) {
-        $orderID = $sale['OrderID'];
-        $query = "SELECT c.CakeName, c.MaterialUsed, c.Flavor, c.Weight, c.Price
-                  FROM Order_Items AS oi
-                  JOIN Cakes AS c ON oi.CakeID = c.CakeID
-                  WHERE oi.OrderID = ?";
-        $paramType = "i";
-        $paramValue = array($orderID);
-        $saleItems = $con->select($query, $paramType, $paramValue);
-        ?>
-        <tr>
-            <td scope="row" class='text-center'>
-                <?php echo $sale['username']; ?>
-            </td>
-            <td scope="row" class='text-center'>
-                <?php echo $saleItems ? count($saleItems) : 0; ?>
-            </td>
-            <td class='text-center'>
-                <?php echo $sale['PaymentMethod']; ?>
-            </td>
-            <td class='text-center'>
-                <?php echo $sale['OrderDate']; ?>
-            </td>
-            <td class='text-center'>
-                <?php echo $sale['DeliveryDate']; ?>
-            </td>
-            <td class='text-center'>
-                <!-- Actions -->
-            </td>
-        </tr>
-        <tr>
-            <td colspan="6">
-                <?php if ($saleItems) { ?>
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th scope="col" class='text-center'>Cake Name</th>
-                                <th scope="col" class='text-center'>Material Used</th>
-                                <th scope="col" class='text-center'>Flavor</th>
-                                <th scope="col" class='text-center'>Weight</th>
-                                <th scope="col" class='text-center'>Price</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            foreach ($saleItems as $item) {
-                                ?>
-                                <tr>
-                                    <td class='text-center'>
-                                        <?php echo $item['CakeName']; ?>
-                                    </td>
-                                    <td class='text-center'>
-                                        <?php echo $item['MaterialUsed']; ?>
-                                    </td>
-                                    <td class='text-center'>
-                                        <?php echo $item['Flavor']; ?>
-                                    </td>
-                                    <td class='text-center'>
-                                        <?php echo $item['Weight']; ?>
-                                    </td>
-                                    <td class='text-center'>
-                                        <?php echo $item['Price']; ?>
-                                    </td>
-                                </tr>
-                                <?php
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-                <?php } else {
-                    echo "<p>No sale items found</p>";
-                } ?>
-            </td>
-        </tr>
-        <?php
-    }
-} else {
-    echo "<strong>No sales found</strong>";
-}
-?>
+        function updateChart(data) {
+            const labels = [];
+            const quantities = [];
+
+            if (data && data.length > 0) {
+                data.forEach(function(record) {
+                    labels.push(record.Category);
+                    quantities.push(record.TotalQuantity);
+                });
+            }
+
+            var ctx = document.getElementById("myChart").getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Quantity',
+                        data: quantities,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateTable(data) {
+            var salesTable = $("#salesTable tbody");
+            salesTable.empty();
+
+            if (data && data.length > 0) {
+                data.forEach(function(record) {
+                    var row = "<tr>" +
+                        "<td class='text-center'>" + record.Category + "</td>" +
+                        "<td class='text-center'>" + record.TotalQuantity + "</td>" +
+                        "</tr>";
+
+                    salesTable.append(row);
+                });
+            } else {
+                var row = "<tr><td colspan='2' class='text-center'>No sales data found</td></tr>";
+                salesTable.append(row);
+            }
+        }
+    </script>
+</body>
+</html>

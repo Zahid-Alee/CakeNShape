@@ -45,15 +45,15 @@ class HandleOrders
 
             // Fetch custom order details
             $query = "SELECT co.id, co.quantity, co.price, 'custom' AS Category
-                      FROM custom_orders AS co
-                      WHERE co.id = ?";
+                  FROM custom_orders AS co
+                  WHERE co.id = ?";
             $paramType = "i";
             $paramValue = array($orderID);
             $orderDetails = $this->conn->select($query, $paramType, $paramValue);
 
             // Insert a single sales record per custom order
             $query = "INSERT INTO Sales (OrderID, Quantity, Subtotal, Category)
-                      VALUES (?, ?, ?, ?)";
+                  VALUES (?, ?, ?, ?)";
             $paramType = "isds";
             $paramValue = array(
                 $orderID,
@@ -62,13 +62,19 @@ class HandleOrders
                 $orderDetails[0]['Category']
             );
             $this->conn->insert($query, $paramType, $paramValue);
+
+            // Delete the custom order from the custom_orders table
+            $query = "DELETE FROM custom_orders WHERE id = ?";
+            $paramType = "i";
+            $paramValue = array($orderID);
+            $this->conn->delete($query, $paramType, $paramValue);
         } else {
             // Check if there is sufficient quantity for the cakes in the order
             $query = "SELECT oi.CakeID, oi.Quantity, c.Quantity AS AvailableQuantity, c.Price, ca.CategoryName AS Category
-                      FROM Order_Items AS oi
-                      JOIN Cakes AS c ON oi.CakeID = c.CakeID
-                      JOIN Categories AS ca ON c.CategoryID = ca.CategoryID
-                      WHERE oi.OrderID = ?";
+                  FROM Order_Items AS oi
+                  JOIN Cakes AS c ON oi.CakeID = c.CakeID
+                  JOIN Categories AS ca ON c.CategoryID = ca.CategoryID
+                  WHERE oi.OrderID = ?";
             $paramType = "i";
             $paramValue = array($orderID);
             $orderItems = $this->conn->select($query, $paramType, $paramValue);
@@ -111,7 +117,7 @@ class HandleOrders
                 }
 
                 $query = "INSERT INTO Sales (OrderID, Quantity, Subtotal, Category)
-                          VALUES (?, ?, ?, ?)";
+                      VALUES (?, ?, ?, ?)";
                 $paramType = "isds";
                 $paramValue = array(
                     $orderID,
@@ -145,6 +151,12 @@ class HandleOrders
                         "message" => "Failed to create admin notification"
                     );
                 }
+
+                // Delete the regular order from the orders table
+                $query = "DELETE FROM orders WHERE OrderID = ?";
+                $paramType = "i";
+                $paramValue = array($orderID);
+                $this->conn->delete($query, $paramType, $paramValue);
             }
         }
 
@@ -169,7 +181,7 @@ class HandleOrders
         $paramValue = array($orderID);
         $this->conn->update($query, $paramType, $paramValue);
 
-        // Delete record from orders table based on order type
+        // Delete record from orders or custom_orders table based on order type
         if ($orderType === 'custom') {
             $query = "DELETE FROM custom_orders WHERE id = ?";
         } else {
@@ -178,23 +190,15 @@ class HandleOrders
 
         $paramType = "i";
         $paramValue = array($orderID);
-        $ordersDelId = $this->conn->delete($query, $paramType, $paramValue);
+        $this->conn->delete($query, $paramType, $paramValue);
 
-        if (!empty($ordersDelId)) {
-            $response = array(
-                "status" => "success",
-                "message" => "Order deleted successfully."
-            );
-        } else {
-            $response = array(
-                "status" => "error",
-                "message" => "Error deleting order."
-            );
-        }
+        $response = array(
+            "status" => "success",
+            "message" => "Order deleted successfully."
+        );
 
         return $response;
     }
-
 
 
 

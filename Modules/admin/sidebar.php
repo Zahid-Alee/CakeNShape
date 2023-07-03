@@ -40,7 +40,7 @@
       <li><a class="link_name" href="?link=orders">Orders</a></li>
     </ul>
   </li>
-  <li>
+  <!-- <li>
     <a href="?link=sales-data">
     <i class='bx bx-line-chart'></i>
       <span class="link_name">Sales</span>
@@ -48,7 +48,7 @@
     <ul class="sub-menu blank">
       <li><a class="link_name" href="#">Sales</a></li>
     </ul>
-  </li>
+  </li> -->
   <li>
     <div class="profile-details">
       <div class="profile-content">

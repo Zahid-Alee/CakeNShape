@@ -14,10 +14,9 @@ class CakeSalesModel
 
     function getCakeSalesData()
     {
-        $query = 'SELECT c.CakeName, SUM(s.Quantity) AS TotalQuantity
-                  FROM Cakes c
-                  INNER JOIN Sales s ON c.CakeID = s.CakeID
-                  GROUP BY c.CakeName';
+        $query = 'SELECT Category, SUM(Quantity) AS TotalQuantity
+                  FROM Sales
+                  GROUP BY Category';
 
         $salesData = $this->conn->select($query);
 

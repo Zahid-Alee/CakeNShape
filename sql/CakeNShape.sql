@@ -113,9 +113,9 @@ CREATE TABLE
 
 CREATE TABLE
     Sales (
-        `SaleID` INT PRIMARY KEY AUTO_INCREMENT,
-        `OrderID` INT NULL,
-        `CakeID` VARCHAR(50) NULL,
-        `Quantity` INT NOT NULL,
-        `Subtotal` DECIMAL(10, 2) NOT NULL
+        id INT(11) PRIMARY KEY AUTO_INCREMENT,
+        OrderID INT(11) NOT NULL,
+        Quantity INT(11) NOT NULL,
+        Subtotal DECIMAL(10, 2) NOT NULL,
+        Category VARCHAR(255) NOT NULL
     );

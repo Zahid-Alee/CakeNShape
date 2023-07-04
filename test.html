@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Cake Shop Sales</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        #chart-container {
+            width: 600px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Cake Shop Sales</h1>
+        <div id="chart-container">
+            <canvas id="bar-chart"></canvas>
+        </div>
+        <div id="chart-container">
+            <canvas id="pie-chart"></canvas>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var ctx1 = document.getElementById('bar-chart').getContext('2d');
+            var ctx2 = document.getElementById('pie-chart').getContext('2d');
+
+            var salesData = {
+                labels: ['Chocolate', 'Vanilla', 'Strawberry', 'Red Velvet', 'Carrot'],
+                quantities: [50, 30, 40, 25, 35],
+            };
+
+            var barChart = new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: salesData.labels,
+                    datasets: [{
+                        label: 'Cake Sales',
+                        data: salesData.quantities,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            stepSize: 10
+                        }
+                    }
+                }
+            });
+
+            var pieChart = new Chart(ctx2, {
+                type: 'pie',
+                data: {
+                    labels: salesData.labels,
+                    datasets: [{
+                        label: 'Cake Sales',
+                        data: salesData.quantities,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        });
+
+    </script>
+</body>
+
+</html>

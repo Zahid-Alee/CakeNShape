@@ -17,7 +17,7 @@
 
         ?>
 
-        <div class="category" >
+        <div class="category">
           <span class="tag"> <i class="bx bx-category"></i> </span>
           <div class="img">
             <img src="<?php echo substr($category['Image'], 3) ?>" alt="" />
@@ -42,7 +42,7 @@
             </div>
 
             <button class="btn btn-success" onclick="showPopup('<?php echo $category['CategoryID'] ?>')">
-            Shop By Category
+              Shop By Category
             </button>
           </div>
         </div>

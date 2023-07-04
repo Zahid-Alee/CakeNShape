@@ -189,7 +189,7 @@ $userID = $_SESSION['userID'];
                         <?php
                         $query = 'SELECT *
                                   FROM custom_orders
-                                  JOIN Users ON custom_orders.userID = Users.userID';
+                                  JOIN Users ON custom_orders.userID = Users.userID where OrderStatus="pending"';
                         $customOrders = $con->select($query);
 
                         if (!empty($customOrders)) {

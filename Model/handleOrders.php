@@ -64,10 +64,10 @@ class HandleOrders
             $this->conn->insert($query, $paramType, $paramValue);
             $notID = $this->createAdminNotification($data);
             // Delete the custom order from the custom_orders table
-            $query = "DELETE FROM custom_orders WHERE id = ?";
-            $paramType = "i";
-            $paramValue = array($orderID);
-            $this->conn->delete($query, $paramType, $paramValue);
+            // $query = "DELETE FROM custom_orders WHERE id = ?";
+            // $paramType = "i";
+            // $paramValue = array($orderID);
+            // $this->conn->delete($query, $paramType, $paramValue);
         } else {
             // Check if there is sufficient quantity for the cakes in the order
             $query = "SELECT oi.CakeID, oi.Quantity, c.Quantity AS AvailableQuantity, c.Price, ca.CategoryName AS Category
@@ -153,10 +153,10 @@ class HandleOrders
                 }
 
                 // Delete the regular order from the orders table
-                $query = "DELETE FROM orders WHERE OrderID = ?";
-                $paramType = "i";
-                $paramValue = array($orderID);
-                $this->conn->delete($query, $paramType, $paramValue);
+                // $query = "DELETE FROM orders WHERE OrderID = ?";
+                // $paramType = "i";
+                // $paramValue = array($orderID);
+                // $this->conn->delete($query, $paramType, $paramValue);
             }
         }
 

@@ -111,23 +111,66 @@
 
     <script>
         const form = document.getElementById('cakeUpdateForm');
+
+
+        function checkValidations(form) {
+            const cakeName = form.CakeName.value.trim();
+            const materialUsed = form.MaterialUsed.value.trim();
+            const weight = parseFloat(form.Weight.value);
+            const price = parseFloat(form.Price.value);
+            const discount = parseFloat(form.Discount.value);
+            const alphabeticRegex = /^[A-Za-z]+[A-Za-z\s]*\d*$/;
+
+
+            if (cakeName === '' || !alphabeticRegex.test(cakeName)) {
+                alert('Invalid Cakename');
+                return false;
+            }
+
+            if (materialUsed === '') {
+                alert('Material used cannot be empty');
+                return false;
+            }
+
+            if (isNaN(weight) || weight <= 0 || weight > 5000) {
+                alert('Weight should be a number between 0 and 5000 grams');
+                return false;
+            }
+
+            if (isNaN(price) || price <= 0) {
+                alert('Price should be a number greater than 0');
+                return false;
+            }
+
+            if (isNaN(discount) || discount < 0 || discount > price) {
+                alert('Discount should be a number between 0 and the price of the cake');
+                return false;
+            }
+
+            return true;
+        }
+
         form.addEventListener('submit', submitForm);
         async function submitForm(event) {
             event.preventDefault();
             const formValues = new FormData(event.target);
-            await fetch('http://localhost/CakeNShape/Model/handleCakeStock.php', {
-                method: 'POST',
-                body: formValues
-            })
-                .then(response => response.text())
-                .then(data => {
-                    console.log('Success:', data);
-                    // location.reload();
 
+            if (checkValidations()) {
+                await fetch('http://localhost/CakeNShape/Model/handleCakeStock.php', {
+                    method: 'POST',
+                    body: formValues
                 })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
+                    .then(response => response.text())
+                    .then(data => {
+                        console.log('Success:', data);
+                        // location.reload();
+
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+            }
+
         }
     </script>
 </body>

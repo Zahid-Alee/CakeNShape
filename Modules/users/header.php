@@ -335,47 +335,27 @@ if (!empty($cartItems)) {
     const isCartOpen = localStorage.getItem('isCartOpen');
     if (isCartOpen === 'true') {
       openCart();
-    } else {
-      closeCart(); // Add this line to ensure the cart is closed by default on page load
     }
   }
-
   function openCart() {
     cartContainer.style.left = '0%';
     body.classList.add('disable-scroll');
     localStorage.setItem('isCartOpen', 'true');
   }
-
   function closeCart() {
     cartContainer.style.left = '-100%';
     body.classList.remove('disable-scroll');
     localStorage.setItem('isCartOpen', 'false');
   }
-
   // Example event listener for opening the cart
   const cartIcon = document.getElementById('cart-icon');
   cartIcon.addEventListener('click', openCart);
-
   // Example event listener for closing the cart
   const dismissBtn = document.querySelector('.dismiss-btn');
   dismissBtn.addEventListener('click', closeCart);
-
   // Example event listener for "Back to shopping" button
   const backToShoppingBtn = document.querySelector('.back-to-shopping-btn');
   backToShoppingBtn.addEventListener('click', closeCart);
-
-  // Set initial cart state on page load
-  window.addEventListener('DOMContentLoaded', () => {
-    const cartContainer = document.getElementById('cart-container');
-    const isCartOpen = localStorage.getItem('isCartOpen');
-    if (isCartOpen === 'true') {
-      cartContainer.style.left = '0%';
-      body.classList.add('disable-scroll');
-    } else {
-      cartContainer.style.left = '-100%';
-      body.classList.remove('disable-scroll');
-    }
-  });
 
   const toggleCat = () => {
 

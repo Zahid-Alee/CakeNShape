@@ -18,7 +18,7 @@ $userID = $_SESSION['userID'];
 
 <!--  -->
 <!-- Table for displaying orders from the "Orders" table -->
-<div class="container">
+<div class="">
     <div class="row">
         <div class="col-md-12">
             <h3 class="page-heading">Cake Orders</h3>
@@ -26,13 +26,16 @@ $userID = $_SESSION['userID'];
                 <table class="table table-striped table-bordered">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col" class='text-center'><i class="fa fa-user px-2"></i>Customer Name</th>
-                            <th scope="col" class='text-center'><i class="fas fa-sort-numeric-up px-2"></i>Quantity</th>
-                            <th scope="col" class='text-center'><i class="bx bx-credit-card px-2"></i>Payment Method
+                            <th scope="col" class='text-center'>Customer Name</th>
+                            <th scope="col" class='text-center'>Address</th>
+                            <th scope="col" class='text-center'>Phone</th>
+                            <th scope="col" class='text-center'>Zip</th>
+                            <th scope="col" class='text-center'>Quantity</th>
+                            <th scope="col" class='text-center'>Payment
                             </th>
-                            <th scope="col" class='text-center'><i class="bx bx-calendar px-2"></i>Order Date</th>
-                            <th scope="col" class='text-center'><i class="bx bx-calendar px-2"></i>Delivery Date</th>
-                            <th scope="col" class='text-center'><i class="fas fa-cog px-2"></i>Action</th>
+                            <th scope="col" class='text-center'>Order Date</th>
+                            <th scope="col" class='text-center'>Delivery Date</th>
+                            <th scope="col" class='text-center'>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,6 +72,16 @@ $userID = $_SESSION['userID'];
                                         <?php echo $order['username']; ?>
                                     </td>
                                     <td scope="row" class='text-center'>
+                                        <?php echo $order['address']; ?>
+                                    </td>
+                                    <td scope="row" class='text-center'>
+                                        <?php echo $order['phone']; ?>
+                                    </td>
+                                    <td scope="row" class='text-center'>
+                                        <?php echo $order['zip']; ?>
+                                    </td>
+
+                                    <td scope="row" class='text-center'>
                                         <?php echo $orderItems ? count($orderItems) : 0; ?>
                                     </td>
                                     <td class='text-center'>
@@ -88,7 +101,7 @@ $userID = $_SESSION['userID'];
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="6">
+                                    <td colspan="9">
                                         <?php if ($orderItems) { ?>
                                             <table class="table table-bordered">
                                                 <thead>
@@ -152,7 +165,7 @@ $userID = $_SESSION['userID'];
     </div>
 </div>
 
-<div class="container">
+<div class="">
     <div class="row">
         <div class="col-md-12">
             <h3 class="page-heading">Custom Cake Orders</h3>
@@ -160,13 +173,16 @@ $userID = $_SESSION['userID'];
                 <table class="table table-striped table-bordered">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col" class='text-center'><i class="fa fa-user px-2"></i>Customer Name</th>
-                            <th scope="col" class='text-center'><i class="fas fa-sort-numeric-up px-2"></i>Quantity</th>
-                            <th scope="col" class='text-center'><i class="bx bx-credit-card px-2"></i>Price</th>
-                            <th scope="col" class='text-center'><i class="bx bx-calendar px-2"></i>Order Date</th>
-                            <th scope="col" class='text-center'><i class="bx bx-calendar px-2"></i>Delivery Date</th>
-                            <th scope="col" class='text-center'><i class="bx bx-image px-2"></i>Image</th>
-                            <th scope="col" class='text-center'><i class="fas fa-cog px-2"></i>Action</th>
+                            <th scope="col" class='text-center'>Customer Name</th>
+                            <th scope="col" class='text-center'>Address</th>
+                            <th scope="col" class='text-center'>Phone</th>
+                            <th scope="col" class='text-center'>Zip</th>
+                            <th scope="col" class='text-center'>Quantity</th>
+                            <th scope="col" class='text-center'>Price</th>
+                            <th scope="col" class='text-center'>Order Date</th>
+                            <th scope="col" class='text-center'>Delivery Date</th>
+                            <th scope="col" class='text-center'>Image</th>
+                            <th scope="col" class='text-center'>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -193,6 +209,16 @@ $userID = $_SESSION['userID'];
                                     <td scope="row" class='text-center'>
                                         <?php echo $customOrder['username']; ?>
                                     </td>
+                                    <td scope="row" class='text-center'>
+                                        <?php echo $customOrder['address']; ?>
+                                    </td>
+                                    <td scope="row" class='text-center'>
+                                        <?php echo $customOrder['phone']; ?>
+                                    </td>
+                                    <td scope="row" class='text-center'>
+                                        <?php echo $customOrder['zip']; ?>
+                                    </td>
+                                   
                                     <td scope="row" class='text-center'>
                                         <?php echo $customOrderItems ? count($customOrderItems) : 0; ?>
                                     </td>
@@ -223,7 +249,7 @@ $userID = $_SESSION['userID'];
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="7">
+                                    <td colspan="10">
                                         <?php if ($customOrderItems) { ?>
                                             <table class="table table-bordered">
                                                 <thead>

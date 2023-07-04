@@ -62,7 +62,7 @@ class HandleOrders
                 $orderDetails[0]['Category']
             );
             $this->conn->insert($query, $paramType, $paramValue);
-
+            $notID = $this->createAdminNotification($data);
             // Delete the custom order from the custom_orders table
             $query = "DELETE FROM custom_orders WHERE id = ?";
             $paramType = "i";

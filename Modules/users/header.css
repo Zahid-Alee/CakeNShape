@@ -72,6 +72,10 @@ nav ul li:hover {
   cursor: pointer;
 }
 
+nav .dropdown {
+  display: none;
+}
+
 .dropdown-menu {
   display: block;
   color: whitesmoke;

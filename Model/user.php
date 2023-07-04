@@ -84,21 +84,26 @@ class user
                 "message" => "Email already exists."
             );
         } else {
-            if (! empty($_POST["signup-password"])) {
+            if (!empty($_POST["signup-password"])) {
 
                 // PHP's password_hash is the best choice to use to store passwords
                 // do not attempt to do your own encryption, it is not safe
                 $hashedPassword = password_hash($_POST["signup-password"], PASSWORD_DEFAULT);
             }
-            $query = 'INSERT INTO users (username, password, email) VALUES (?, ?, ?)';
-            $paramType = 'sss';
+            $query = 'INSERT INTO users (username, password, email,phone,address,zip) VALUES (?, ?, ?,?,?,?)';
+            $paramType = 'ssssss';
             $paramValue = array(
                 $_POST["username"],
                 $hashedPassword,
-                $_POST["email"]
+                $_POST["email"],
+                $_POST["phone"],
+                $_POST["address"],
+                $_POST["zip"],
+
+                
             );
             $userId = $this->conn->insert($query, $paramType, $paramValue);
-            if (! empty($userId)) {
+            if (!empty($userId)) {
                 $response = array(
                     "status" => "success",
                     "message" => "You have registered successfully."
@@ -128,8 +133,8 @@ class user
     {
         $userRecord = $this->getuser($_POST["username"]);
         $loginPassword = 0;
-        if (! empty($userRecord)) {
-            if (! empty($_POST["login-password"])) {
+        if (!empty($userRecord)) {
+            if (!empty($_POST["login-password"])) {
                 $password = $_POST["login-password"];
             }
             $hashedPassword = $userRecord[0]["password"];
@@ -146,7 +151,7 @@ class user
             session_start();
             $_SESSION["username"] = $userRecord[0]["username"];
             $_SESSION["role"] = $userRecord[0]["role"];
-            $_SESSION['userID']=$userRecord[0]["userID"];
+            $_SESSION['userID'] = $userRecord[0]["userID"];
             session_write_close();
             $url = "./index.php";
             header("Location: $url");
@@ -155,5 +160,5 @@ class user
             return $loginStatus;
         }
     }
-   
+
 }
